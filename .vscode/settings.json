@@ -1,6 +1,30 @@
 {
+    "editor.formatOnSave": true,
+    "editor.rulers": [140],
+    "solidity.compileUsingRemoteVersion": "v0.8.26+commit.8a97fa7a",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2
+    },
     "[solidity]": {
-        "editor.defaultFormatter": "JuanBlanco.solidity",
-        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.defaultFormatter": "JuanBlanco.solidity"
+    },
+    "[ts]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
 }
