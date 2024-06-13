@@ -1,2 +1,1 @@
 # dapp-boilerplate
- Dapp boilerplate
