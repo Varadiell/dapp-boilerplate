@@ -1,3 +1,7 @@
 {
-  "recommendations": ["esbenp.prettier-vscode", "juanblanco.solidity"]
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "juanblanco.solidity",
+    "shd101wyy.markdown-preview-enhanced"
+  ]
 }
