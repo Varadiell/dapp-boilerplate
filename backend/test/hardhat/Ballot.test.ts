@@ -179,4 +179,35 @@ describe('Voting tests', () => {
       ).to.be.revertedWith('You already voted.');
     });
   });
+
+  describe('vote', () => {
+    it('should vote to the given proposal when the sender has the right to vote and did not vote', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.connect(addr1).vote(1);
+      testVoter(await ballotContract.voters(addr1), {
+        delegate: ADDRESS_0,
+        vote: 1n,
+        voted: true,
+        weight: 1n,
+      });
+      testProposal(await ballotContract.proposals(1), {
+        name: MAYBE_B32,
+        voteCount: 1n,
+      });
+    });
+
+    it('should revert with a message when the sender already voted', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.connect(addr1).vote(1);
+      await expect(ballotContract.connect(addr1).vote(1)).to.be.revertedWith(
+        'Already voted.',
+      );
+    });
+
+    it('should revert with a message when the sender has no right to vote', async () => {
+      await expect(ballotContract.connect(addr1).vote(1)).to.be.revertedWith(
+        'Has no right to vote',
+      );
+    });
+  });
 });
