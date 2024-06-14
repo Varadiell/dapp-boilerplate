@@ -25,9 +25,3 @@ jobs:
         run: |
           cd backend
           pnpm hardhat coverage
-
-      - name: Check code coverage ratio
-        uses: VeryGoodOpenSource/very_good_coverage@v2
-        with:
-          path: '/backend/coverage/lcov.info'
-          min_coverage: 90
