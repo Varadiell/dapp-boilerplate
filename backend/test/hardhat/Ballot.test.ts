@@ -7,6 +7,7 @@ import { loadFixture } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 const YES_B32 = ethers.encodeBytes32String('Yes');
 const MAYBE_B32 = ethers.encodeBytes32String('Maybe');
 const NO_B32 = ethers.encodeBytes32String('No');
+const ADDRESS_0 = '0x0000000000000000000000000000000000000000';
 
 type Proposal = {
   name: string;
@@ -21,9 +22,7 @@ type Voter = {
 };
 
 function testVoter(voter: Voter, voterToCompare: Voter) {
-  expect(voter.delegate).to.equal(
-    ethers.encodeBytes32String(voterToCompare.delegate).slice(0, 42),
-  );
+  expect(voter.delegate).to.equal(voterToCompare.delegate);
   expect(voter.vote).to.equal(voterToCompare.vote);
   expect(voter.voted).to.equal(voterToCompare.voted);
   expect(voter.weight).to.equal(voterToCompare.weight);
@@ -60,7 +59,7 @@ describe('Voting tests', () => {
     it('should deploy the contract with the correct default values, chair person address, chair person weight and proposals', async () => {
       expect(await ballotContract.chairperson()).to.equal(owner);
       testVoter(await ballotContract.voters(owner), {
-        delegate: '',
+        delegate: ADDRESS_0,
         vote: 0n,
         voted: false,
         weight: 1n,
@@ -85,7 +84,7 @@ describe('Voting tests', () => {
     it('should give the right to vote to the given address when the msg.sender is the chairperson, the voter did not vote and the voter weight is 0', async () => {
       await ballotContract.giveRightToVote(addr1);
       testVoter(await ballotContract.voters(addr1), {
-        delegate: '',
+        delegate: ADDRESS_0,
         vote: 0n,
         voted: false,
         weight: 1n,
@@ -111,6 +110,73 @@ describe('Voting tests', () => {
       await expect(
         ballotContract.connect(addr1).giveRightToVote(addr2),
       ).to.be.revertedWith('Only chairperson can give right to vote.');
+    });
+  });
+
+  describe('delegate', () => {
+    it('should delegate the vote to the given address (case: add weight) when the msg.sender did not vote, the address is not the sender address, there is no delegation loop and the delegate did not vote', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.giveRightToVote(addr2);
+      await ballotContract.connect(addr1).delegate(addr2);
+      testVoter(await ballotContract.voters(addr1), {
+        delegate: addr2.address,
+        vote: 0n,
+        voted: true,
+        weight: 1n,
+      });
+      testVoter(await ballotContract.voters(addr2), {
+        delegate: ADDRESS_0,
+        vote: 0n,
+        voted: false,
+        weight: 2n,
+      });
+    });
+
+    it('should delegate the vote to the given address (case: add vote) when the msg.sender did not vote, the address is not the sender address and there is no delegation loop and the delegate voted', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.giveRightToVote(addr2);
+      await ballotContract.connect(addr2).vote(1);
+      await ballotContract.connect(addr1).delegate(addr2);
+      testVoter(await ballotContract.voters(addr1), {
+        delegate: addr2.address,
+        vote: 0n,
+        voted: true,
+        weight: 1n,
+      });
+      testVoter(await ballotContract.voters(addr2), {
+        delegate: ADDRESS_0,
+        vote: 1n,
+        voted: true,
+        weight: 1n,
+      });
+      testProposal(await ballotContract.proposals(1), {
+        name: MAYBE_B32,
+        voteCount: 2n,
+      });
+    });
+
+    it('should revert with an error when there is a delegation loop', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.giveRightToVote(addr2);
+      await ballotContract.connect(addr1).delegate(addr2);
+      await expect(
+        ballotContract.connect(addr2).delegate(addr1),
+      ).to.be.revertedWith('Found loop in delegation.');
+    });
+
+    it('should revert in case of self-delegation', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await expect(
+        ballotContract.connect(addr1).delegate(addr1),
+      ).to.be.revertedWith('Self-delegation is disallowed.');
+    });
+
+    it('should revert when the sender already voted', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.connect(addr1).vote(1);
+      await expect(
+        ballotContract.connect(addr1).delegate(addr2),
+      ).to.be.revertedWith('You already voted.');
     });
   });
 });
