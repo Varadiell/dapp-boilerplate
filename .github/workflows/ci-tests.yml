@@ -29,5 +29,5 @@ jobs:
       - name: Check code coverage ratio
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: '/coverage/lcov.info'
+          path: '/backend/coverage/lcov.info'
           min_coverage: 90
