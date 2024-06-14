@@ -15,6 +15,9 @@ runs:
       with:
         node-version: 20
         cache: 'pnpm'
+        cache-dependency-path: |
+          backend/pnpm-lock.yaml
+          frontend/pnpm-lock.yaml
 
     - name: Get pnpm store directory
       shell: bash
