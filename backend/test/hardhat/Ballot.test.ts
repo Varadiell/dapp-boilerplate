@@ -210,4 +210,31 @@ describe('Voting tests', () => {
       );
     });
   });
+
+  describe('winningProposal', () => {
+    it('should compute the winning proposal (case: clear winner)', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.giveRightToVote(addr2);
+      await ballotContract.connect(addr1).vote(1);
+      await ballotContract.connect(addr2).vote(1);
+      expect(await ballotContract.winningProposal()).to.equal(1);
+    });
+
+    it('should compute the winning proposal (case: majority)', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.giveRightToVote(addr2);
+      await ballotContract.vote(1);
+      await ballotContract.connect(addr1).vote(2);
+      await ballotContract.connect(addr2).vote(2);
+      expect(await ballotContract.winningProposal()).to.equal(2);
+    });
+
+    it('should compute the winning proposal (case: draw)', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.giveRightToVote(addr2);
+      await ballotContract.connect(addr1).vote(1);
+      await ballotContract.connect(addr2).vote(2);
+      expect(await ballotContract.winningProposal()).to.equal(1);
+    });
+  });
 });
