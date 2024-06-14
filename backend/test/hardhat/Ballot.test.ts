@@ -83,8 +83,10 @@ describe('Voting tests', () => {
   });
 
   describe('giveRightToVote', () => {
-    it('should give the right to vote to the given address when the msg.sender is the chairperson, the voter did not vote and the voter weight is 0', async () => {
-      await ballotContract.giveRightToVote(addr1);
+    it('should give the right to vote to the given address and emit an event when the msg.sender is the chairperson, the voter did not vote and the voter weight is 0', async () => {
+      await expect(ballotContract.giveRightToVote(addr1))
+        .to.emit(ballotContract, 'GiveRight')
+        .withArgs(addr1);
       testVoter(await ballotContract.voters(addr1), {
         delegate: ADDRESS_0,
         vote: 0n,
@@ -116,10 +118,12 @@ describe('Voting tests', () => {
   });
 
   describe('delegate', () => {
-    it('should delegate the vote to the given address (case: add weight) when the msg.sender did not vote, the address is not the sender address, there is no delegation loop and the delegate did not vote', async () => {
+    it('should delegate the vote to the given address (case: add weight) and emit an event when the msg.sender did not vote, the address is not the sender address, there is no delegation loop and the delegate did not vote', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
-      await ballotContract.connect(addr1).delegate(addr2);
+      await expect(ballotContract.connect(addr1).delegate(addr2))
+        .to.emit(ballotContract, 'Delegate')
+        .withArgs(addr1, addr2);
       testVoter(await ballotContract.voters(addr1), {
         delegate: addr2.address,
         vote: 0n,
@@ -134,11 +138,13 @@ describe('Voting tests', () => {
       });
     });
 
-    it('should delegate the vote to the given address (case: add vote) when the msg.sender did not vote, the address is not the sender address and there is no delegation loop and the delegate voted', async () => {
+    it('should delegate the vote to the given address (case: add vote) and emit an event when the msg.sender did not vote, the address is not the sender address and there is no delegation loop and the delegate voted', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await ballotContract.connect(addr2).vote(1);
-      await ballotContract.connect(addr1).delegate(addr2);
+      await expect(ballotContract.connect(addr1).delegate(addr2))
+        .to.emit(ballotContract, 'Delegate')
+        .withArgs(addr1, addr2);
       testVoter(await ballotContract.voters(addr1), {
         delegate: addr2.address,
         vote: 0n,
@@ -187,7 +193,9 @@ describe('Voting tests', () => {
   describe('vote', () => {
     it('should vote to the given proposal when the sender has the right to vote and did not vote', async () => {
       await ballotContract.giveRightToVote(addr1);
-      await ballotContract.connect(addr1).vote(1);
+      await expect(ballotContract.connect(addr1).vote(1))
+        .to.emit(ballotContract, 'Vote')
+        .withArgs(addr1, 1);
       testVoter(await ballotContract.voters(addr1), {
         delegate: ADDRESS_0,
         vote: 1n,

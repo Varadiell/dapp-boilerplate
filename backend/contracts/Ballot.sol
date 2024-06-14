@@ -7,6 +7,10 @@ pragma solidity 0.8.24;
  * @dev Implements voting process along with vote delegation
  */
 contract Ballot {
+    event GiveRight(address indexed voter);
+    event Delegate(address indexed from, address indexed to);
+    event Vote(address indexed voter, uint proposal);
+
     struct Voter {
         uint weight; // weight is accumulated by delegation
         bool voted; // if true, that person already voted
@@ -55,6 +59,7 @@ contract Ballot {
         require(!voters[voter].voted, "The voter already voted.");
         require(voters[voter].weight == 0);
         voters[voter].weight = 1;
+        emit GiveRight(voter);
     }
 
     /**
@@ -84,6 +89,7 @@ contract Ballot {
             // add to her weight.
             delegate_.weight += sender.weight;
         }
+        emit Delegate(msg.sender, to);
     }
 
     /**
@@ -101,6 +107,7 @@ contract Ballot {
         // this will throw automatically and revert all
         // changes.
         proposals[proposal].voteCount += sender.weight;
+        emit Vote(msg.sender, proposal);
     }
 
     /**
