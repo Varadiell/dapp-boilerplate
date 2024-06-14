@@ -237,4 +237,23 @@ describe('Voting tests', () => {
       expect(await ballotContract.winningProposal()).to.equal(1);
     });
   });
+
+  describe('winningProposal', () => {
+    it('should return the winner name', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.giveRightToVote(addr2);
+      await ballotContract.connect(addr1).vote(1);
+      await ballotContract.connect(addr2).vote(1);
+      expect(await ballotContract.winnerName()).to.equal(MAYBE_B32);
+    });
+
+    it('should return another winner name', async () => {
+      await ballotContract.giveRightToVote(addr1);
+      await ballotContract.giveRightToVote(addr2);
+      await ballotContract.vote(1);
+      await ballotContract.connect(addr1).vote(2);
+      await ballotContract.connect(addr2).vote(2);
+      expect(await ballotContract.winnerName()).to.equal(NO_B32);
+    });
+  });
 });
