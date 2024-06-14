@@ -37,14 +37,15 @@ describe('Voting tests', () => {
   let ballotContract: Ballot;
   let owner: HardhatEthersSigner,
     addr1: HardhatEthersSigner,
-    addr2: HardhatEthersSigner;
+    addr2: HardhatEthersSigner,
+    addr3: HardhatEthersSigner;
 
   async function deployContractFixture() {
-    const [owner, addr1, addr2] = await ethers.getSigners();
+    const [owner, addr1, addr2, addr3] = await ethers.getSigners();
     const ballotContract = await ethers.deployContract('Ballot', [
       [YES_B32, MAYBE_B32, NO_B32],
     ]);
-    return { ballotContract, owner, addr1, addr2 };
+    return { ballotContract, owner, addr1, addr2, addr3 };
   }
 
   beforeEach(async () => {
@@ -53,6 +54,7 @@ describe('Voting tests', () => {
     owner = fixture.owner;
     addr1 = fixture.addr1;
     addr2 = fixture.addr2;
+    addr3 = fixture.addr3;
   });
 
   describe('constructor', () => {
@@ -158,9 +160,11 @@ describe('Voting tests', () => {
     it('should revert with an error when there is a delegation loop', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
+      await ballotContract.giveRightToVote(addr3);
       await ballotContract.connect(addr1).delegate(addr2);
+      await ballotContract.connect(addr2).delegate(addr3);
       await expect(
-        ballotContract.connect(addr2).delegate(addr1),
+        ballotContract.connect(addr3).delegate(addr1),
       ).to.be.revertedWith('Found loop in delegation.');
     });
 
