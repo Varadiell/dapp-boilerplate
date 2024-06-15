@@ -50,16 +50,21 @@ contract BallotTestHelper is Test {
         assertEq(_voter.voted, _voterToCompare.voted);
         assertEq(_voter.weight, _voterToCompare.weight);
     }
-}
 
-contract Constructor_test is BallotTestHelper {
-    function test_Initialization() public {
+    function initBallot() internal returns (Ballot) {
         bytes32[] memory propositions = new bytes32[](3);
         propositions[0] = YES_B32;
         propositions[1] = MAYBE_B32;
         propositions[2] = NO_B32;
         vm.prank(owner);
         ballotContract = new Ballot(propositions);
+        return ballotContract;
+    }
+}
+
+contract Constructor_test is BallotTestHelper {
+    function test_Initialization() public {
+        ballotContract = initBallot();
         assertEq(ballotContract.chairperson(), owner);
         (uint weight, bool voted, address delegate, uint vote) = ballotContract
             .voters(owner);
@@ -82,5 +87,49 @@ contract Constructor_test is BallotTestHelper {
             Ballot.Proposal(name, voteCount),
             Ballot.Proposal(NO_B32, 0)
         );
+    }
+}
+
+contract GiveRightToVote_test is BallotTestHelper {
+    // Before each.
+    function setUp() public {
+        ballotContract = initBallot();
+    }
+
+    function test_GiveRightToVote() public {
+        vm.prank(owner);
+        vm.expectEmit(true, false, false, false);
+        emit GiveRight(addr1);
+        ballotContract.giveRightToVote(addr1);
+        (uint weight, bool voted, address delegate, uint vote) = ballotContract
+            .voters(addr1);
+        testVoter(
+            Ballot.Voter(weight, voted, delegate, vote),
+            Ballot.Voter(1, false, address(0), 0)
+        );
+    }
+
+    function test_RevertWhen_VoterWeightIsNot0() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        vm.expectRevert();
+        ballotContract.giveRightToVote(addr1);
+        vm.stopPrank();
+    }
+
+    function test_RevertWhen_VoterAlreadyVoted() public {
+        vm.prank(owner);
+        ballotContract.giveRightToVote(addr1);
+        vm.prank(addr1);
+        ballotContract.vote(1);
+        vm.prank(owner);
+        vm.expectRevert("The voter already voted.");
+        ballotContract.giveRightToVote(addr1);
+    }
+
+    function test_RevertWhen_SenderNotChairman() public {
+        vm.prank(addr1);
+        vm.expectRevert("Only chairperson can give right to vote.");
+        ballotContract.giveRightToVote(addr1);
     }
 }
