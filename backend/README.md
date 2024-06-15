@@ -11,6 +11,8 @@ Run hardhat tests with coverage
 $ pnpm hardhat coverage
 ```
 
+# Foundry
+
 Run foundry tests with coverage
 ```
 $ forge coverage
