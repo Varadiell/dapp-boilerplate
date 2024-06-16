@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Check code lint
+echo "Checking code lint..."
+(cd backend && pnpm lint)
+LINT_RESULT=$?
+
+if [ $LINT_RESULT -ne 0 ]; then
+  echo "Code formatting issues found. Commit aborted."
+  exit 1
+fi
+
+# Execute unit tests
+echo "Running tests..."
+(cd backend && pnpm tests)
+TEST_RESULT=$?
+
+if [ $TEST_RESULT -ne 0 ]; then
+  echo "Tests failed. Commit aborted."
+  exit 1
+fi
+
+echo "All checks passed. Proceeding with commit."
+exit 0

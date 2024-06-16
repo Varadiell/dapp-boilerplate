@@ -1,7 +1,12 @@
 {
   "scripts": {
-    "lint": "pnpm lint:solhint",
-    "lint:solhint": "solhint {contracts,test}/**/*.sol"
+    "lint": "pnpm lint:solhint && pnpm lint:prettier:ts",
+    "lint:prettier:ts": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts}' --check",
+    "lint:prettier:ts:fix": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts}' --write",
+    "lint:solhint": "solhint {contracts,test}/**/*.sol",
+    "prepare": "git config --local core.hooksPath .githooks",
+    "tests": "pnpm test:hardhat",
+    "test:hardhat": "pnpm hardhat test"
   },
   "dependencies": {
     "hardhat": "^2.22.5"
