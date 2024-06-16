@@ -58,5 +58,5 @@ jobs:
       - name: Code coverage at 100%
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: './backend/coverage/lcov.info'
+          path: './backend/lcov.info'
           min_coverage: 100
