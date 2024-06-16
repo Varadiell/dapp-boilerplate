@@ -3,7 +3,7 @@ name: CI Tests
 on:
   pull_request: {}
   push:
-    branches: ['main', 'dev']
+    branches: ["main", "dev"]
   workflow_dispatch: {}
 
 concurrency:
@@ -11,6 +11,21 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint:
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        uses: ./.github/actions/setup
+
+      - name: Run lint check
+        run: |
+          cd backend
+          pnpm lint
+
   tests-hardhat:
     timeout-minutes: 5
     runs-on: ubuntu-latest
@@ -29,7 +44,7 @@ jobs:
       - name: Code coverage at 100%
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: './backend/coverage/lcov.info'
+          path: "./backend/coverage/lcov.info"
           min_coverage: 100
 
   tests-foundry:
@@ -58,5 +73,5 @@ jobs:
       - name: Code coverage at 100%
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: './backend/lcov.info'
+          path: "./backend/lcov.info"
           min_coverage: 100
