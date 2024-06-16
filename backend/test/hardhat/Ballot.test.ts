@@ -1,13 +1,13 @@
-import { expect } from "chai";
-import { ethers } from "hardhat";
-import { Ballot } from "@/typechain-types";
-import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
-import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
+import { expect } from 'chai';
+import { ethers } from 'hardhat';
+import { Ballot } from '@/typechain-types';
+import { HardhatEthersSigner } from '@nomicfoundation/hardhat-ethers/signers';
+import { loadFixture } from '@nomicfoundation/hardhat-toolbox/network-helpers';
 
-const YES_B32 = ethers.encodeBytes32String("Yes");
-const MAYBE_B32 = ethers.encodeBytes32String("Maybe");
-const NO_B32 = ethers.encodeBytes32String("No");
-const ADDRESS_0 = "0x0000000000000000000000000000000000000000";
+const YES_B32 = ethers.encodeBytes32String('Yes');
+const MAYBE_B32 = ethers.encodeBytes32String('Maybe');
+const NO_B32 = ethers.encodeBytes32String('No');
+const ADDRESS_0 = '0x0000000000000000000000000000000000000000';
 
 type Proposal = {
   name: string;
@@ -33,7 +33,7 @@ function testProposal(proposal: Proposal, proposalToCompare: Proposal) {
   expect(proposal.voteCount).to.equal(proposalToCompare.voteCount);
 }
 
-describe("Voting tests", () => {
+describe('Voting tests', () => {
   let ballotContract: Ballot;
   let owner: HardhatEthersSigner,
     addr1: HardhatEthersSigner,
@@ -42,7 +42,7 @@ describe("Voting tests", () => {
 
   async function deployContractFixture() {
     const [owner, addr1, addr2, addr3] = await ethers.getSigners();
-    const ballotContract = await ethers.deployContract("Ballot", [
+    const ballotContract = await ethers.deployContract('Ballot', [
       [YES_B32, MAYBE_B32, NO_B32],
     ]);
     return { ballotContract, owner, addr1, addr2, addr3 };
@@ -57,8 +57,8 @@ describe("Voting tests", () => {
     addr3 = fixture.addr3;
   });
 
-  describe("constructor", () => {
-    it("should deploy the contract with the correct default values, chair person address, chair person weight and proposals", async () => {
+  describe('constructor', () => {
+    it('should deploy the contract with the correct default values, chair person address, chair person weight and proposals', async () => {
       expect(await ballotContract.chairperson()).to.equal(owner);
       testVoter(await ballotContract.voters(owner), {
         delegate: ADDRESS_0,
@@ -82,10 +82,10 @@ describe("Voting tests", () => {
     });
   });
 
-  describe("giveRightToVote", () => {
-    it("should give the right to vote to the given address and emit an event when the msg.sender is the chairperson, the voter did not vote and the voter weight is 0", async () => {
+  describe('giveRightToVote', () => {
+    it('should give the right to vote to the given address and emit an event when the msg.sender is the chairperson, the voter did not vote and the voter weight is 0', async () => {
       await expect(ballotContract.giveRightToVote(addr1))
-        .to.emit(ballotContract, "GiveRight")
+        .to.emit(ballotContract, 'GiveRight')
         .withArgs(addr1);
       testVoter(await ballotContract.voters(addr1), {
         delegate: ADDRESS_0,
@@ -95,34 +95,34 @@ describe("Voting tests", () => {
       });
     });
 
-    it("should revert without reason when the voter weight is not 0", async () => {
+    it('should revert without reason when the voter weight is not 0', async () => {
       await ballotContract.giveRightToVote(addr1);
       await expect(
         ballotContract.connect(owner).giveRightToVote(addr1),
       ).to.be.revertedWithoutReason();
     });
 
-    it("should revert with a message when the voter already voted", async () => {
+    it('should revert with a message when the voter already voted', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.connect(addr1).vote(1);
       await expect(ballotContract.giveRightToVote(addr1)).to.be.revertedWith(
-        "The voter already voted.",
+        'The voter already voted.',
       );
     });
 
-    it("should revert with a message when the msg.sender is not the chairman", async () => {
+    it('should revert with a message when the msg.sender is not the chairman', async () => {
       await expect(
         ballotContract.connect(addr1).giveRightToVote(addr2),
-      ).to.be.revertedWith("Only chairperson can give right to vote.");
+      ).to.be.revertedWith('Only chairperson can give right to vote.');
     });
   });
 
-  describe("delegate", () => {
-    it("should delegate the vote to the given address (case: add weight) and emit an event when the msg.sender did not vote, the address is not the sender address, there is no delegation loop and the delegate did not vote", async () => {
+  describe('delegate', () => {
+    it('should delegate the vote to the given address (case: add weight) and emit an event when the msg.sender did not vote, the address is not the sender address, there is no delegation loop and the delegate did not vote', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await expect(ballotContract.connect(addr1).delegate(addr2))
-        .to.emit(ballotContract, "Delegate")
+        .to.emit(ballotContract, 'Delegate')
         .withArgs(addr1, addr2);
       testVoter(await ballotContract.voters(addr1), {
         delegate: addr2.address,
@@ -138,12 +138,12 @@ describe("Voting tests", () => {
       });
     });
 
-    it("should delegate the vote to the given address (case: add vote) and emit an event when the msg.sender did not vote, the address is not the sender address and there is no delegation loop and the delegate voted", async () => {
+    it('should delegate the vote to the given address (case: add vote) and emit an event when the msg.sender did not vote, the address is not the sender address and there is no delegation loop and the delegate voted', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await ballotContract.connect(addr2).vote(1);
       await expect(ballotContract.connect(addr1).delegate(addr2))
-        .to.emit(ballotContract, "Delegate")
+        .to.emit(ballotContract, 'Delegate')
         .withArgs(addr1, addr2);
       testVoter(await ballotContract.voters(addr1), {
         delegate: addr2.address,
@@ -163,7 +163,7 @@ describe("Voting tests", () => {
       });
     });
 
-    it("should revert with an error when there is a delegation loop", async () => {
+    it('should revert with an error when there is a delegation loop', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await ballotContract.giveRightToVote(addr3);
@@ -171,30 +171,30 @@ describe("Voting tests", () => {
       await ballotContract.connect(addr2).delegate(addr3);
       await expect(
         ballotContract.connect(addr3).delegate(addr1),
-      ).to.be.revertedWith("Found loop in delegation.");
+      ).to.be.revertedWith('Found loop in delegation.');
     });
 
-    it("should revert in case of self-delegation", async () => {
+    it('should revert in case of self-delegation', async () => {
       await ballotContract.giveRightToVote(addr1);
       await expect(
         ballotContract.connect(addr1).delegate(addr1),
-      ).to.be.revertedWith("Self-delegation is disallowed.");
+      ).to.be.revertedWith('Self-delegation is disallowed.');
     });
 
-    it("should revert when the sender already voted", async () => {
+    it('should revert when the sender already voted', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.connect(addr1).vote(1);
       await expect(
         ballotContract.connect(addr1).delegate(addr2),
-      ).to.be.revertedWith("You already voted.");
+      ).to.be.revertedWith('You already voted.');
     });
   });
 
-  describe("vote", () => {
-    it("should vote to the given proposal when the sender has the right to vote and did not vote", async () => {
+  describe('vote', () => {
+    it('should vote to the given proposal when the sender has the right to vote and did not vote', async () => {
       await ballotContract.giveRightToVote(addr1);
       await expect(ballotContract.connect(addr1).vote(1))
-        .to.emit(ballotContract, "Vote")
+        .to.emit(ballotContract, 'Vote')
         .withArgs(addr1, 1);
       testVoter(await ballotContract.voters(addr1), {
         delegate: ADDRESS_0,
@@ -208,23 +208,23 @@ describe("Voting tests", () => {
       });
     });
 
-    it("should revert with a message when the sender already voted", async () => {
+    it('should revert with a message when the sender already voted', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.connect(addr1).vote(1);
       await expect(ballotContract.connect(addr1).vote(1)).to.be.revertedWith(
-        "Already voted.",
+        'Already voted.',
       );
     });
 
-    it("should revert with a message when the sender has no right to vote", async () => {
+    it('should revert with a message when the sender has no right to vote', async () => {
       await expect(ballotContract.connect(addr1).vote(1)).to.be.revertedWith(
-        "Has no right to vote",
+        'Has no right to vote',
       );
     });
   });
 
-  describe("winningProposal", () => {
-    it("should compute the winning proposal (case: clear winner)", async () => {
+  describe('winningProposal', () => {
+    it('should compute the winning proposal (case: clear winner)', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await ballotContract.connect(addr1).vote(1);
@@ -232,7 +232,7 @@ describe("Voting tests", () => {
       expect(await ballotContract.winningProposal()).to.equal(1);
     });
 
-    it("should compute the winning proposal (case: majority)", async () => {
+    it('should compute the winning proposal (case: majority)', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await ballotContract.vote(1);
@@ -241,7 +241,7 @@ describe("Voting tests", () => {
       expect(await ballotContract.winningProposal()).to.equal(2);
     });
 
-    it("should compute the winning proposal (case: draw)", async () => {
+    it('should compute the winning proposal (case: draw)', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await ballotContract.connect(addr1).vote(1);
@@ -250,8 +250,8 @@ describe("Voting tests", () => {
     });
   });
 
-  describe("winningProposal", () => {
-    it("should return the winner name", async () => {
+  describe('winningProposal', () => {
+    it('should return the winner name', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await ballotContract.connect(addr1).vote(1);
@@ -259,7 +259,7 @@ describe("Voting tests", () => {
       expect(await ballotContract.winnerName()).to.equal(MAYBE_B32);
     });
 
-    it("should return another winner name", async () => {
+    it('should return another winner name', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
       await ballotContract.vote(1);

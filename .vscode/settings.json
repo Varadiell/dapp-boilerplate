@@ -3,9 +3,6 @@
   "editor.formatOnSave": true,
   "editor.insertSpaces": true,
   "editor.rulers": [140],
-  "prettier.semi": true,
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "all",
   "solidity.compileUsingRemoteVersion": "v0.8.24+commit.e11b9ed9",
   "[solidity]": {
     "editor.defaultFormatter": "JuanBlanco.solidity",
