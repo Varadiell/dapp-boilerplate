@@ -9,20 +9,20 @@ pragma solidity 0.8.24;
 contract Ballot {
     event GiveRight(address indexed voter);
     event Delegate(address indexed from, address indexed to);
-    event Vote(address indexed voter, uint proposal);
+    event Vote(address indexed voter, uint256 proposal);
 
     struct Voter {
-        uint weight; // weight is accumulated by delegation
+        uint256 weight; // weight is accumulated by delegation
         bool voted; // if true, that person already voted
         address delegate; // person delegated to
-        uint vote; // index of the voted proposal
+        uint256 vote; // index of the voted proposal
     }
 
     struct Proposal {
         // If you can limit the length to a certain number of bytes,
         // always use one of bytes1 to bytes32 because they are much cheaper
         bytes32 name; // short name (up to 32 bytes)
-        uint voteCount; // number of accumulated votes
+        uint256 voteCount; // number of accumulated votes
     }
 
     address public chairperson;
@@ -39,7 +39,7 @@ contract Ballot {
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
 
-        for (uint i = 0; i < proposalNames.length; i++) {
+        for (uint256 i = 0; i < proposalNames.length; i++) {
             // 'Proposal({...})' creates a temporary
             // Proposal object and 'proposals.push(...)'
             // appends it to the end of 'proposals'.
@@ -96,7 +96,7 @@ contract Ballot {
      * @dev Give your vote (including votes delegated to you) to proposal 'proposals[proposal].name'.
      * @param proposal index of proposal in the proposals array
      */
-    function vote(uint proposal) public {
+    function vote(uint256 proposal) public {
         Voter storage sender = voters[msg.sender];
         require(sender.weight != 0, "Has no right to vote");
         require(!sender.voted, "Already voted.");
@@ -114,9 +114,9 @@ contract Ballot {
      * @dev Computes the winning proposal taking all previous votes into account.
      * @return winningProposal_ index of winning proposal in the proposals array
      */
-    function winningProposal() public view returns (uint winningProposal_) {
-        uint winningVoteCount = 0;
-        for (uint p = 0; p < proposals.length; p++) {
+    function winningProposal() public view returns (uint256 winningProposal_) {
+        uint256 winningVoteCount = 0;
+        for (uint256 p = 0; p < proposals.length; p++) {
             if (proposals[p].voteCount > winningVoteCount) {
                 winningVoteCount = proposals[p].voteCount;
                 winningProposal_ = p;

@@ -12,18 +12,18 @@ bytes32 constant NO_B32 = bytes32("No");
 contract BallotTestHelper is Test {
     event GiveRight(address indexed voter);
     event Delegate(address indexed from, address indexed to);
-    event Vote(address indexed voter, uint proposal);
+    event Vote(address indexed voter, uint256 proposal);
 
     struct Voter {
-        uint weight;
+        uint256 weight;
         bool voted;
         address delegate;
-        uint vote;
+        uint256 vote;
     }
 
     struct Proposal {
         bytes32 name;
-        uint voteCount;
+        uint256 voteCount;
     }
 
     address owner = makeAddr("user0");
@@ -62,17 +62,21 @@ contract BallotTestHelper is Test {
     }
 }
 
-contract Constructor_test is BallotTestHelper {
-    function test_Initialization() public {
+contract ConstructorTest is BallotTestHelper {
+    function testInitialization() public {
         ballotContract = initBallot();
         assertEq(ballotContract.chairperson(), owner);
-        (uint weight, bool voted, address delegate, uint vote) = ballotContract
-            .voters(owner);
+        (
+            uint256 weight,
+            bool voted,
+            address delegate,
+            uint256 vote
+        ) = ballotContract.voters(owner);
         testVoter(
             Ballot.Voter(weight, voted, delegate, vote),
             Ballot.Voter(1, false, address(0), 0)
         );
-        (bytes32 name, uint voteCount) = ballotContract.proposals(0);
+        (bytes32 name, uint256 voteCount) = ballotContract.proposals(0);
         testProposal(
             Ballot.Proposal(name, voteCount),
             Ballot.Proposal(YES_B32, 0)
@@ -90,26 +94,30 @@ contract Constructor_test is BallotTestHelper {
     }
 }
 
-contract GiveRightToVote_test is BallotTestHelper {
+contract GiveRightToVoteTest is BallotTestHelper {
     // Before each.
     function setUp() public {
         ballotContract = initBallot();
     }
 
-    function test_GiveRightToVote() public {
+    function testGiveRightToVote() public {
         vm.prank(owner);
         vm.expectEmit(true, false, false, false);
         emit GiveRight(addr1);
         ballotContract.giveRightToVote(addr1);
-        (uint weight, bool voted, address delegate, uint vote) = ballotContract
-            .voters(addr1);
+        (
+            uint256 weight,
+            bool voted,
+            address delegate,
+            uint256 vote
+        ) = ballotContract.voters(addr1);
         testVoter(
             Ballot.Voter(weight, voted, delegate, vote),
             Ballot.Voter(1, false, address(0), 0)
         );
     }
 
-    function test_RevertWhen_VoterWeightIsNot0() public {
+    function testRevertWhenVoterWeightIsNot0() public {
         vm.startPrank(owner);
         ballotContract.giveRightToVote(addr1);
         vm.expectRevert();
@@ -117,7 +125,7 @@ contract GiveRightToVote_test is BallotTestHelper {
         vm.stopPrank();
     }
 
-    function test_RevertWhen_VoterAlreadyVoted() public {
+    function testRevertWhenVoterAlreadyVoted() public {
         vm.prank(owner);
         ballotContract.giveRightToVote(addr1);
         vm.prank(addr1);
@@ -127,7 +135,7 @@ contract GiveRightToVote_test is BallotTestHelper {
         ballotContract.giveRightToVote(addr1);
     }
 
-    function test_RevertWhen_SenderNotChairman() public {
+    function testRevertWhenSenderNotChairman() public {
         vm.prank(addr1);
         vm.expectRevert("Only chairperson can give right to vote.");
         ballotContract.giveRightToVote(addr1);
