@@ -314,9 +314,9 @@ contract WinningProposalTest is BallotTestHelper {
         ballotContract.giveRightToVote(addr3);
         vm.stopPrank();
         vm.prank(addr1);
-        ballotContract.vote(2);
-        vm.prank(addr2);
         ballotContract.vote(1);
+        vm.prank(addr2);
+        ballotContract.vote(2);
         vm.prank(addr3);
         ballotContract.vote(2);
         assertEq(ballotContract.winningProposal(), 2);
