@@ -240,3 +240,50 @@ contract DelegateTest is BallotTestHelper {
         vm.stopPrank();
     }
 }
+
+contract VoteTest is BallotTestHelper {
+    // Before each.
+    function setUp() public {
+        ballotContract = initBallot();
+    }
+
+    function testVote() public {
+        vm.prank(owner);
+        ballotContract.giveRightToVote(addr1);
+        vm.prank(addr1);
+        vm.expectEmit(true, false, false, true);
+        emit Vote(addr1, 1);
+        ballotContract.vote(1);
+        (
+            uint256 weight,
+            bool voted,
+            address delegate,
+            uint256 vote
+        ) = ballotContract.voters(addr1);
+        testVoter(
+            Ballot.Voter(weight, voted, delegate, vote),
+            Ballot.Voter(1, true, address(0), 1)
+        );
+        (bytes32 name, uint256 voteCount) = ballotContract.proposals(1);
+        testProposal(
+            Ballot.Proposal(name, voteCount),
+            Ballot.Proposal(MAYBE_B32, 1)
+        );
+    }
+
+    function testRevertWhenSenderAlreadyVoted() public {
+        vm.prank(owner);
+        ballotContract.giveRightToVote(addr1);
+        vm.startPrank(addr1);
+        ballotContract.vote(1);
+        vm.expectRevert("Already voted.");
+        ballotContract.vote(1);
+        vm.stopPrank();
+    }
+
+    function testRevertWhenSenderNoRightToVote() public {
+        vm.startPrank(addr1);
+        vm.expectRevert("Has no right to vote");
+        ballotContract.vote(1);
+    }
+}
