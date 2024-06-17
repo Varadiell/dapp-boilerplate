@@ -12,7 +12,7 @@ fi
 
 # Execute unit tests
 echo "Running tests..."
-(cd backend && pnpm tests)
+(cd backend && pnpm test:hardhat)
 TEST_RESULT=$?
 
 if [ $TEST_RESULT -ne 0 ]; then
