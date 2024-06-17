@@ -88,4 +88,4 @@ jobs:
         with:
           check_hidden: true
           check_filenames: true
-          skip: pnpm-lock.yaml,.git/
+          skip: pnpm-lock.yaml
