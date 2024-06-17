@@ -1,0 +1,12 @@
+{
+    "language": "en",
+    "words": [
+      "nomicfoundation",
+      "struct",
+      "typechain"
+    ],
+    "ignorePaths": [
+      "**/lib/**",
+      "*.config.*"
+    ]
+}

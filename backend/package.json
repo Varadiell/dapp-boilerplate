@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "cspell": "cspell --gitignore **/*.{js,ts,md,sol}",
     "lint": "pnpm lint:solhint && pnpm lint:prettier:ts && pnpm lint:prettier:sol",
     "lint:prettier:sol": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --check",
     "lint:prettier:sol:fix": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --write",
@@ -28,6 +29,7 @@
     "@types/mocha": ">=9.1.0",
     "@types/node": ">=18.0.0",
     "chai": "^4.2.0",
+    "cspell": "^8.8.4",
     "ethers": "^6.4.0",
     "hardhat-gas-reporter": "^1.0.8",
     "prettier": "^3.3.2",

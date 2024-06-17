@@ -10,6 +10,16 @@ if [ $LINT_RESULT -ne 0 ]; then
   exit 1
 fi
 
+# Run codespell
+echo "Checking codespell..."
+(cd backend && pnpm cspell)
+CSPELL_RESULT=$?
+
+if [ $CSPELL_RESULT -ne 0 ]; then
+  echo "Code spell issues found. Commit aborted."
+  exit 1
+fi
+
 # Execute unit tests
 echo "Running tests..."
 (cd backend && pnpm test:hardhat)
