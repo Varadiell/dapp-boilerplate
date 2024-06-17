@@ -42,7 +42,7 @@ jobs:
           pnpm hardhat coverage
 
       - name: Code coverage at 100%
-        uses: VeryGoodOpenSource/very_good_coverage@v2
+        uses: VeryGoodOpenSource/very_good_coverage@v3
         with:
           path: "./backend/coverage/lcov.info"
           min_coverage: 100
@@ -71,7 +71,7 @@ jobs:
           forge coverage -vvv --report lcov
 
       - name: Code coverage at 100%
-        uses: VeryGoodOpenSource/very_good_coverage@v2
+        uses: VeryGoodOpenSource/very_good_coverage@v3
         with:
           path: "./backend/lcov.info"
           min_coverage: 100
