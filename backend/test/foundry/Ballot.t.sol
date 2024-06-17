@@ -141,3 +141,102 @@ contract GiveRightToVoteTest is BallotTestHelper {
         ballotContract.giveRightToVote(addr1);
     }
 }
+
+contract DelegateTest is BallotTestHelper {
+    // Before each.
+    function setUp() public {
+        ballotContract = initBallot();
+    }
+
+    function testDelegateAddWeight() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
+        vm.stopPrank();
+        vm.prank(addr1);
+        vm.expectEmit(true, true, false, false);
+        emit Delegate(addr1, addr2);
+        ballotContract.delegate(addr2);
+        (
+            uint256 weight,
+            bool voted,
+            address delegate,
+            uint256 vote
+        ) = ballotContract.voters(addr1);
+        testVoter(
+            Ballot.Voter(weight, voted, delegate, vote),
+            Ballot.Voter(1, true, addr2, 0)
+        );
+        (weight, voted, delegate, vote) = ballotContract.voters(addr2);
+        testVoter(
+            Ballot.Voter(weight, voted, delegate, vote),
+            Ballot.Voter(2, false, address(0), 0)
+        );
+    }
+
+    function testDelegateAddVote() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
+        vm.stopPrank();
+        vm.prank(addr2);
+        ballotContract.vote(1);
+        vm.prank(addr1);
+        vm.expectEmit(true, true, false, false);
+        emit Delegate(addr1, addr2);
+        ballotContract.delegate(addr2);
+        (
+            uint256 weight,
+            bool voted,
+            address delegate,
+            uint256 vote
+        ) = ballotContract.voters(addr1);
+        testVoter(
+            Ballot.Voter(weight, voted, delegate, vote),
+            Ballot.Voter(1, true, addr2, 0)
+        );
+        (weight, voted, delegate, vote) = ballotContract.voters(addr2);
+        testVoter(
+            Ballot.Voter(weight, voted, delegate, vote),
+            Ballot.Voter(1, true, address(0), 1)
+        );
+        (bytes32 name, uint256 voteCount) = ballotContract.proposals(1);
+        testProposal(
+            Ballot.Proposal(name, voteCount),
+            Ballot.Proposal(MAYBE_B32, 2)
+        );
+    }
+
+    function testRevertWhenDelegationLoop() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
+        ballotContract.giveRightToVote(addr3);
+        vm.stopPrank();
+        vm.prank(addr1);
+        ballotContract.delegate(addr2);
+        vm.prank(addr2);
+        ballotContract.delegate(addr3);
+        vm.prank(addr3);
+        vm.expectRevert("Found loop in delegation.");
+        ballotContract.delegate(addr1);
+    }
+
+    function testRevertWhenSelfDelegation() public {
+        vm.prank(owner);
+        ballotContract.giveRightToVote(addr1);
+        vm.prank(addr1);
+        vm.expectRevert("Self-delegation is disallowed.");
+        ballotContract.delegate(addr1);
+    }
+
+    function testRevertWhenSenderAlreadyVoted() public {
+        vm.prank(owner);
+        ballotContract.giveRightToVote(addr1);
+        vm.startPrank(addr1);
+        ballotContract.vote(1);
+        vm.expectRevert("You already voted.");
+        ballotContract.delegate(addr2);
+        vm.stopPrank();
+    }
+}
