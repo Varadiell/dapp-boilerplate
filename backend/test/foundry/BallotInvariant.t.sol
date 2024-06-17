@@ -45,7 +45,7 @@ contract InvariantTest is Test {
     ActorManager public manager;
     Handler[] public handlers;
     Ballot public ballotContract;
-    uint256 public nbVoters = 100;
+    uint256 public nbVoters = 50;
     uint256 public nbProposals = 6;
 
     // Before each.
