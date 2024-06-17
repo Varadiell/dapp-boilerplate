@@ -334,3 +334,34 @@ contract WinningProposalTest is BallotTestHelper {
         assertEq(ballotContract.winningProposal(), 1);
     }
 }
+
+contract WinnerNameTest is BallotTestHelper {
+    // Before each.
+    function setUp() public {
+        ballotContract = initBallot();
+    }
+
+    function testWinnerName() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
+        vm.stopPrank();
+        vm.prank(addr1);
+        ballotContract.vote(1);
+        vm.prank(addr2);
+        ballotContract.vote(1);
+        assertEq(ballotContract.winnerName(), MAYBE_B32);
+    }
+
+    function testAnotherWinnerName() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
+        vm.stopPrank();
+        vm.prank(addr1);
+        ballotContract.vote(2);
+        vm.prank(addr2);
+        ballotContract.vote(2);
+        assertEq(ballotContract.winnerName(), NO_B32);
+    }
+}

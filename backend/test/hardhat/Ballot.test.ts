@@ -251,7 +251,7 @@ describe('Voting tests', () => {
     });
   });
 
-  describe('winningProposal', () => {
+  describe('winnerName', () => {
     it('should return the winner name', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
@@ -263,7 +263,6 @@ describe('Voting tests', () => {
     it('should return another winner name', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
-      await ballotContract.vote(1);
       await ballotContract.connect(addr1).vote(2);
       await ballotContract.connect(addr2).vote(2);
       expect(await ballotContract.winnerName()).to.equal(NO_B32);
