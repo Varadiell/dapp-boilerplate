@@ -75,3 +75,17 @@ jobs:
         with:
           path: "./backend/lcov.info"
           min_coverage: 100
+
+  codespell:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run CodeSpell
+        uses: codespell-project/actions-codespell@v2.0
+        with:
+          check_hidden: true
+          check_filenames: true
+          skip: package-lock.json
