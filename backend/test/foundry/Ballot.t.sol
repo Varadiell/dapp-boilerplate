@@ -285,5 +285,52 @@ contract VoteTest is BallotTestHelper {
         vm.startPrank(addr1);
         vm.expectRevert("Has no right to vote");
         ballotContract.vote(1);
+        vm.stopPrank();
+    }
+}
+
+contract WinningProposalTest is BallotTestHelper {
+    // Before each.
+    function setUp() public {
+        ballotContract = initBallot();
+    }
+
+    function testWinningProposalWinner() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
+        vm.stopPrank();
+        vm.prank(addr1);
+        ballotContract.vote(1);
+        vm.prank(addr2);
+        ballotContract.vote(1);
+        assertEq(ballotContract.winningProposal(), 1);
+    }
+
+    function testWinningProposalMajority() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
+        ballotContract.giveRightToVote(addr3);
+        vm.stopPrank();
+        vm.prank(addr1);
+        ballotContract.vote(2);
+        vm.prank(addr2);
+        ballotContract.vote(1);
+        vm.prank(addr3);
+        ballotContract.vote(2);
+        assertEq(ballotContract.winningProposal(), 2);
+    }
+
+    function testWinningProposalDraw() public {
+        vm.startPrank(owner);
+        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
+        vm.stopPrank();
+        vm.prank(addr1);
+        ballotContract.vote(1);
+        vm.prank(addr2);
+        ballotContract.vote(2);
+        assertEq(ballotContract.winningProposal(), 1);
     }
 }

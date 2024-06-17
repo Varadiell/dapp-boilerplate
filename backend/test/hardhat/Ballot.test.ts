@@ -235,9 +235,10 @@ describe('Voting tests', () => {
     it('should compute the winning proposal (case: majority)', async () => {
       await ballotContract.giveRightToVote(addr1);
       await ballotContract.giveRightToVote(addr2);
-      await ballotContract.vote(1);
+      await ballotContract.giveRightToVote(addr3);
       await ballotContract.connect(addr1).vote(2);
-      await ballotContract.connect(addr2).vote(2);
+      await ballotContract.connect(addr2).vote(1);
+      await ballotContract.connect(addr3).vote(2);
       expect(await ballotContract.winningProposal()).to.equal(2);
     });
 
