@@ -8,6 +8,7 @@
     "lint:prettier:ts:fix": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts}' --write",
     "lint:solhint": "solhint {contracts,test}/**/*.sol",
     "prepare": "git config --local core.hooksPath .githooks",
+    "start:node": "hardhat node",
     "test": "pnpm test:hardhat && pnpm test:foundry",
     "test:foundry": "forge test",
     "test:hardhat": "pnpm hardhat test"
