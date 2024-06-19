@@ -17,8 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { ConnectKitButton, Types } from "connectkit";
+import { ConnectKitButton } from "connectkit";
 
 type PageType = {
   count: number;
@@ -37,7 +36,6 @@ const pages: PageType[] = [
 
 export function MainNavigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const theme = useTheme();
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -107,7 +105,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
           </Sheet>
           <div className="w-full flex-1"></div>
           <ThemeToggle />
-          <ConnectKitButton theme="midnight" mode={(theme.resolvedTheme ?? 'auto') as Types.Mode} showAvatar={true} showBalance={true} />
+          <ConnectKitButton showAvatar={true} showBalance={true} />
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {children}
