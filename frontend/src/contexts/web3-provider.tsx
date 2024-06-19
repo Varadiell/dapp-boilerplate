@@ -15,11 +15,11 @@ export function Web3Provider({ children } : { children: React.ReactNode }) {
         <ConnectKitProvider
           customTheme={{
             "--ck-connectbutton-border-radius": "6px",
-            "--ck-connectbutton-background": "hsl(var(--muted))",
+            "--ck-connectbutton-background": "hsl(var(--background))",
             "--ck-connectbutton-color": "hsl(var(--accent-foreground))",
             "--ck-connectbutton-hover-background": "hsl(var(--accent))",
             "--ck-connectbutton-active-background": "hsl(var(--background))",
-            "--ck-connectbutton-balance-background": "hsl(var(--background))",
+            "--ck-connectbutton-balance-background": "hsl(var(--muted))",
             "--ck-connectbutton-balance-color": "hsl(var(--accent-foreground))",
             "--ck-connectbutton-balance-hover-background": "hsl(var(--muted))",
             "--ck-connectbutton-balance-active-background": "hsl(var(--background))",
