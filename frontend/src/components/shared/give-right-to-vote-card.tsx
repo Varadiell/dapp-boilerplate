@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -8,8 +10,27 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  abi as ballotAbi,
+  address as ballotAddress,
+} from '@/contracts/ballot.abi';
+import { useContract } from '@/hooks/useContract';
 
 export function GiveRightToVoteCard() {
+  const { writeContract } = useContract();
+
+  function submitGiveRights(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    const give_rights_address = formData.get('give_rights_address');
+    writeContract({
+      address: ballotAddress,
+      abi: ballotAbi,
+      functionName: 'giveRightToVote',
+      args: [give_rights_address],
+    });
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -19,20 +40,25 @@ export function GiveRightToVoteCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex-row gap-6">
+        <form className="flex-row gap-6" onSubmit={submitGiveRights}>
           <div className="grid gap-3">
             <Label htmlFor="give_rights_address">Address</Label>
             <div className="flex gap-2">
               <Input
-                id="give_rights_address"
-                type="text"
                 className="w-full"
+                id="give_rights_address"
+                maxLength={42}
+                minLength={42}
+                name="give_rights_address"
                 placeholder="0x..."
+                type="text"
               />
-              <Button className="min-w-32">Give rights</Button>
+              <Button className="min-w-32" type="submit">
+                Give rights
+              </Button>
             </div>
           </div>
-        </div>
+        </form>
       </CardContent>
     </Card>
   );

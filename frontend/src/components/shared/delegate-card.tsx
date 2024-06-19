@@ -25,10 +25,13 @@ export function DelegateCard() {
             <Label htmlFor="delegate_address">Address</Label>
             <div className="flex gap-2">
               <Input
-                id="delegate_address"
-                type="text"
                 className="w-full"
+                id="delegate_address"
+                maxLength={42}
+                minLength={42}
+                name="give_rights_address"
                 placeholder="0x..."
+                type="text"
               />
               <Button className="min-w-32">Delegate</Button>
             </div>
