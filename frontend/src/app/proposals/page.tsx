@@ -1,5 +1,3 @@
 export default function Proposals() {
-  return (
-    <>Proposals</>
-  );
-};
+  return <>Proposals</>;
+}

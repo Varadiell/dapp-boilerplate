@@ -1,7 +1,7 @@
 {
   "scripts": {
     "cspell": "cspell --gitignore **/*.{js,ts,md,sol}",
-    "lint": "pnpm lint:solhint && pnpm lint:prettier:ts && pnpm lint:prettier:sol",
+    "lint": "pnpm lint:solhint && pnpm lint:prettier:ts && pnpm lint:prettier:sol && pnpm cspell",
     "lint:prettier:sol": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --check",
     "lint:prettier:sol:fix": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --write",
     "lint:prettier:ts": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts}' --check",

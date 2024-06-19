@@ -1,5 +1,3 @@
 export default function Votes() {
-  return (
-    <>Votes</>
-  );
-};
+  return <>Votes</>;
+}

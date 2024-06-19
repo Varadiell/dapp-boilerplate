@@ -1,5 +1,3 @@
 export default function RootNotFound() {
-  return (
-    <>404</>
-  );
+  return <>404</>;
 }
