@@ -8,12 +8,12 @@ export const config = createConfig(
     // appIcon: "",
     appName: 'The Ballot Project',
     // appUrl: "",
-    chains: [localhost, mainnet, sepolia],
+    chains: [mainnet, sepolia, localhost],
     ssr: true,
     transports: {
-      [localhost.id]: http(),
       [mainnet.id]: http(),
       [sepolia.id]: http(),
+      [localhost.id]: http(),
     },
     walletConnectProjectId:
       process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '',

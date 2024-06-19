@@ -111,7 +111,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
           <ThemeToggle />
           <ConnectKitButton showAvatar={true} showBalance={true} />
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 w-full max-w-screen-md place-self-center">
           {children}
         </main>
       </div>
