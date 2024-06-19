@@ -10,7 +10,7 @@ if [ $LINT_RESULT -ne 0 ]; then
   exit 1
 fi
 
-# Check code lint (frontend side)
+# Check code lint & code spell (frontend side)
 echo "Checking code lint and code spell..."
 (cd frontend && pnpm lint)
 LINT_RESULT=$?

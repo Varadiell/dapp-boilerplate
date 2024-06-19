@@ -1,9 +1,16 @@
 {
     "language": "en",
     "words": [
+      "cmdk",
+      "connectbutton",
+      "connectkit",
+      "embla",
       "nomicfoundation",
+      "sonner",
       "struct",
-      "typechain"
+      "typechain",
+      "vaul",
+      "wagmi"
     ],
     "ignorePaths": [
       "**/lib/**",

@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "cspell": "cspell --gitignore **/*.{js,ts,md}",
+    "cspell": "cspell --gitignore **/*.{js,ts,tsx,md}",
     "lint": "pnpm lint:prettier:ts && pnpm cspell",
     "lint:prettier:ts": "prettier --ignore-path .gitignore '**/*.{js,ts,tsx}' --check",
     "lint:prettier:ts:fix": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts,tsx}' --write",
