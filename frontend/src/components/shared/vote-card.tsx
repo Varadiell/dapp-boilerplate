@@ -18,12 +18,15 @@ import {
 } from '@/components/ui/select';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { useContract } from '@/hooks/useContract';
+import { useData } from '@/hooks/useData';
+import { bytesToString } from '@/utils/bytesToString';
 import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 
-const proposals: string[] = ['Yes', 'Maybe', 'No']; // TODO: fetch
-
 export function VoteCard() {
+  const {
+    data: { proposals },
+  } = useData();
   const [proposalId, setProposalId] = useState<string | undefined>(undefined);
   const { isConnected, isPending, writeContract } = useContract(() => {
     setProposalId('');
@@ -64,11 +67,12 @@ export function VoteCard() {
                   <SelectValue placeholder="Select a proposal..." />
                 </SelectTrigger>
                 <SelectContent>
-                  {proposals.map((proposal, index) => (
-                    <SelectItem key={index} value={String(index)}>
-                      {proposal}
-                    </SelectItem>
-                  ))}
+                  {proposals &&
+                    proposals.map((proposal, index) => (
+                      <SelectItem key={index} value={String(index)}>
+                        {bytesToString((proposal as any).result[0])}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
               <Button

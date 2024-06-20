@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useData } from '@/hooks/useData';
-import { fromHex } from 'viem';
+import { bytesToString } from '@/utils/bytesToString';
 
 export default function Dashboard() {
   const { data } = useData();
@@ -35,12 +35,7 @@ export default function Dashboard() {
             )}
           </CardTitle>
           <CardDescription>
-            Proposal:{' '}
-            {data.winnerName &&
-              fromHex(
-                data.winnerName.replace(/0+$/, '') as `0x${string}`,
-                'string',
-              ).trim()}
+            Proposal: {data.winnerName && bytesToString(data.winnerName)}
           </CardDescription>
         </CardHeader>
       </Card>
