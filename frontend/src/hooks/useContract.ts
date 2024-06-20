@@ -20,20 +20,20 @@ export function useContract(onSuccess: () => void) {
   });
 
   useEffect(() => {
-    console.log('>', writeContractStatus, transactionStatus);
     if (writeContractStatus === 'error' || transactionStatus === 'error') {
       sonner.error('Error.', {
         description: 'Transaction failed.',
         position: 'bottom-right',
       });
-    }
-    if (writeContractStatus === 'success' && transactionStatus === 'pending') {
+    } else if (
+      writeContractStatus === 'success' &&
+      transactionStatus === 'pending'
+    ) {
       sonner.info('Pending...', {
         description: 'Transaction is being processed...',
         position: 'bottom-right',
       });
-    }
-    if (transactionStatus === 'success') {
+    } else if (transactionStatus === 'success') {
       sonner.success('Success!', {
         description: 'Transaction has succeeded!',
         position: 'bottom-right',

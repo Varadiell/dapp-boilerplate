@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -14,10 +16,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  abi as ballotAbi,
+  address as ballotAddress,
+} from '@/contracts/ballot.abi';
+import { useContract } from '@/hooks/useContract';
+import { LoaderCircle } from 'lucide-react';
+import { useState } from 'react';
 
 const proposals: string[] = ['Yes', 'Maybe', 'No']; // TODO: fetch
 
 export function VoteCard() {
+  const [proposalId, setProposalId] = useState<string | undefined>(undefined);
+  const { isConnected, isPending, writeContract } = useContract(() => {
+    setProposalId('');
+  });
+
+  function submitVote(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    writeContract({
+      address: ballotAddress,
+      abi: ballotAbi,
+      functionName: 'vote',
+      args: [proposalId],
+    });
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -27,12 +51,20 @@ export function VoteCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex-row gap-6">
+        <form className="flex-row gap-6" onSubmit={submitVote}>
           <div className="grid gap-3">
             <Label htmlFor="vote_proposal">Proposal</Label>
             <div className="flex gap-2">
-              <Select>
-                <SelectTrigger className="w-full" id="vote_proposal">
+              <Select
+                required={true}
+                value={proposalId}
+                onValueChange={(value) => setProposalId(value)}
+              >
+                <SelectTrigger
+                  className="w-full"
+                  id="vote_proposal"
+                  disabled={isPending || !isConnected}
+                >
                   <SelectValue placeholder="Select a proposal..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -43,10 +75,20 @@ export function VoteCard() {
                   ))}
                 </SelectContent>
               </Select>
-              <Button className="min-w-32">Vote</Button>
+              <Button
+                className="min-w-32"
+                disabled={isPending || !isConnected}
+                type="submit"
+              >
+                {isPending ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  <>Vote</>
+                )}
+              </Button>
             </div>
           </div>
-        </div>
+        </form>
       </CardContent>
     </Card>
   );
