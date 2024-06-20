@@ -25,7 +25,7 @@ contract Ballot {
         uint256 voteCount; // number of accumulated votes
     }
 
-    address public chairperson;
+    address public immutable chairperson;
 
     mapping(address => Voter) public voters;
 
@@ -38,8 +38,8 @@ contract Ballot {
     constructor(bytes32[] memory proposalNames) {
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
-
-        for (uint256 i = 0; i < proposalNames.length; i++) {
+        uint256 proposalNamesLength = proposalNames.length;
+        for (uint256 i = 0; i < proposalNamesLength; i++) {
             // 'Proposal({...})' creates a temporary
             // Proposal object and 'proposals.push(...)'
             // appends it to the end of 'proposals'.
@@ -116,7 +116,8 @@ contract Ballot {
      */
     function winningProposal() public view returns (uint256 winningProposal_) {
         uint256 winningVoteCount = 0;
-        for (uint256 p = 0; p < proposals.length; p++) {
+        uint256 proposalsLength = proposals.length;
+        for (uint256 p = 0; p < proposalsLength; p++) {
             if (proposals[p].voteCount > winningVoteCount) {
                 winningVoteCount = proposals[p].voteCount;
                 winningProposal_ = p;
