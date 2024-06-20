@@ -17,6 +17,7 @@ export const config = createConfig(
       injected(),
       /**walletConnect({ projectId }),*/ // TODO: add wallet connect projectId
     ],
+    // pollingInterval: 10000, // TODO: add polling interval
     ssr: true,
     transports: {
       [hardhat.id]: http(),
