@@ -15,9 +15,10 @@ import {
   address as ballotAddress,
 } from '@/contracts/ballot.abi';
 import { useContract } from '@/hooks/useContract';
+import { LoaderCircle } from 'lucide-react';
 
 export function GiveRightToVoteCard() {
-  const { writeContract } = useContract();
+  const { isPending, writeContract } = useContract();
 
   function submitGiveRights(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -46,6 +47,7 @@ export function GiveRightToVoteCard() {
             <div className="flex gap-2">
               <Input
                 className="w-full"
+                disabled={isPending}
                 id="give_rights_address"
                 maxLength={42}
                 minLength={42}
@@ -53,8 +55,12 @@ export function GiveRightToVoteCard() {
                 placeholder="0x..."
                 type="text"
               />
-              <Button className="min-w-32" type="submit">
-                Give rights
+              <Button className="min-w-32" disabled={isPending} type="submit">
+                {isPending ? (
+                  <LoaderCircle className="animate-spin" />
+                ) : (
+                  <>Give rights</>
+                )}
               </Button>
             </div>
           </div>

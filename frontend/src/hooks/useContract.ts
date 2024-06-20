@@ -36,6 +36,8 @@ export function useContract() {
   }, [transactionStatus, writeContractStatus]);
 
   return {
+    isPending:
+      transactionStatus === 'pending' && writeContractStatus === 'pending',
     writeContract,
   };
 }
