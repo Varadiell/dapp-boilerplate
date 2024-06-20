@@ -1,8 +1,20 @@
 'use client';
 
-import { DataType, useData } from '@/hooks/useData';
+import { useData } from '@/hooks/useData';
 import * as React from 'react';
 import { createContext } from 'react';
+
+export interface DataType {
+  data: {
+    chairPerson: string | undefined;
+    proposals: string[] | undefined;
+    winnerName: string | undefined;
+    winningProposal: number | undefined;
+  };
+  isConnected: boolean;
+  refetchWinnerName: () => void;
+  refetchWinningProposal: () => void;
+}
 
 export const DataContext = createContext<DataType>({
   data: {

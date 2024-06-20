@@ -3,18 +3,7 @@
 import { useAccount, useReadContract, useReadContracts } from 'wagmi';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { bytesToString } from '@/utils/bytesToString';
-
-export interface DataType {
-  data: {
-    chairPerson: string | undefined;
-    proposals: string[];
-    winnerName: string | undefined;
-    winningProposal: number | undefined;
-  };
-  isConnected: boolean;
-  refetchWinnerName: () => void;
-  refetchWinningProposal: () => void;
-}
+import { DataType } from '@/contexts/data-provider';
 
 export function useData(): DataType {
   const { isConnected } = useAccount();
@@ -47,10 +36,9 @@ export function useData(): DataType {
   return {
     data: {
       chairPerson,
-      proposals:
-        proposals
-          ?.filter((proposal) => proposal.status === 'success')
-          .map((proposal) => bytesToString((proposal as any).result[0])) || [],
+      proposals: proposals
+        ?.filter((proposal) => proposal.status === 'success')
+        .map((proposal) => bytesToString((proposal as any).result[0])),
       winnerName: winnerName ? bytesToString(winnerName) : undefined,
       winningProposal:
         winningProposal !== undefined ? Number(winningProposal) : undefined,
