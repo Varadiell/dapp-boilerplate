@@ -1,10 +1,15 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import {
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  useAccount,
+} from 'wagmi';
 import { toast as sonner } from 'sonner';
 
-export function useContract() {
+export function useContract(onSuccess: () => void) {
+  const { isConnected } = useAccount();
   const {
     data: writeContractHash,
     status: writeContractStatus,
@@ -15,13 +20,14 @@ export function useContract() {
   });
 
   useEffect(() => {
-    if (writeContractStatus === 'error') {
+    console.log('>', writeContractStatus, transactionStatus);
+    if (writeContractStatus === 'error' || transactionStatus === 'error') {
       sonner.error('Error.', {
         description: 'Transaction failed.',
         position: 'bottom-right',
       });
     }
-    if (transactionStatus === 'pending' && writeContractStatus === 'success') {
+    if (writeContractStatus === 'success' && transactionStatus === 'pending') {
       sonner.info('Pending...', {
         description: 'Transaction is being processed...',
         position: 'bottom-right',
@@ -32,10 +38,13 @@ export function useContract() {
         description: 'Transaction has succeeded!',
         position: 'bottom-right',
       });
+      onSuccess();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactionStatus, writeContractStatus]);
 
   return {
+    isConnected: isConnected,
     isPending:
       transactionStatus === 'pending' && writeContractStatus === 'pending',
     writeContract,

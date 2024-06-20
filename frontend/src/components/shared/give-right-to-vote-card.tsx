@@ -16,19 +16,21 @@ import {
 } from '@/contracts/ballot.abi';
 import { useContract } from '@/hooks/useContract';
 import { LoaderCircle } from 'lucide-react';
+import { useState } from 'react';
 
 export function GiveRightToVoteCard() {
-  const { isPending, writeContract } = useContract();
+  const { isConnected, isPending, writeContract } = useContract(() => {
+    setGiveRightAddress('');
+  });
+  const [giveRightAddress, setGiveRightAddress] = useState<string>('');
 
   function submitGiveRights(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
-    const give_rights_address = formData.get('give_rights_address');
     writeContract({
       address: ballotAddress,
       abi: ballotAbi,
       functionName: 'giveRightToVote',
-      args: [give_rights_address],
+      args: [giveRightAddress],
     });
   }
 
@@ -43,19 +45,26 @@ export function GiveRightToVoteCard() {
       <CardContent>
         <form className="flex-row gap-6" onSubmit={submitGiveRights}>
           <div className="grid gap-3">
-            <Label htmlFor="give_rights_address">Address</Label>
+            <Label htmlFor="give_right_address">Address</Label>
             <div className="flex gap-2">
               <Input
                 className="w-full"
-                disabled={isPending}
-                id="give_rights_address"
+                disabled={isPending || !isConnected}
+                id="give_right_address"
                 maxLength={42}
                 minLength={42}
-                name="give_rights_address"
+                onChange={(event) =>
+                  setGiveRightAddress(event.currentTarget.value)
+                }
                 placeholder="0x..."
                 type="text"
+                value={giveRightAddress}
               />
-              <Button className="min-w-32" disabled={isPending} type="submit">
+              <Button
+                className="min-w-32"
+                disabled={isPending || !isConnected}
+                type="submit"
+              >
                 {isPending ? (
                   <LoaderCircle className="animate-spin" />
                 ) : (
