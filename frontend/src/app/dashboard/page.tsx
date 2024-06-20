@@ -19,7 +19,7 @@ export default function Dashboard() {
     <>
       <h1>Dashboard</h1>
       <Card>
-        <CardHeader className="pb-2">
+        <CardHeader>
           <CardTitle className="text-2xl font-semibold leading-none tracking-tight">
             Chair person
           </CardTitle>
@@ -27,7 +27,7 @@ export default function Dashboard() {
         </CardHeader>
       </Card>
       <Card>
-        <CardHeader className="pb-2">
+        <CardHeader>
           <CardTitle className="text-2xl font-semibold leading-none tracking-tight">
             Winning proposal{' '}
             {data.winningProposal !== undefined && <>#{data.winningProposal}</>}
