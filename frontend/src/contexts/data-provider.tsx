@@ -12,6 +12,7 @@ export interface DataType {
     winningProposal: number | undefined;
   };
   isConnected: boolean;
+  refetchProposals: () => void;
   refetchWinnerName: () => void;
   refetchWinningProposal: () => void;
 }
@@ -24,6 +25,7 @@ export const DataContext = createContext<DataType>({
     winningProposal: undefined,
   },
   isConnected: false,
+  refetchProposals: () => undefined,
   refetchWinnerName: () => undefined,
   refetchWinningProposal: () => undefined,
 });

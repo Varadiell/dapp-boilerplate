@@ -25,7 +25,7 @@ export function useData(): DataType {
     });
 
   const LIMIT = 5; // Number of proposals to fetch from the array.
-  const { data: proposals } = useReadContracts({
+  const { data: proposals, refetch: refetchProposals } = useReadContracts({
     contracts: [...new Array(LIMIT)].map((_, i) => ({
       ...ballotContract,
       functionName: 'proposals',
@@ -44,6 +44,7 @@ export function useData(): DataType {
         winningProposal !== undefined ? Number(winningProposal) : undefined,
     },
     isConnected: isConnected,
+    refetchProposals,
     refetchWinnerName,
     refetchWinningProposal,
   };

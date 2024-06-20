@@ -8,7 +8,7 @@ import {
 } from 'wagmi';
 import { toast as sonner } from 'sonner';
 
-export function useContract(onSuccess: () => void) {
+export function useContract(successCallback: () => void) {
   const { isConnected } = useAccount();
   const {
     data: writeContractHash,
@@ -38,7 +38,7 @@ export function useContract(onSuccess: () => void) {
         description: 'Transaction has succeeded!',
         position: 'bottom-right',
       });
-      onSuccess();
+      successCallback();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactionStatus, writeContractStatus]);

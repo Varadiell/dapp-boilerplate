@@ -19,6 +19,7 @@ export function DelegateCard() {
   const [delegateAddress, setDelegateAddress] = useState<string>('');
   const { isConnected, isPending, writeContract } = useContract(() => {
     setDelegateAddress('');
+    // TODO: update user data
   });
 
   function submitDelegate(event: React.FormEvent<HTMLFormElement>) {
