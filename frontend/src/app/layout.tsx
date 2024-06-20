@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/contexts/theme-provider';
 import { MainNavigation } from '@/components/shared/main-navigation';
 import { Web3Provider } from '@/contexts/web3-provider';
+import { DataProvider } from '@/contexts/data-provider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -38,18 +39,20 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Web3Provider>
-            <MainNavigation>{children}</MainNavigation>
-            <Sonner
-              toastOptions={{
-                classNames: {
-                  info: 'dark:bg-gray-700 dark:text-white bg-gray-200',
-                  error: 'dark:bg-red-700 dark:text-white bg-red-500',
-                  success: 'dark:bg-green-700 dark:text-white bg-green-400',
-                },
-                duration: 4000,
-              }}
-            />
-            <Toaster />
+            <DataProvider>
+              <MainNavigation>{children}</MainNavigation>
+              <Sonner
+                toastOptions={{
+                  classNames: {
+                    info: 'dark:bg-gray-700 dark:text-white bg-gray-200',
+                    error: 'dark:bg-red-700 dark:text-white bg-red-500',
+                    success: 'dark:bg-green-700 dark:text-white bg-green-400',
+                  },
+                  duration: 4000,
+                }}
+              />
+              <Toaster />
+            </DataProvider>
           </Web3Provider>
         </ThemeProvider>
       </body>

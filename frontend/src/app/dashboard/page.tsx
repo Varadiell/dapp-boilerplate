@@ -9,11 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useData } from '@/hooks/useData';
-import { bytesToString } from '@/utils/bytesToString';
+import { DataContext } from '@/contexts/data-provider';
+import { useContext } from 'react';
 
 export default function Dashboard() {
-  const { data } = useData();
+  const { data } = useContext(DataContext);
 
   return (
     <>
@@ -30,13 +30,9 @@ export default function Dashboard() {
         <CardHeader className="pb-2">
           <CardTitle className="text-2xl font-semibold leading-none tracking-tight">
             Winning proposal{' '}
-            {data.winningProposal !== undefined && (
-              <>#{Number(data.winningProposal)}</>
-            )}
+            {data.winningProposal !== undefined && <>#{data.winningProposal}</>}
           </CardTitle>
-          <CardDescription>
-            Proposal: {data.winnerName && bytesToString(data.winnerName)}
-          </CardDescription>
+          <CardDescription>Proposal: {data.winnerName}</CardDescription>
         </CardHeader>
       </Card>
       <GiveRightToVoteCard />
