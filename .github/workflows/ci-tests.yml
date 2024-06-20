@@ -113,6 +113,8 @@ jobs:
         uses: crytic/slither-action@v0.4.0
         with:
           target: "backend/"
+          solc-version: "0.8.24"
+          slither-config: "./backend/slither.config.json"
 
   codespell:
     timeout-minutes: 5
