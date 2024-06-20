@@ -19,10 +19,10 @@ import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 
 export function GiveRightToVoteCard() {
+  const [giveRightAddress, setGiveRightAddress] = useState<string>('');
   const { isConnected, isPending, writeContract } = useContract(() => {
     setGiveRightAddress('');
   });
-  const [giveRightAddress, setGiveRightAddress] = useState<string>('');
 
   function submitGiveRights(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -57,6 +57,7 @@ export function GiveRightToVoteCard() {
                   setGiveRightAddress(event.currentTarget.value)
                 }
                 placeholder="0x..."
+                required={true}
                 type="text"
                 value={giveRightAddress}
               />
