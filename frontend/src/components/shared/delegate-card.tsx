@@ -8,10 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  abi as ballotAbi,
-  address as ballotAddress,
-} from '@/contracts/ballot.abi';
+import { ballotContract } from '@/contracts/ballot.contract';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useContract } from '@/hooks/useContract';
@@ -27,10 +24,9 @@ export function DelegateCard() {
   function submitDelegate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     writeContract({
-      address: ballotAddress,
-      abi: ballotAbi,
+      ...ballotContract,
       functionName: 'delegate',
-      args: [delegateAddress],
+      args: [delegateAddress as `0x${string}`],
     });
   }
 

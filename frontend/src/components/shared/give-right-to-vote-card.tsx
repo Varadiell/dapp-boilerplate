@@ -10,10 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  abi as ballotAbi,
-  address as ballotAddress,
-} from '@/contracts/ballot.abi';
+import { ballotContract } from '@/contracts/ballot.contract';
 import { useContract } from '@/hooks/useContract';
 import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
@@ -27,10 +24,9 @@ export function GiveRightToVoteCard() {
   function submitGiveRights(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     writeContract({
-      address: ballotAddress,
-      abi: ballotAbi,
+      ...ballotContract,
       functionName: 'giveRightToVote',
-      args: [giveRightAddress],
+      args: [giveRightAddress as `0x${string}`],
     });
   }
 

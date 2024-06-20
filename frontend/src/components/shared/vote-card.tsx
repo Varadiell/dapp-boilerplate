@@ -16,10 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  abi as ballotAbi,
-  address as ballotAddress,
-} from '@/contracts/ballot.abi';
+import { ballotContract } from '@/contracts/ballot.contract';
 import { useContract } from '@/hooks/useContract';
 import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
@@ -35,10 +32,9 @@ export function VoteCard() {
   function submitVote(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     writeContract({
-      address: ballotAddress,
-      abi: ballotAbi,
+      ...ballotContract,
       functionName: 'vote',
-      args: [proposalId],
+      args: [BigInt(Number(proposalId))],
     });
   }
 
