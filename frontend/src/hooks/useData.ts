@@ -1,6 +1,6 @@
 'use client';
 
-import { useAccount, useReadContract, useReadContracts } from 'wagmi';
+import { useAccount, useReadContract } from 'wagmi';
 import { ballotContract } from '@/contracts/ballot.contract';
 
 export function useData() {

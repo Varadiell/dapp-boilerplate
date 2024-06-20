@@ -20,19 +20,21 @@ export default function Dashboard() {
       <h1>Dashboard</h1>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-4xl">Chair person</CardTitle>
+          <CardTitle className="text-2xl font-semibold leading-none tracking-tight">
+            Chair person
+          </CardTitle>
           <CardDescription>Address: {data.chairPerson}</CardDescription>
         </CardHeader>
       </Card>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-4xl flex">
+          <CardTitle className="text-2xl font-semibold leading-none tracking-tight">
             Winning proposal{' '}
             {data.winningProposal !== undefined && (
               <>#{Number(data.winningProposal)}</>
             )}
           </CardTitle>
-          <CardDescription className="flex">
+          <CardDescription>
             Proposal:{' '}
             {data.winnerName &&
               fromHex(
