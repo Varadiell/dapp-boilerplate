@@ -6,7 +6,13 @@ import { bytesToString } from '@/utils/bytesToString';
 import { DataType } from '@/contexts/data-provider';
 
 export function useData(): DataType {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
+
+  const { data: account, refetch: refetchAccount } = useReadContract({
+    ...ballotContract,
+    functionName: 'voters',
+    args: [address ?? '0x'],
+  });
 
   const { data: chairPerson } = useReadContract({
     ...ballotContract,
@@ -56,6 +62,14 @@ export function useData(): DataType {
 
   return {
     data: {
+      account: account
+        ? {
+            weight: Number(account[0]),
+            voted: account[1],
+            delegate: String(account?.[2]),
+            vote: Number(account[3]),
+          }
+        : undefined,
       chairPerson,
       proposals: proposalsRefined,
       proposalsCount,
@@ -65,6 +79,7 @@ export function useData(): DataType {
         winningProposal !== undefined ? Number(winningProposal) : undefined,
     },
     isConnected: isConnected,
+    refetchAccount,
     refetchProposals,
     refetchWinnerName,
     refetchWinningProposal,

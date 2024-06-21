@@ -10,15 +10,18 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { DataContext } from '@/contexts/data-provider';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { useContract } from '@/hooks/useContract';
 import { LoaderCircle } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
 export function GiveRightToVoteCard() {
   const [giveRightAddress, setGiveRightAddress] = useState<string>('');
+  const { refetchAccount } = useContext(DataContext);
   const { isConnected, isPending, writeContract } = useContract(() => {
     setGiveRightAddress('');
+    refetchAccount();
   });
 
   function submitGiveRights(event: React.FormEvent<HTMLFormElement>) {

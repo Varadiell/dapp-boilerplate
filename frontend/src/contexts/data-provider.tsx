@@ -6,6 +6,9 @@ import { createContext } from 'react';
 
 export interface DataType {
   data: {
+    account:
+      | { weight: number; voted: boolean; delegate: string; vote: number }
+      | undefined;
     chairPerson: string | undefined;
     proposals: { name: string; voteCount: number }[] | undefined;
     proposalsCount: number | undefined;
@@ -14,6 +17,7 @@ export interface DataType {
     winningProposal: number | undefined;
   };
   isConnected: boolean;
+  refetchAccount: () => void;
   refetchProposals: () => void;
   refetchWinnerName: () => void;
   refetchWinningProposal: () => void;
@@ -21,6 +25,7 @@ export interface DataType {
 
 export const DataContext = createContext<DataType>({
   data: {
+    account: undefined,
     chairPerson: undefined,
     proposals: [],
     proposalsCount: undefined,
@@ -29,6 +34,7 @@ export const DataContext = createContext<DataType>({
     winningProposal: undefined,
   },
   isConnected: false,
+  refetchAccount: () => undefined,
   refetchProposals: () => undefined,
   refetchWinnerName: () => undefined,
   refetchWinningProposal: () => undefined,

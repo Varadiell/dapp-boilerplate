@@ -23,11 +23,17 @@ import { LoaderCircle } from 'lucide-react';
 import { useContext, useState } from 'react';
 
 export function VoteCard() {
-  const { data, refetchProposals, refetchWinnerName, refetchWinningProposal } =
-    useContext(DataContext);
+  const {
+    data,
+    refetchAccount,
+    refetchProposals,
+    refetchWinnerName,
+    refetchWinningProposal,
+  } = useContext(DataContext);
   const [proposalId, setProposalId] = useState<string | undefined>(undefined);
   const { isConnected, isPending, writeContract } = useContract(() => {
     setProposalId('');
+    refetchAccount();
     refetchWinnerName();
     refetchWinningProposal();
     refetchProposals();

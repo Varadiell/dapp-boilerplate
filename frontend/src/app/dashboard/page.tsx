@@ -1,5 +1,6 @@
 'use client';
 
+import { AccountInfo } from '@/components/shared/account-info';
 import { DelegateCard } from '@/components/shared/delegate-card';
 import { GiveRightToVoteCard } from '@/components/shared/give-right-to-vote-card';
 import { ProposalsList } from '@/components/shared/proposals-list';
@@ -21,6 +22,7 @@ export default function Dashboard() {
   return (
     <>
       <h1>Dashboard</h1>
+      <AccountInfo />
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-semibold leading-none tracking-tight">

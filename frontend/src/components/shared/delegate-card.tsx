@@ -12,14 +12,16 @@ import { ballotContract } from '@/contracts/ballot.contract';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useContract } from '@/hooks/useContract';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
+import { DataContext } from '@/contexts/data-provider';
 
 export function DelegateCard() {
   const [delegateAddress, setDelegateAddress] = useState<string>('');
+  const { refetchAccount } = useContext(DataContext);
   const { isConnected, isPending, writeContract } = useContract(() => {
     setDelegateAddress('');
-    // TODO: update user data
+    refetchAccount();
   });
 
   function submitDelegate(event: React.FormEvent<HTMLFormElement>) {
