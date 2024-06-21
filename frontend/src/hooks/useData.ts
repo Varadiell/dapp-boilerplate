@@ -34,22 +34,32 @@ export function useData(): DataType {
     })),
   });
 
+  const proposalsRefined = proposals
+    ?.filter((proposal) => proposal.status === 'success')
+    .map((proposal) => {
+      // Note: hard to believe, but the returned "proposals.result" typing is incorrect...
+      const proposalResult = proposal.result as unknown as (
+        | bigint
+        | `0x${string}`
+      )[];
+      return {
+        name: bytesToString(proposalResult[0] as string),
+        voteCount: Number(proposalResult[1] as bigint),
+      };
+    });
+
+  const proposalsCount = proposalsRefined?.length;
+  const votesCount = proposalsRefined?.reduce(
+    (total, proposal) => total + proposal.voteCount,
+    0,
+  );
+
   return {
     data: {
       chairPerson,
-      proposals: proposals
-        ?.filter((proposal) => proposal.status === 'success')
-        .map((proposal) => {
-          // Note: hard to believe, but the returned "proposals.result" typing is incorrect...
-          const proposalResult = proposal.result as unknown as (
-            | bigint
-            | `0x${string}`
-          )[];
-          return {
-            name: bytesToString(proposalResult[0] as string),
-            voteCount: Number(proposalResult[1] as bigint),
-          };
-        }),
+      proposals: proposalsRefined,
+      proposalsCount,
+      votesCount,
       winnerName: winnerName ? bytesToString(winnerName) : undefined,
       winningProposal:
         winningProposal !== undefined ? Number(winningProposal) : undefined,

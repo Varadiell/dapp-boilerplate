@@ -18,24 +18,41 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { usePathname } from 'next/navigation';
 import { ConnectKitButton } from 'connectkit';
+import { useContext } from 'react';
+import { DataContext } from '@/contexts/data-provider';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type PageType = {
-  count: number;
+  count: number | undefined | null;
   icon: React.ForwardRefExoticComponent<Omit<LucideProps, 'ref'>>;
   label: string;
   url: string;
 };
-const pages: PageType[] = [
-  { count: 0, icon: LayoutDashboard, label: 'Dashboard', url: '/dashboard' },
-  { count: 17, icon: Users, label: 'Voters', url: '/voters' },
-  { count: 6, icon: ScrollText, label: 'Proposals', url: '/proposals' },
-  { count: 9, icon: Vote, label: 'Votes', url: '/votes' },
-  { count: 0, icon: Trophy, label: 'Results', url: '/results' },
-  { count: 32, icon: DatabaseZap, label: 'Events', url: '/events' },
-];
 
 export function MainNavigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const {
+    data: { proposalsCount, votesCount },
+  } = useContext(DataContext);
+
+  const pages: PageType[] = [
+    {
+      count: null,
+      icon: LayoutDashboard,
+      label: 'Dashboard',
+      url: '/dashboard',
+    },
+    { count: undefined, icon: Users, label: 'Voters', url: '/voters' },
+    {
+      count: proposalsCount,
+      icon: ScrollText,
+      label: 'Proposals',
+      url: '/proposals',
+    },
+    { count: votesCount, icon: Vote, label: 'Votes', url: '/votes' },
+    { count: null, icon: Trophy, label: 'Results', url: '/results' },
+    { count: undefined, icon: DatabaseZap, label: 'Events', url: '/events' },
+  ];
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -57,7 +74,11 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
                 >
                   <page.icon className="h-4 w-4" />
                   {page.label}
-                  {page.count > 0 && (
+                  {page.count === undefined ? (
+                    <Skeleton className="ml-auto h-6 w-6 rounded-full" />
+                  ) : page.count === null ? (
+                    <></>
+                  ) : (
                     <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                       {page.count}
                     </Badge>
@@ -97,7 +118,11 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
                   >
                     <page.icon className="h-5 w-5" />
                     {page.label}
-                    {page.count > 0 && (
+                    {page.count === undefined ? (
+                      <Skeleton className="ml-auto h-6 w-6 rounded-full" />
+                    ) : page.count === null ? (
+                      <></>
+                    ) : (
                       <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                         {page.count}
                       </Badge>

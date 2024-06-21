@@ -8,6 +8,8 @@ export interface DataType {
   data: {
     chairPerson: string | undefined;
     proposals: { name: string; voteCount: number }[] | undefined;
+    proposalsCount: number | undefined;
+    votesCount: number | undefined;
     winnerName: string | undefined;
     winningProposal: number | undefined;
   };
@@ -21,6 +23,8 @@ export const DataContext = createContext<DataType>({
   data: {
     chairPerson: undefined,
     proposals: [],
+    proposalsCount: undefined,
+    votesCount: undefined,
     winnerName: undefined,
     winningProposal: undefined,
   },
@@ -32,7 +36,7 @@ export const DataContext = createContext<DataType>({
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const data = useData();
-
+  console.log(data);
   return (
     <DataContext.Provider value={{ ...data }}>{children}</DataContext.Provider>
   );
