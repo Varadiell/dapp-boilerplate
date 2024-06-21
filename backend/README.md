@@ -17,3 +17,12 @@ Run foundry tests with coverage
 ```
 $ forge coverage
 ```
+
+# Slither
+
+Install Slither
+```
+$ python3 --version
+$ pip3 --version
+$ python3 -m pip install slither-analyzer
+```
