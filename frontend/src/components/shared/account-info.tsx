@@ -128,7 +128,7 @@ export function AccountInfo() {
                 Vote proposal
               </dt>
               <dd>
-                {!account ? (
+                {!account || !proposals ? (
                   <Skeleton className="h-6 w-48 rounded-full" />
                 ) : proposals &&
                   account.voted &&
