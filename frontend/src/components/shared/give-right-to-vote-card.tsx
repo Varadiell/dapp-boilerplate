@@ -35,13 +35,13 @@ export function GiveRightToVoteCard() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="bg-muted/50">
         <CardTitle>Give right to vote</CardTitle>
         <CardDescription>
           As an admin, you can give the right to vote to another address.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <form className="flex-row gap-6" onSubmit={submitGiveRights}>
           <div className="grid gap-3">
             <Label htmlFor="give_right_address">Address</Label>

@@ -25,9 +25,11 @@ export function ProposalsList() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="bg-muted/50">
         <CardTitle>Proposals</CardTitle>
-        <CardDescription>List of proposals</CardDescription>
+        <CardDescription>
+          List of available proposals for the vote.
+        </CardDescription>
       </CardHeader>
       <Table>
         <TableHeader>

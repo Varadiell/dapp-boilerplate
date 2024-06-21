@@ -35,14 +35,14 @@ export function DelegateCard() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="bg-muted/50">
         <CardTitle>Delegate</CardTitle>
         <CardDescription>
           As a registered voter, you can delegate your right to vote to another
           address.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <form className="flex-row gap-6" onSubmit={submitDelegate}>
           <div className="grid gap-3">
             <Label htmlFor="delegate_address">Address</Label>
