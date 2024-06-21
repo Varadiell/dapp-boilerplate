@@ -7,7 +7,7 @@ import { createContext } from 'react';
 export interface DataType {
   data: {
     chairPerson: string | undefined;
-    proposals: string[] | undefined;
+    proposals: { name: string; voteCount: number }[] | undefined;
     winnerName: string | undefined;
     winningProposal: number | undefined;
   };

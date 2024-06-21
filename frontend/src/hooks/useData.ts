@@ -24,6 +24,7 @@ export function useData(): DataType {
       functionName: 'winningProposal',
     });
 
+  // TODO: update to use a do/while loop instead of a fixed limit
   const LIMIT = 5; // Number of proposals to fetch from the array.
   const { data: proposals, refetch: refetchProposals } = useReadContracts({
     contracts: [...new Array(LIMIT)].map((_, i) => ({
@@ -38,7 +39,17 @@ export function useData(): DataType {
       chairPerson,
       proposals: proposals
         ?.filter((proposal) => proposal.status === 'success')
-        .map((proposal) => bytesToString((proposal as any).result[0])),
+        .map((proposal) => {
+          // Note: hard to believe, but the returned "proposals.result" typing is incorrect...
+          const proposalResult = proposal.result as unknown as (
+            | bigint
+            | `0x${string}`
+          )[];
+          return {
+            name: bytesToString(proposalResult[0] as string),
+            voteCount: Number(proposalResult[1] as bigint),
+          };
+        }),
       winnerName: winnerName ? bytesToString(winnerName) : undefined,
       winningProposal:
         winningProposal !== undefined ? Number(winningProposal) : undefined,

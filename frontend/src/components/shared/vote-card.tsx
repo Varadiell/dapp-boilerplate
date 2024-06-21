@@ -71,7 +71,7 @@ export function VoteCard() {
                   {data.proposals &&
                     data.proposals.map((proposal, index) => (
                       <SelectItem key={index} value={String(index)}>
-                        {proposal}
+                        {proposal.name}
                       </SelectItem>
                     ))}
                 </SelectContent>
