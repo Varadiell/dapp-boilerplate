@@ -18,7 +18,11 @@ import {
 } from '@/components/ui/table';
 import { Skeleton } from '../ui/skeleton';
 
-export function ProposalsList() {
+export function ProposalsList({
+  displayVotes = true,
+}: {
+  displayVotes?: boolean;
+}) {
   const {
     data: { proposals },
   } = useContext(DataContext);
@@ -36,7 +40,9 @@ export function ProposalsList() {
           <TableRow>
             <TableHead className="max-w-1">ID</TableHead>
             <TableHead>Name</TableHead>
-            <TableHead className="max-w-1 text-right">Vote count</TableHead>
+            {displayVotes && (
+              <TableHead className="max-w-1 text-right">Vote count</TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -49,18 +55,22 @@ export function ProposalsList() {
                   <TableCell>
                     <Skeleton className="h-4 w-2/3" />
                   </TableCell>
-                  <TableCell className="flex place-content-end">
-                    <Skeleton className="h-4 w-1/2" />
-                  </TableCell>
+                  {displayVotes && (
+                    <TableCell className="flex place-content-end">
+                      <Skeleton className="h-4 w-1/2" />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             : proposals?.map((proposal, index) => (
                 <TableRow key={index}>
                   <TableCell>{index}</TableCell>
                   <TableCell>{proposal.name}</TableCell>
-                  <TableCell className="text-right">
-                    {proposal.voteCount}
-                  </TableCell>
+                  {displayVotes && (
+                    <TableCell className="text-right">
+                      {proposal.voteCount}
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
         </TableBody>
