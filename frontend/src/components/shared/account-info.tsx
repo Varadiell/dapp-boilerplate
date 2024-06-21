@@ -37,7 +37,7 @@ export function AccountInfo() {
       <CardHeader className="bg-muted/50">
         <CardTitle>Your rights</CardTitle>
         <CardDescription>
-          Here are some info about your rights in the Ballot Project.
+          Here are some info about your rights in The Ballot Project.
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
