@@ -1,7 +1,9 @@
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
+import 'solidity-docgen';
 
 const config: HardhatUserConfig = {
+  docgen: { outputDir: 'doc' },
   solidity: '0.8.24',
 };
 
