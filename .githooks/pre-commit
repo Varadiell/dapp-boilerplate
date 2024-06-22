@@ -2,7 +2,7 @@
 
 # Check code lint & code spell (backend side)
 echo "Checking code lint and code spell..."
-(cd backend && pnpm lint)
+(cd backend && pnpm lint && pnpm cspell)
 LINT_RESULT=$?
 
 if [ $LINT_RESULT -ne 0 ]; then
@@ -12,7 +12,7 @@ fi
 
 # Check code lint & code spell (frontend side)
 echo "Checking code lint and code spell..."
-(cd frontend && pnpm lint)
+(cd frontend && pnpm lint && pnpm cspell)
 LINT_RESULT=$?
 
 if [ $LINT_RESULT -ne 0 ]; then
