@@ -3,6 +3,12 @@
 import { useData } from '@/hooks/useData';
 import * as React from 'react';
 import { createContext } from 'react';
+import { Log } from 'viem';
+
+export type EventLog = Log & {
+  args: Record<string, unknown>;
+  eventName: string;
+};
 
 export interface DataType {
   data: {
@@ -10,6 +16,8 @@ export interface DataType {
       | { weight: number; voted: boolean; delegate: string; vote: number }
       | undefined;
     chairPerson: string | undefined;
+    eventLogs: EventLog[] | undefined;
+    eventLogsCount: number | undefined;
     proposals: { name: string; voteCount: number }[] | undefined;
     proposalsCount: number | undefined;
     votesCount: number | undefined;
@@ -27,7 +35,9 @@ export const DataContext = createContext<DataType>({
   data: {
     account: undefined,
     chairPerson: undefined,
-    proposals: [],
+    eventLogs: undefined,
+    eventLogsCount: undefined,
+    proposals: undefined,
     proposalsCount: undefined,
     votesCount: undefined,
     winnerName: undefined,

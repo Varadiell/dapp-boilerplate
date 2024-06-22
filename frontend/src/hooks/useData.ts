@@ -1,17 +1,37 @@
 'use client';
 
-import { useAccount, useReadContract, useReadContracts } from 'wagmi';
+import {
+  useAccount,
+  useReadContract,
+  useReadContracts,
+  useWatchContractEvent,
+} from 'wagmi';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { bytesToString } from '@/utils/bytesToString';
-import { DataType } from '@/contexts/data-provider';
+import { DataType, EventLog } from '@/contexts/data-provider';
+import { useState } from 'react';
 
 export function useData(): DataType {
   const { isConnected, address } = useAccount();
+  const [eventLogs, setEventLogs] = useState<EventLog[] | undefined>(undefined);
+
+  useWatchContractEvent({
+    ...ballotContract,
+    onLogs: (logs) =>
+      setEventLogs(
+        logs.map((log) => ({
+          ...log,
+          eventName: log.eventName,
+          args: log.args as Record<string, unknown>,
+        })),
+      ),
+    pollingInterval: 12000, // Block time.
+  });
 
   const { data: account, refetch: refetchAccount } = useReadContract({
     ...ballotContract,
     functionName: 'voters',
-    args: [address ?? '0x'],
+    args: [address!],
   });
 
   const { data: chairPerson } = useReadContract({
@@ -54,6 +74,7 @@ export function useData(): DataType {
       };
     });
 
+  const eventLogsCount = eventLogs?.length;
   const proposalsCount = proposalsRefined?.length;
   const votesCount = proposalsRefined?.reduce(
     (total, proposal) => total + proposal.voteCount,
@@ -71,6 +92,8 @@ export function useData(): DataType {
           }
         : undefined,
       chairPerson,
+      eventLogs: eventLogs,
+      eventLogsCount,
       proposals: proposalsRefined,
       proposalsCount,
       votesCount,
