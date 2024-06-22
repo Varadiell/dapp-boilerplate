@@ -50,7 +50,6 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
       url: '/proposals',
     },
     { count: votesCount, icon: Vote, label: 'Votes', url: '/votes' },
-    { count: null, icon: Trophy, label: 'Results', url: '/results' },
     {
       count: eventLogsCount,
       icon: DatabaseZap,
