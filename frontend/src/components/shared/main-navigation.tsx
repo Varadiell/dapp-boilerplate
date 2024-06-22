@@ -8,7 +8,6 @@ import {
   LucideProps,
   Menu,
   ScrollText,
-  Trophy,
   Users,
   Vote,
 } from 'lucide-react';
