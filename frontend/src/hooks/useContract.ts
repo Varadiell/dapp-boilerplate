@@ -46,7 +46,8 @@ export function useContract(successCallback: () => void) {
   return {
     isConnected: isConnected,
     isPending:
-      transactionStatus === 'pending' && writeContractStatus === 'pending',
+      transactionStatus === 'pending' &&
+      !['idle', 'error'].includes(writeContractStatus),
     writeContract,
   };
 }
