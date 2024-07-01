@@ -1,30 +1,43 @@
 import { http, createConfig } from 'wagmi';
-import { hardhat, mainnet, sepolia } from 'wagmi/chains';
+import { hardhat, polygonZkEvmCardona, polygonZkEvm } from 'wagmi/chains';
 import { getDefaultConfig } from 'connectkit';
-import { metaMask, coinbaseWallet, injected } from 'wagmi/connectors';
+import { metaMask, coinbaseWallet, injected, safe } from 'wagmi/connectors';
 
-// TODO: add app infos
+const {
+  ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET = '',
+  ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA = '',
+  ALCHEMY_API_KEY = '',
+  WALLET_CONNECT_PROJECT_ID = '',
+} = process.env;
+
 export const config = createConfig(
   getDefaultConfig({
-    // appDescription: "",
+    appDescription: 'The Ballot Project',
     // appIcon: "",
     appName: 'The Ballot Project',
     // appUrl: "",
-    chains: [hardhat, mainnet, sepolia],
+    chains: [hardhat, polygonZkEvmCardona, polygonZkEvm],
     connectors: [
-      metaMask(),
+      metaMask({
+        dappMetadata: {
+          name: 'The Ballot Project',
+        },
+      }),
       coinbaseWallet(),
       injected(),
-      /**walletConnect({ projectId }),*/ // TODO: add wallet connect projectId
+      safe(),
     ],
-    // pollingInterval: 10000, // TODO: add polling interval
+    pollingInterval: 3000, // Polygon zkEVM block time.
     ssr: true,
     transports: {
       [hardhat.id]: http(),
-      [mainnet.id]: http(),
-      [sepolia.id]: http(),
+      [polygonZkEvmCardona.id]: http(
+        `${ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA}${ALCHEMY_API_KEY}`,
+      ),
+      [polygonZkEvm.id]: http(
+        `${ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET}${ALCHEMY_API_KEY}`,
+      ),
     },
-    walletConnectProjectId:
-      process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '',
+    walletConnectProjectId: WALLET_CONNECT_PROJECT_ID,
   }),
 );

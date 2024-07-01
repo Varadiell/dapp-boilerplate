@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  useAccount,
-  useReadContract,
-  useReadContracts,
-  useWatchContractEvent,
-} from 'wagmi';
+import { useAccount, useReadContract, useWatchContractEvent } from 'wagmi';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { bytesToString } from '@/utils/bytesToString';
 import { DataType, EventLog } from '@/contexts/data-provider';
@@ -17,66 +12,74 @@ export function useData(): DataType {
 
   useWatchContractEvent({
     ...ballotContract,
-    onLogs: (logs) =>
-      setEventLogs(
-        logs.map((log) => ({
-          ...log,
-          eventName: log.eventName,
-          args: log.args as Record<string, unknown>,
-        })),
-      ),
-    pollingInterval: 12000, // Block time.
+    fromBlock: ballotContract.fromBlock, // Query optimization.
+    onLogs: (logs) => setEventLogs(logs as EventLog[]),
+    poll: true,
+    pollingInterval: 3000, // Polygon zkEVM block time.
   });
 
   const { data: account, refetch: refetchAccount } = useReadContract({
     ...ballotContract,
+    account: address,
     functionName: 'voters',
     args: [address!],
   });
 
   const { data: chairPerson } = useReadContract({
     ...ballotContract,
+    account: address,
     functionName: 'chairperson',
   });
 
   const { data: winnerName, refetch: refetchWinnerName } = useReadContract({
     ...ballotContract,
+    account: address,
     functionName: 'winnerName',
   });
 
   const { data: winningProposal, refetch: refetchWinningProposal } =
     useReadContract({
       ...ballotContract,
+      account: address,
       functionName: 'winningProposal',
     });
 
-  // TODO: update to use a do/while loop instead of a fixed limit
-  const LIMIT = 5; // Number of proposals to fetch from the array.
-  const { data: proposals, refetch: refetchProposals } = useReadContracts({
-    contracts: [...new Array(LIMIT)].map((_, i) => ({
-      ...ballotContract,
-      functionName: 'proposals',
-      args: [BigInt(Number(i))],
-    })),
+  const [proposals, setProposals] = useState<
+    { name: string; voteCount: number }[]
+  >([]);
+  const {
+    data: proposal,
+    refetch: refetchProposal,
+    isLoading: isProposalsLoading,
+  } = useReadContract({
+    ...ballotContract,
+    account: address, // Mandatory for "onlyVoters" modifier.
+    functionName: 'proposals',
+    args: [BigInt(proposals.length)],
+    query: {
+      gcTime: 0, // Mandatory to avoid cache on loops.
+    },
   });
 
-  const proposalsRefined = proposals
-    ?.filter((proposal) => proposal.status === 'success')
-    .map((proposal) => {
-      // Note: hard to believe, but the returned "proposals.result" typing is incorrect...
-      const proposalResult = proposal.result as unknown as (
-        | bigint
-        | `0x${string}`
-      )[];
-      return {
-        name: bytesToString(proposalResult[0] as string),
-        voteCount: Number(proposalResult[1] as bigint),
-      };
-    });
+  if (proposal) {
+    setProposals([
+      ...proposals,
+      {
+        name: bytesToString(proposal[0]),
+        voteCount: Number(proposal[1]),
+      },
+    ]);
+    refetchProposal(); // Loop over proposals.
+  }
+
+  function resetProposals() {
+    setProposals([]);
+    refetchProposal();
+  }
 
   const eventLogsCount = eventLogs?.length;
-  const proposalsCount = proposalsRefined?.length;
-  const votesCount = proposalsRefined?.reduce(
+  const proposalsCount = proposals?.length;
+  const votesCount = proposals?.reduce(
     (total, proposal) => total + proposal.voteCount,
     0,
   );
@@ -94,7 +97,7 @@ export function useData(): DataType {
       chairPerson,
       eventLogs: eventLogs,
       eventLogsCount,
-      proposals: proposalsRefined,
+      proposals,
       proposalsCount,
       votesCount,
       winnerName: winnerName ? bytesToString(winnerName) : undefined,
@@ -102,8 +105,9 @@ export function useData(): DataType {
         winningProposal !== undefined ? Number(winningProposal) : undefined,
     },
     isConnected: isConnected,
+    isProposalsLoading,
     refetchAccount,
-    refetchProposals,
+    refetchProposals: resetProposals,
     refetchWinnerName,
     refetchWinningProposal,
   };
