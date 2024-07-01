@@ -18,9 +18,11 @@ export interface DataType {
     chairPerson: string | undefined;
     eventLogs: EventLog[] | undefined;
     eventLogsCount: number | undefined;
+    owner: string | undefined;
     proposals: { name: string; voteCount: number }[] | undefined;
     proposalsCount: number | undefined;
     votesCount: number | undefined;
+    walletAddress: `0x${string}` | undefined;
     winnerName: string | undefined;
     winningProposal: number | undefined;
   };
@@ -38,9 +40,11 @@ export const DataContext = createContext<DataType>({
     chairPerson: undefined,
     eventLogs: undefined,
     eventLogsCount: undefined,
+    owner: undefined,
     proposals: undefined,
     proposalsCount: undefined,
     votesCount: undefined,
+    walletAddress: undefined,
     winnerName: undefined,
     winningProposal: undefined,
   },

@@ -18,6 +18,12 @@ export function useData(): DataType {
     pollingInterval: 3000, // Polygon zkEVM block time.
   });
 
+  const { data: owner } = useReadContract({
+    ...ballotContract,
+    account: address,
+    functionName: 'chairperson',
+  });
+
   const { data: account, refetch: refetchAccount } = useReadContract({
     ...ballotContract,
     account: address,
@@ -97,9 +103,11 @@ export function useData(): DataType {
       chairPerson,
       eventLogs: eventLogs,
       eventLogsCount,
+      owner,
       proposals,
       proposalsCount,
       votesCount,
+      walletAddress: address,
       winnerName: winnerName ? bytesToString(winnerName) : undefined,
       winningProposal:
         winningProposal !== undefined ? Number(winningProposal) : undefined,

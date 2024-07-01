@@ -18,7 +18,10 @@ import { useContext, useState } from 'react';
 
 export function GiveRightToVoteCard() {
   const [giveRightAddress, setGiveRightAddress] = useState<string>('');
-  const { refetchAccount } = useContext(DataContext);
+  const {
+    data: { owner, walletAddress },
+    refetchAccount,
+  } = useContext(DataContext);
   const { isConnected, isPending, writeContract } = useContract(() => {
     setGiveRightAddress('');
     refetchAccount();
@@ -31,6 +34,10 @@ export function GiveRightToVoteCard() {
       functionName: 'giveRightToVote',
       args: [giveRightAddress as `0x${string}`],
     });
+  }
+
+  if (!owner || !walletAddress || owner !== walletAddress) {
+    return null;
   }
 
   return (
