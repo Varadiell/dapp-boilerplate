@@ -18,19 +18,24 @@ const config: HardhatUserConfig = {
   gasReporter: {
     enabled: true,
   },
-  // networks: {
-  //   hardhat: {},
-  //   polygonZkEvm: {
-  //     accounts: [PRIVATE_KEY],
-  //     chainId: 1101,
-  //     url: ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET,
-  //   },
-  //   polygonZkEvmCardona: {
-  //     accounts: [PRIVATE_KEY],
-  //     chainId: 2442,
-  //     url: ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA,
-  //   },
-  // },
+  networks: {
+    hardhat: {
+      accounts: {
+        passphrase: PRIVATE_KEY,
+      },
+      chainId: 31337,
+    },
+    // polygonZkEvm: {
+    //     accounts: [PRIVATE_KEY],
+    //     chainId: 1101,
+    //     url: ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET,
+    //   },
+    //   polygonZkEvmCardona: {
+    //     accounts: [PRIVATE_KEY],
+    //     chainId: 2442,
+    //     url: ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA,
+    //   },
+  },
   solidity: '0.8.24',
 };
 
