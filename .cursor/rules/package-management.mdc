@@ -1,0 +1,83 @@
+# Package Management Guidelines
+
+## Workspace Configuration
+
+This project uses pnpm workspaces with configuration in [pnpm-workspace.yaml](mdc:pnpm-workspace.yaml):
+
+- Backend workspace: `backend/`
+- Frontend workspace: `frontend/`
+
+## Package Manager
+
+- **Primary**: pnpm for all package management
+- **Lock File**: [pnpm-lock.yaml](mdc:pnpm-lock.yaml) at root level
+- **Installation**: Run `pnpm install` from root to install all workspace dependencies
+
+## Backend Dependencies
+
+Key dependencies from [backend/package.json](mdc:backend/package.json):
+
+- **Hardhat**: `^2.25.0` - Ethereum development environment
+- **Ethers**: `^6.15.0` - Ethereum library
+- **Foundry**: Installed via curl script for testing and deployment
+- **TypeScript**: `^5.8.3` - Type safety
+- **Testing**: Chai, Mocha, Foundry for comprehensive testing
+- **Linting**: Prettier, Solhint, Slither for code quality
+
+## Frontend Dependencies
+
+Key dependencies from [frontend/package.json](mdc:frontend/package.json):
+
+- **Next.js**: `14.2.4` - React framework
+- **React**: `^18.3.1` - UI library
+- **Web3**: Wagmi `^2.15.6`, Viem `~2.31.7`, ConnectKit `^1.9.1`
+- **UI**: Radix UI components, shadcn/ui, Tailwind CSS
+- **Forms**: React Hook Form with Zod validation
+- **State**: TanStack Query for server state management
+
+## Development Scripts
+
+### Root Level
+
+- `pnpm install` - Install all workspace dependencies
+- `pnpm prepare` - Set up git hooks
+
+### Backend Scripts
+
+- `pnpm test` - Run all tests (Foundry + Hardhat)
+- `pnpm lint` - Run all linting checks
+- `pnpm start:node` - Start local Hardhat node
+
+### Frontend Scripts
+
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm lint` - Run linting checks
+
+## Git Hooks
+
+The project uses custom git hooks configured in the prepare scripts:
+
+- Set `core.hooksPath` to `.githooks` for consistent pre-commit checks
+- Hooks run linting and spell checking automatically
+
+## Environment Variables
+
+Required environment variables for frontend:
+
+- `ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET`
+- `ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA`
+- `ALCHEMY_API_KEY`
+- `WALLET_CONNECT_PROJECT_ID`
+
+## Best Practices
+
+1. **Workspace Commands**: Use `pnpm --filter <workspace> <command>` for workspace-specific operations
+2. **Dependency Updates**: Update dependencies in both workspaces when needed
+3. **Lock File**: Always commit pnpm-lock.yaml for reproducible builds
+4. **Scripts**: Use the established script patterns for consistency
+   description:
+   globs:
+   alwaysApply: false
+
+---
