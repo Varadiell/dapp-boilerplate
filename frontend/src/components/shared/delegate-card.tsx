@@ -18,11 +18,16 @@ import { DataContext } from '@/contexts/data-provider';
 
 export function DelegateCard() {
   const [delegateAddress, setDelegateAddress] = useState<string>('');
+  const { data } = useContext(DataContext);
   const { refetchAccount } = useContext(DataContext);
   const { isConnected, isPending, writeContract } = useContract(() => {
     setDelegateAddress('');
     refetchAccount();
   });
+
+  if (!data.account || data.account.weight === 0) {
+    return null;
+  }
 
   function submitDelegate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -43,38 +48,47 @@ export function DelegateCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
-        <form className="flex-row gap-6" onSubmit={submitDelegate}>
-          <div className="grid gap-3">
-            <Label htmlFor="delegate_address">Address</Label>
-            <div className="flex gap-2">
-              <Input
-                className="w-full"
-                disabled={isPending || !isConnected}
-                id="delegate_address"
-                maxLength={42}
-                minLength={42}
-                onChange={(event) =>
-                  setDelegateAddress(event.currentTarget.value)
-                }
-                placeholder="0x..."
-                required={true}
-                type="text"
-                value={delegateAddress}
-              />
-              <Button
-                className="min-w-32"
-                disabled={isPending || !isConnected}
-                type="submit"
-              >
-                {isPending ? (
-                  <LoaderCircle className="animate-spin" />
-                ) : (
-                  <>Delegate</>
-                )}
-              </Button>
-            </div>
+        {data.account.voted ? (
+          <div className="text-center py-4">
+            <p className="text-muted-foreground">
+              You cannot delegate your vote because you have already voted in
+              this ballot.
+            </p>
           </div>
-        </form>
+        ) : (
+          <form className="flex-row gap-6" onSubmit={submitDelegate}>
+            <div className="grid gap-3">
+              <Label htmlFor="delegate_address">Address</Label>
+              <div className="flex gap-2">
+                <Input
+                  className="w-full"
+                  disabled={isPending || !isConnected}
+                  id="delegate_address"
+                  maxLength={42}
+                  minLength={42}
+                  onChange={(event) =>
+                    setDelegateAddress(event.currentTarget.value)
+                  }
+                  placeholder="0x..."
+                  required={true}
+                  type="text"
+                  value={delegateAddress}
+                />
+                <Button
+                  className="min-w-32"
+                  disabled={isPending || !isConnected || !delegateAddress}
+                  type="submit"
+                >
+                  {isPending ? (
+                    <LoaderCircle className="animate-spin" />
+                  ) : (
+                    <>Delegate</>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </form>
+        )}
       </CardContent>
     </Card>
   );

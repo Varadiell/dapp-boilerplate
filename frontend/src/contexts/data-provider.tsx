@@ -5,9 +5,11 @@ import * as React from 'react';
 import { createContext } from 'react';
 import { Log } from 'viem';
 
+export type EventType = 'GiveRight' | 'Delegate' | 'Vote';
+
 export type EventLog = Log & {
   args: Record<string, unknown>;
-  eventName: string;
+  eventName: EventType;
 };
 
 export interface DataType {

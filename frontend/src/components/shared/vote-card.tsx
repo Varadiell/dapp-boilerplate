@@ -39,6 +39,10 @@ export function VoteCard() {
     refetchProposals();
   });
 
+  if (!data.account || data.account.weight === 0) {
+    return null;
+  }
+
   function submitVote(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     writeContract({
@@ -57,45 +61,53 @@ export function VoteCard() {
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
-        <form className="flex-row gap-6" onSubmit={submitVote}>
-          <div className="grid gap-3">
-            <Label htmlFor="vote_proposal">Proposal</Label>
-            <div className="flex gap-2">
-              <Select
-                required={true}
-                value={proposalId}
-                onValueChange={(value) => setProposalId(value)}
-              >
-                <SelectTrigger
-                  className="w-full"
-                  id="vote_proposal"
-                  disabled={isPending || !isConnected}
-                >
-                  <SelectValue placeholder="Select a proposal..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {data.proposals &&
-                    data.proposals.map((proposal, index) => (
-                      <SelectItem key={index} value={String(index)}>
-                        {proposal.name}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
-              <Button
-                className="min-w-32"
-                disabled={isPending || !isConnected}
-                type="submit"
-              >
-                {isPending ? (
-                  <LoaderCircle className="animate-spin" />
-                ) : (
-                  <>Vote</>
-                )}
-              </Button>
-            </div>
+        {data.account.voted ? (
+          <div className="text-center py-4">
+            <p className="text-muted-foreground">
+              You have already voted in this ballot.
+            </p>
           </div>
-        </form>
+        ) : (
+          <form className="flex-row gap-6" onSubmit={submitVote}>
+            <div className="grid gap-3">
+              <Label htmlFor="vote_proposal">Proposal</Label>
+              <div className="flex gap-2">
+                <Select
+                  required={true}
+                  value={proposalId}
+                  onValueChange={(value) => setProposalId(value)}
+                >
+                  <SelectTrigger
+                    className="w-full"
+                    id="vote_proposal"
+                    disabled={isPending || !isConnected}
+                  >
+                    <SelectValue placeholder="Select a proposal..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {data.proposals &&
+                      data.proposals.map((proposal, index) => (
+                        <SelectItem key={index} value={String(index)}>
+                          {proposal.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                <Button
+                  className="min-w-32"
+                  disabled={isPending || !isConnected || !proposalId}
+                  type="submit"
+                >
+                  {isPending ? (
+                    <LoaderCircle className="animate-spin" />
+                  ) : (
+                    <>Vote</>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </form>
+        )}
       </CardContent>
     </Card>
   );

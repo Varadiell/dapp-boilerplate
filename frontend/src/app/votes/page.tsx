@@ -1,6 +1,7 @@
 import { ProposalsList } from '@/components/shared/proposals-list';
 import { VoteCard } from '@/components/shared/vote-card';
 import { WinningProposal } from '@/components/shared/winning-proposal';
+import { VoteEventsTable } from '@/components/shared/vote-events-table';
 
 export default function Votes() {
   return (
@@ -9,7 +10,7 @@ export default function Votes() {
       <WinningProposal />
       <VoteCard />
       <ProposalsList />
-      <div>TODO: use event logs to display the votes</div>
+      <VoteEventsTable />
     </>
   );
 }
