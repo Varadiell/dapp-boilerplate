@@ -4,19 +4,33 @@ import { useAccount, useReadContract, useWatchContractEvent } from 'wagmi';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { bytesToString } from '@/utils/bytesToString';
 import { DataType, EventLog } from '@/contexts/data-provider';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function useData(): DataType {
   const { isConnected, address } = useAccount();
   const [eventLogs, setEventLogs] = useState<EventLog[] | undefined>(undefined);
+  const [isEventsLoading, setIsEventsLoading] = useState(true);
 
+  // Watch for new events
   useWatchContractEvent({
     ...ballotContract,
     fromBlock: ballotContract.fromBlock, // Query optimization.
-    onLogs: (logs) => setEventLogs(logs as EventLog[]),
+    onLogs: (logs) => {
+      setEventLogs(logs as EventLog[]);
+      setIsEventsLoading(false);
+    },
     poll: true,
     pollingInterval: 3000, // Polygon zkEVM block time.
   });
+
+  // Set loading to false after a delay to allow events to load.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsEventsLoading(false);
+    }, 10000); // Wait 10 seconds for events to potentially load.
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const { data: owner } = useReadContract({
     ...ballotContract,
@@ -121,6 +135,7 @@ export function useData(): DataType {
     },
     isConnected: isConnected,
     isProposalsLoading,
+    isEventsLoading,
     refetchAccount,
     refetchProposals: resetProposals,
     refetchWinnerName,

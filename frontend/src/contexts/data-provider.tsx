@@ -31,6 +31,7 @@ export interface DataType {
   };
   isConnected: boolean;
   isProposalsLoading: boolean;
+  isEventsLoading: boolean;
   refetchAccount: () => void;
   refetchProposals: () => void;
   refetchWinnerName: () => void;
@@ -54,6 +55,7 @@ export const DataContext = createContext<DataType>({
   },
   isConnected: false,
   isProposalsLoading: false,
+  isEventsLoading: false,
   refetchAccount: () => undefined,
   refetchProposals: () => undefined,
   refetchWinnerName: () => undefined,

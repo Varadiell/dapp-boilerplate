@@ -35,15 +35,17 @@ export function EventsTable({
 }: EventsTableProps) {
   const {
     data: { eventLogs },
+    isEventsLoading,
   } = useContext(DataContext);
 
-  // Filter events by type and get the last N events
+  // Filter events by type and get the last N events.
   const filteredEvents =
     eventLogs?.filter((event) => eventTypes.includes(event.eventName)) || [];
 
   const lastEvents = filteredEvents.slice(-maxEvents).reverse();
 
-  if (!eventLogs) {
+  // Show skeletons only when events are still loading.
+  if (isEventsLoading) {
     return (
       <Card>
         <CardHeader className="bg-muted/50">
@@ -61,6 +63,7 @@ export function EventsTable({
     );
   }
 
+  // Show "No events found" when eventLogs is an empty array or has no matching events.
   if (lastEvents.length === 0) {
     return (
       <Card>
