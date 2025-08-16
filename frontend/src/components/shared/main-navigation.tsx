@@ -31,7 +31,7 @@ type PageType = {
 export function MainNavigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const {
-    data: { eventLogsCount, proposalsCount, votesCount },
+    data: { eventLogsCount, proposalsCount, votersCount, votesCount },
   } = useContext(DataContext);
 
   const pages: PageType[] = [
@@ -41,7 +41,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
       label: 'Dashboard',
       url: '/dashboard',
     },
-    { count: undefined, icon: Users, label: 'Voters', url: '/voters' },
+    { count: votersCount, icon: Users, label: 'Voters', url: '/voters' },
     {
       count: proposalsCount,
       icon: ScrollText,

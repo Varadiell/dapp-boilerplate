@@ -24,6 +24,7 @@ export interface DataType {
     proposals: { name: string; voteCount: number }[] | undefined;
     proposalsCount: number | undefined;
     votesCount: number | undefined;
+    votersCount: number | undefined;
     walletAddress: `0x${string}` | undefined;
     winnerName: string | undefined;
     winningProposal: number | undefined;
@@ -46,6 +47,7 @@ export const DataContext = createContext<DataType>({
     proposals: undefined,
     proposalsCount: undefined,
     votesCount: undefined,
+    votersCount: undefined,
     walletAddress: undefined,
     winnerName: undefined,
     winningProposal: undefined,

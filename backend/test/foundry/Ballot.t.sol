@@ -140,6 +140,16 @@ contract GiveRightToVoteTest is BallotTestHelper {
         vm.expectRevert("Only chairperson can give right to vote.");
         ballotContract.giveRightToVote(addr1);
     }
+
+    function testVotersCountIncrements() public {
+        assertEq(ballotContract.votersCount(), 1);
+        vm.prank(owner);
+        ballotContract.giveRightToVote(addr1);
+        assertEq(ballotContract.votersCount(), 2);
+        vm.prank(owner);
+        ballotContract.giveRightToVote(addr2);
+        assertEq(ballotContract.votersCount(), 3);
+    }
 }
 
 contract DelegateTest is BallotTestHelper {

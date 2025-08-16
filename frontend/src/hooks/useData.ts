@@ -50,6 +50,12 @@ export function useData(): DataType {
       functionName: 'winningProposal',
     });
 
+  const { data: votersCount } = useReadContract({
+    ...ballotContract,
+    account: address,
+    functionName: 'votersCount',
+  });
+
   const [proposals, setProposals] = useState<
     { name: string; voteCount: number }[]
   >([]);
@@ -107,6 +113,7 @@ export function useData(): DataType {
       proposals,
       proposalsCount,
       votesCount,
+      votersCount: votersCount !== undefined ? Number(votersCount) : undefined,
       walletAddress: address,
       winnerName: winnerName ? bytesToString(winnerName) : undefined,
       winningProposal:
