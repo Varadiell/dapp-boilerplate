@@ -26,7 +26,7 @@ contract Ballot {
     }
 
     uint256 public votersCount;
-    uint256 public proposalsCount;
+    uint256 public immutable proposalsCount;
 
     address public immutable chairperson;
 

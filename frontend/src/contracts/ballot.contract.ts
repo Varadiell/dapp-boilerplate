@@ -128,6 +128,19 @@ export const ballotContract = {
       type: 'function',
     },
     {
+      inputs: [],
+      name: 'proposalsCount',
+      outputs: [
+        {
+          internalType: 'uint256',
+          name: '',
+          type: 'uint256',
+        },
+      ],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
       inputs: [
         {
           internalType: 'uint256',
@@ -177,19 +190,6 @@ export const ballotContract = {
     {
       inputs: [],
       name: 'votersCount',
-      outputs: [
-        {
-          internalType: 'uint256',
-          name: '',
-          type: 'uint256',
-        },
-      ],
-      stateMutability: 'view',
-      type: 'function',
-    },
-    {
-      inputs: [],
-      name: 'proposalsCount',
       outputs: [
         {
           internalType: 'uint256',
