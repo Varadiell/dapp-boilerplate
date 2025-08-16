@@ -30,7 +30,12 @@ const ADDRESS_0 = '0x0000000000000000000000000000000000000000';
 export function AccountInfo() {
   const {
     data: { account, proposals },
+    isConnected,
   } = useContext(DataContext);
+
+  if (!isConnected) {
+    return null;
+  }
 
   return (
     <Card>
