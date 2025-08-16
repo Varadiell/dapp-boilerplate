@@ -19,8 +19,12 @@ export function useData(): DataType {
       setEventLogs(logs as EventLog[]);
       setIsEventsLoading(false);
     },
+    onError: () => {
+      setEventLogs([]);
+      setIsEventsLoading(false);
+    },
     poll: true,
-    pollingInterval: 3000, // Polygon zkEVM block time.
+    pollingInterval: 3_000, // Polygon zkEVM block time.
   });
 
   // Set loading to false after a delay to allow events to load.
@@ -103,8 +107,8 @@ export function useData(): DataType {
     refetchProposal();
   }
 
-  const eventLogsCount = eventLogs?.length;
-  const proposalsCount = proposals?.length;
+  const eventLogsCount = eventLogs?.length || 0;
+  const proposalsCount = proposals.length;
   const votesCount = proposals?.reduce(
     (total, proposal) => total + proposal.voteCount,
     0,
