@@ -7,8 +7,8 @@ export default function Votes() {
   return (
     <>
       <h1>Votes</h1>
-      <WinningProposal />
       <VoteCard />
+      <WinningProposal />
       <ProposalsList />
       <VoteEventsTable />
     </>
