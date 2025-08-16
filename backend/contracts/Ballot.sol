@@ -26,6 +26,7 @@ contract Ballot {
     }
 
     uint256 public votersCount;
+    uint256 public proposalsCount;
 
     address public immutable chairperson;
 
@@ -41,6 +42,7 @@ contract Ballot {
         chairperson = msg.sender;
         voters[chairperson].weight = 1;
         votersCount = 1; // Initialize voters count to 1 (chairperson).
+        proposalsCount = proposalNames.length; // Initialize proposals count.
         uint256 proposalNamesLength = proposalNames.length;
         for (uint256 i = 0; i < proposalNamesLength; i++) {
             // 'Proposal({...})' creates a temporary

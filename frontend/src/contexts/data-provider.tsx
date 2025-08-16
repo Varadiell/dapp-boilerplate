@@ -20,7 +20,6 @@ export interface DataType {
     chairPerson: string | undefined;
     eventLogs: EventLog[] | undefined;
     eventLogsCount: number | undefined;
-    owner: string | undefined;
     proposals: { name: string; voteCount: number }[] | undefined;
     proposalsCount: number | undefined;
     votesCount: number | undefined;
@@ -34,6 +33,7 @@ export interface DataType {
   isEventsLoading: boolean;
   refetchAccount: () => void;
   refetchProposals: () => void;
+  refetchVotersCount: () => void;
   refetchWinnerName: () => void;
   refetchWinningProposal: () => void;
 }
@@ -44,7 +44,6 @@ export const DataContext = createContext<DataType>({
     chairPerson: undefined,
     eventLogs: undefined,
     eventLogsCount: undefined,
-    owner: undefined,
     proposals: undefined,
     proposalsCount: undefined,
     votesCount: undefined,
@@ -58,6 +57,7 @@ export const DataContext = createContext<DataType>({
   isEventsLoading: false,
   refetchAccount: () => undefined,
   refetchProposals: () => undefined,
+  refetchVotersCount: () => undefined,
   refetchWinnerName: () => undefined,
   refetchWinningProposal: () => undefined,
 });

@@ -19,12 +19,12 @@ import { useContext, useState } from 'react';
 export function GiveRightToVoteCard() {
   const [giveRightAddress, setGiveRightAddress] = useState<string>('');
   const {
-    data: { owner, walletAddress },
-    refetchAccount,
+    data: { chairPerson, walletAddress },
+    refetchVotersCount,
   } = useContext(DataContext);
   const { isConnected, isPending, writeContract } = useContract(() => {
     setGiveRightAddress('');
-    refetchAccount();
+    refetchVotersCount();
   });
 
   function submitGiveRights(event: React.FormEvent<HTMLFormElement>) {
@@ -36,7 +36,7 @@ export function GiveRightToVoteCard() {
     });
   }
 
-  if (!owner || !walletAddress || owner !== walletAddress) {
+  if (!chairPerson || !walletAddress || chairPerson !== walletAddress) {
     return null;
   }
 

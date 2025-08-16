@@ -150,6 +150,11 @@ contract GiveRightToVoteTest is BallotTestHelper {
         ballotContract.giveRightToVote(addr2);
         assertEq(ballotContract.votersCount(), 3);
     }
+
+    function testProposalsCount() public {
+        // Should have 3 proposals from constructor
+        assertEq(ballotContract.proposalsCount(), 3);
+    }
 }
 
 contract DelegateTest is BallotTestHelper {

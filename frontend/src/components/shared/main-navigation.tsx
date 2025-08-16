@@ -33,7 +33,6 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
   const {
     data: { eventLogsCount, proposalsCount, votersCount, votesCount },
     isEventsLoading,
-    isProposalsLoading,
   } = useContext(DataContext);
 
   const pages: PageType[] = [
@@ -45,7 +44,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
     },
     { count: votersCount, icon: Users, label: 'Voters', url: '/voters' },
     {
-      count: isProposalsLoading ? undefined : proposalsCount,
+      count: proposalsCount,
       icon: ScrollText,
       label: 'Proposals',
       url: '/proposals',

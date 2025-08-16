@@ -36,23 +36,16 @@ export function useData(): DataType {
     return () => clearTimeout(timer);
   }, []);
 
-  const { data: owner } = useReadContract({
-    ...ballotContract,
-    account: address,
-    functionName: 'chairperson',
-  });
-
-  const { data: account, refetch: refetchAccount } = useReadContract({
-    ...ballotContract,
-    account: address,
-    functionName: 'voters',
-    args: [address!],
-  });
-
   const { data: chairPerson } = useReadContract({
     ...ballotContract,
     account: address,
     functionName: 'chairperson',
+  });
+
+  const { data: proposalsCount } = useReadContract({
+    ...ballotContract,
+    account: address,
+    functionName: 'proposalsCount',
   });
 
   const { data: winnerName, refetch: refetchWinnerName } = useReadContract({
@@ -68,10 +61,17 @@ export function useData(): DataType {
       functionName: 'winningProposal',
     });
 
-  const { data: votersCount } = useReadContract({
+  const { data: votersCount, refetch: refetchVotersCount } = useReadContract({
     ...ballotContract,
     account: address,
     functionName: 'votersCount',
+  });
+
+  const { data: account, refetch: refetchAccount } = useReadContract({
+    ...ballotContract,
+    account: address,
+    functionName: 'voters',
+    args: [address!],
   });
 
   const [proposals, setProposals] = useState<
@@ -108,7 +108,6 @@ export function useData(): DataType {
   }
 
   const eventLogsCount = eventLogs?.length || 0;
-  const proposalsCount = proposals.length;
   const votesCount = proposals?.reduce(
     (total, proposal) => total + proposal.voteCount,
     0,
@@ -127,11 +126,10 @@ export function useData(): DataType {
       chairPerson,
       eventLogs: eventLogs,
       eventLogsCount,
-      owner,
       proposals,
-      proposalsCount,
+      proposalsCount: proposalsCount ? Number(proposalsCount) : undefined,
       votesCount,
-      votersCount: votersCount !== undefined ? Number(votersCount) : undefined,
+      votersCount: votersCount ? Number(votersCount) : undefined,
       walletAddress: address,
       winnerName: winnerName ? bytesToString(winnerName) : undefined,
       winningProposal:
@@ -142,6 +140,7 @@ export function useData(): DataType {
     isEventsLoading,
     refetchAccount,
     refetchProposals: resetProposals,
+    refetchVotersCount,
     refetchWinnerName,
     refetchWinningProposal,
   };
