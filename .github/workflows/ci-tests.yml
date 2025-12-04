@@ -52,12 +52,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run npm audit
-        uses: JamesRobertWiseman/pnpm-audit@v2
+      - name: Set up environment
+        uses: ./.github/actions/setup
         with:
-          package_json_path: ./backend
-          level: high
-          fails: true
+          directory: "backend"
+
+      - name: Run pnpm audit
+        run: |
+          cd backend
+          pnpm audit --audit-level=high
 
   frontend-npm-audit:
     timeout-minutes: 2
@@ -66,12 +69,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run npm audit
-        uses: JamesRobertWiseman/pnpm-audit@v2
+      - name: Set up environment
+        uses: ./.github/actions/setup
         with:
-          package_json_path: ./frontend
-          level: high
-          fails: true
+          directory: "frontend"
+
+      - name: Run pnpm audit
+        run: |
+          cd frontend
+          pnpm audit --audit-level=high
 
   backend-tests-hardhat:
     timeout-minutes: 5
