@@ -45,6 +45,34 @@ jobs:
           cd frontend
           pnpm lint
 
+  backend-npm-audit:
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run npm audit
+        uses: JamesRobertWiseman/pnpm-audit@v3
+        with:
+          package_json_path: ./backend
+          level: high
+          fails: true
+
+  frontend-npm-audit:
+    timeout-minutes: 2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run npm audit
+        uses: JamesRobertWiseman/pnpm-audit@v3
+        with:
+          package_json_path: ./frontend
+          level: high
+          fails: true
+
   backend-tests-hardhat:
     timeout-minutes: 5
     runs-on: ubuntu-latest
