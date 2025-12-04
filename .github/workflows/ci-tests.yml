@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run npm audit
-        uses: JamesRobertWiseman/pnpm-audit@v3.1.0
+        uses: JamesRobertWiseman/pnpm-audit@v2
         with:
           package_json_path: ./backend
           level: high
@@ -67,7 +67,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run npm audit
-        uses: JamesRobertWiseman/pnpm-audit@v3.1.0
+        uses: JamesRobertWiseman/pnpm-audit@v2
         with:
           package_json_path: ./frontend
           level: high
