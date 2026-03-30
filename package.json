@@ -4,5 +4,8 @@
   "engines": {
     "bun": ">=1.1.0"
   },
-  "workspaces": ["frontend", "backend"]
+  "workspaces": ["frontend", "backend"],
+  "overrides": {
+    "serialize-javascript": "7.0.3"
+  }
 }

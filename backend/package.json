@@ -27,8 +27,7 @@
   "overrides": {
     "flatted": "^3.4.2",
     "glob": "10.5.0",
-    "picomatch": "4.0.4",
-    "serialize-javascript": "7.0.3"
+    "picomatch": "4.0.4"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-foundry": "^3.0.0",
