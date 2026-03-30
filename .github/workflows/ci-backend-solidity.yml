@@ -32,7 +32,7 @@ jobs:
         uses: crytic/slither-action@v0.4.0
         with:
           target: "backend/contracts"
-          solc-version: "0.8.24"
+          solc-version: "0.8.28"
           slither-config: "./backend/slither.config.json"
           ignore-compile: true
 
