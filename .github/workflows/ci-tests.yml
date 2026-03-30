@@ -86,11 +86,12 @@ jobs:
         with:
           version: nightly
 
+      # Slither + ignore-compile: crytic-compile needs full build-info JSON (with "output"); add --build-info.
       - name: Forge build
         run: |
           cd backend
           forge --version
-          forge build --sizes
+          forge build --build-info --sizes
 
       - name: Slither
         uses: crytic/slither-action@v0.4.0
