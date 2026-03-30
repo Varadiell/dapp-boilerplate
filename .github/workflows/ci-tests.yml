@@ -12,10 +12,10 @@ concurrency:
 
 jobs:
   backend:
-    uses: ./.github/workflows/ci/ci-backend.yml
+    uses: ./.github/workflows/ci-backend.yml
 
   frontend:
-    uses: ./.github/workflows/ci/ci-frontend.yml
+    uses: ./.github/workflows/ci-frontend.yml
 
   backend-solidity:
-    uses: ./.github/workflows/ci/ci-backend-solidity.yml
+    uses: ./.github/workflows/ci-backend-solidity.yml
