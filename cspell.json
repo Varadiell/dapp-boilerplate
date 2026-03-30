@@ -1,6 +1,7 @@
 {
+  "import": ["@cspell/dict-fr-fr/cspell-ext.json"],
   "language": "en,fr",
-  "languageId": "javascript,typescript,css",
+  "languageId": "javascript,typescript,css,json",
   "words": [
     "cmdk",
     "appkit",
@@ -9,6 +10,7 @@
     "embla",
     "reown",
     "nomicfoundation",
+    "openzeppelin",
     "roledescription",
     "sonner",
     "struct",
@@ -17,5 +19,12 @@
     "viem",
     "wagmi"
   ],
-  "ignorePaths": ["**/lib/**", "*.config.*"]
+  "ignorePaths": ["**/lib/**", "*.config.*"],
+  "overrides": [
+    {
+      "filename": "**/locales/fr/**/*.json",
+      "locale": "fr-FR",
+      "dictionaries": ["fr-fr"]
+    }
+  ]
 }

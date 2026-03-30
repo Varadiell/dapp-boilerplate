@@ -24,6 +24,11 @@ jobs:
       - name: Set up environment
         uses: ./.github/actions/setup
 
+      - name: Spell check (cspell)
+        run: |
+          cd backend
+          bun run cspell
+
       - name: Lint
         run: |
           cd backend

@@ -9,7 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "cspell": "cspell --gitignore **/*.{js,ts,tsx,md}",
+    "cspell": "cspell --gitignore \"**/*.{js,ts,tsx,md,json}\"",
     "lint": "bun run lint:prettier:ts",
     "lint:prettier:ts": "prettier --ignore-path .gitignore '**/*.{js,ts,tsx}' --check",
     "lint:prettier:ts:fix": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts,tsx}' --write",
@@ -74,6 +74,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@cspell/dict-fr-fr": "^2.3.2",
     "@types/node": "^22.19.15",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
