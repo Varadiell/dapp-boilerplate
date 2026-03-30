@@ -82,6 +82,12 @@
     "typescript": "^5.9.0"
   },
   "overrides": {
+    "flatted": "^3.4.2",
+    "glob": "10.5.0",
+    "h3": "1.15.10",
+    "minimatch": "10.2.4",
+    "picomatch": "4.0.4",
+    "socket.io-parser": "4.2.6",
     "utf-8-validate": "5.0.10"
   }
 }
