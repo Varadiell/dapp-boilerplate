@@ -3,10 +3,12 @@
 import { useAccount, useReadContract, useWatchContractEvent } from 'wagmi';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { bytesToString } from '@/utils/bytesToString';
-import { DataType, EventLog } from '@/contexts/data-provider';
-import { useState, useEffect } from 'react';
+import { useDataStore } from '@/stores/use-data-store';
+import type { DataType, EventLog } from '@/types/ballot-data';
+import { useEffect, useLayoutEffect, useState } from 'react';
 
-export function useData(): DataType {
+/** Reads on-chain ballot state via Wagmi and mirrors it into `useDataStore`. */
+export function useData(): void {
   const { isConnected, address } = useAccount();
   const [eventLogs, setEventLogs] = useState<EventLog[] | undefined>(undefined);
   const [isEventsLoading, setIsEventsLoading] = useState(true);
@@ -24,7 +26,7 @@ export function useData(): DataType {
       setIsEventsLoading(false);
     },
     poll: true,
-    pollingInterval: 3_000, // Polygon zkEVM block time.
+    pollingInterval: 10_000, // 10 seconds.
   });
 
   // Set loading to false after a delay to allow events to load.
@@ -113,7 +115,7 @@ export function useData(): DataType {
     0,
   );
 
-  return {
+  const snapshot: DataType = {
     data: {
       account: account
         ? {
@@ -144,4 +146,8 @@ export function useData(): DataType {
     refetchWinnerName,
     refetchWinningProposal,
   };
+
+  useLayoutEffect(() => {
+    useDataStore.setState(snapshot);
+  }, [snapshot]);
 }

@@ -7,15 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { DataContext } from '@/contexts/data-provider';
 import { Trophy } from 'lucide-react';
-import { useContext } from 'react';
+import { useDataStore } from '@/stores/use-data-store';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function WinningProposal() {
-  const {
-    data: { winnerName },
-  } = useContext(DataContext);
+  const winnerName = useDataStore((s) => s.data.winnerName);
 
   return (
     <Card>

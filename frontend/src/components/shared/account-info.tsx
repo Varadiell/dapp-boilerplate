@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useContext } from 'react';
-import { DataContext } from '@/contexts/data-provider';
+import { useDataStore } from '@/stores/use-data-store';
+import { useShallow } from 'zustand/react/shallow';
 import { Badge } from '@/components/ui/badge';
 import {
   BookMarked,
@@ -28,10 +28,13 @@ import {
 const ADDRESS_0 = '0x0000000000000000000000000000000000000000';
 
 export function AccountInfo() {
-  const {
-    data: { account, proposals },
-    isConnected,
-  } = useContext(DataContext);
+  const { account, proposals, isConnected } = useDataStore(
+    useShallow((s) => ({
+      account: s.data.account,
+      proposals: s.data.proposals,
+      isConnected: s.isConnected,
+    })),
+  );
 
   if (!isConnected) {
     return null;

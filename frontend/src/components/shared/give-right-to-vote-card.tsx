@@ -10,18 +10,22 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { DataContext } from '@/contexts/data-provider';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { useContract } from '@/hooks/useContract';
 import { LoaderCircle } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
+import { useDataStore } from '@/stores/use-data-store';
+import { useShallow } from 'zustand/react/shallow';
 
 export function GiveRightToVoteCard() {
   const [giveRightAddress, setGiveRightAddress] = useState<string>('');
-  const {
-    data: { chairPerson, walletAddress },
-    refetchVotersCount,
-  } = useContext(DataContext);
+  const { chairPerson, walletAddress, refetchVotersCount } = useDataStore(
+    useShallow((s) => ({
+      chairPerson: s.data.chairPerson,
+      walletAddress: s.data.walletAddress,
+      refetchVotersCount: s.refetchVotersCount,
+    })),
+  );
   const { isConnected, isPending, writeContract } = useContract(() => {
     setGiveRightAddress('');
     refetchVotersCount();

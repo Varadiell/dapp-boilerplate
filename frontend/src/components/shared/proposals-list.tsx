@@ -1,7 +1,6 @@
 'use client';
 
-import { DataContext } from '@/contexts/data-provider';
-import { useContext } from 'react';
+import { useDataStore } from '@/stores/use-data-store';
 import {
   Card,
   CardDescription,
@@ -23,9 +22,7 @@ export function ProposalsList({
 }: {
   displayVotes?: boolean;
 }) {
-  const {
-    data: { proposals },
-  } = useContext(DataContext);
+  const proposals = useDataStore((s) => s.data.proposals);
 
   return (
     <Card>

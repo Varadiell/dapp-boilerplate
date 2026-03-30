@@ -1,7 +1,8 @@
 'use client';
 
-import { useContext } from 'react';
-import { DataContext, EventType } from '@/contexts/data-provider';
+import type { EventType } from '@/types/ballot-data';
+import { useDataStore } from '@/stores/use-data-store';
+import { useShallow } from 'zustand/react/shallow';
 import {
   Table,
   TableBody,
@@ -33,10 +34,12 @@ export function EventsTable({
   eventTypes = ['GiveRight', 'Delegate', 'Vote'],
   maxEvents = 5,
 }: EventsTableProps) {
-  const {
-    data: { eventLogs },
-    isEventsLoading,
-  } = useContext(DataContext);
+  const { eventLogs, isEventsLoading } = useDataStore(
+    useShallow((s) => ({
+      eventLogs: s.data.eventLogs,
+      isEventsLoading: s.isEventsLoading,
+    })),
+  );
 
   // Filter events by type and get the last N events.
   const filteredEvents =

@@ -12,14 +12,16 @@ import { ballotContract } from '@/contracts/ballot.contract';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useContract } from '@/hooks/useContract';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
-import { DataContext } from '@/contexts/data-provider';
+import { useDataStore } from '@/stores/use-data-store';
+import { useShallow } from 'zustand/react/shallow';
 
 export function DelegateCard() {
   const [delegateAddress, setDelegateAddress] = useState<string>('');
-  const { data } = useContext(DataContext);
-  const { refetchAccount } = useContext(DataContext);
+  const { data, refetchAccount } = useDataStore(
+    useShallow((s) => ({ data: s.data, refetchAccount: s.refetchAccount })),
+  );
   const { isConnected, isPending, writeContract } = useContract(() => {
     setDelegateAddress('');
     refetchAccount();

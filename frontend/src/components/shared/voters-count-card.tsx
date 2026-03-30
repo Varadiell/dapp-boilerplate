@@ -1,7 +1,6 @@
 'use client';
 
-import { useContext } from 'react';
-import { DataContext } from '@/contexts/data-provider';
+import { useDataStore } from '@/stores/use-data-store';
 import { Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -14,9 +13,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function VotersCountCard() {
-  const {
-    data: { votersCount },
-  } = useContext(DataContext);
+  const votersCount = useDataStore((s) => s.data.votersCount);
 
   return (
     <Card>

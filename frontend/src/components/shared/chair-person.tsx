@@ -1,7 +1,6 @@
 'use client';
 
-import { useContext } from 'react';
-import { DataContext } from '@/contexts/data-provider';
+import { useDataStore } from '@/stores/use-data-store';
 import {
   Card,
   CardContent,
@@ -14,9 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 
 export function ChairPerson() {
-  const {
-    data: { chairPerson },
-  } = useContext(DataContext);
+  const chairPerson = useDataStore((s) => s.data.chairPerson);
 
   return (
     <Card>

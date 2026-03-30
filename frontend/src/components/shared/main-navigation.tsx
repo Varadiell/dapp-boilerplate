@@ -17,8 +17,8 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { usePathname } from 'next/navigation';
 import { AppKitButton } from '@reown/appkit/react';
-import { useContext } from 'react';
-import { DataContext } from '@/contexts/data-provider';
+import { useDataStore } from '@/stores/use-data-store';
+import { useShallow } from 'zustand/react/shallow';
 import { Skeleton } from '@/components/ui/skeleton';
 
 type PageType = {
@@ -31,9 +31,20 @@ type PageType = {
 export function MainNavigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const {
-    data: { eventLogsCount, proposalsCount, votersCount, votesCount },
+    eventLogsCount,
+    proposalsCount,
+    votersCount,
+    votesCount,
     isEventsLoading,
-  } = useContext(DataContext);
+  } = useDataStore(
+    useShallow((s) => ({
+      eventLogsCount: s.data.eventLogsCount,
+      proposalsCount: s.data.proposalsCount,
+      votersCount: s.data.votersCount,
+      votesCount: s.data.votesCount,
+      isEventsLoading: s.isEventsLoading,
+    })),
+  );
 
   const pages: PageType[] = [
     {

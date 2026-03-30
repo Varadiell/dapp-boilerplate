@@ -16,11 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { DataContext } from '@/contexts/data-provider';
 import { ballotContract } from '@/contracts/ballot.contract';
 import { useContract } from '@/hooks/useContract';
 import { LoaderCircle } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
+import { useDataStore } from '@/stores/use-data-store';
+import { useShallow } from 'zustand/react/shallow';
 
 export function VoteCard() {
   const {
@@ -29,7 +30,15 @@ export function VoteCard() {
     refetchProposals,
     refetchWinnerName,
     refetchWinningProposal,
-  } = useContext(DataContext);
+  } = useDataStore(
+    useShallow((s) => ({
+      data: s.data,
+      refetchAccount: s.refetchAccount,
+      refetchProposals: s.refetchProposals,
+      refetchWinnerName: s.refetchWinnerName,
+      refetchWinningProposal: s.refetchWinningProposal,
+    })),
+  );
   const [proposalId, setProposalId] = useState<string | undefined>(undefined);
   const { isConnected, isPending, writeContract } = useContract(() => {
     setProposalId('');

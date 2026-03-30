@@ -3,6 +3,7 @@
 import { createAppKit } from '@reown/appkit/react';
 import { hardhat } from '@reown/appkit/networks';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BallotDataStoreSync } from '@/contexts/ballot-data-store-sync';
 import { networks, projectId, wagmiAdapter } from '@/lib/wagmi.config';
 import { type ReactNode } from 'react';
 import { cookieToInitialState, WagmiProvider } from 'wagmi';
@@ -44,7 +45,9 @@ export function Web3Provider({
       config={wagmiAdapter.wagmiConfig}
       initialState={initialState}
     >
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <BallotDataStoreSync>{children}</BallotDataStoreSync>
+      </QueryClientProvider>
     </WagmiProvider>
   );
 }
