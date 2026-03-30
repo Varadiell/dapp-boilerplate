@@ -2,11 +2,13 @@
 
 pragma solidity 0.8.24;
 
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+
 /**
  * @title Ballot
  * @dev Implements voting process along with vote delegation
  */
-contract Ballot {
+contract Ballot is Ownable {
     event GiveRight(address indexed voter);
     event Delegate(address indexed from, address indexed to);
     event Vote(address indexed voter, uint256 proposal);
@@ -28,8 +30,6 @@ contract Ballot {
     uint256 public votersCount;
     uint256 public immutable proposalsCount;
 
-    address public immutable chairperson;
-
     mapping(address => Voter) public voters;
 
     Proposal[] public proposals;
@@ -38,9 +38,8 @@ contract Ballot {
      * @dev Create a new ballot to choose one of 'proposalNames'.
      * @param proposalNames names of proposals
      */
-    constructor(bytes32[] memory proposalNames) {
-        chairperson = msg.sender;
-        voters[chairperson].weight = 1;
+    constructor(bytes32[] memory proposalNames) Ownable(msg.sender) {
+        voters[msg.sender].weight = 1;
         votersCount = 1; // Initialize voters count to 1 (chairperson).
         proposalsCount = proposalNames.length; // Initialize proposals count.
         uint256 proposalNamesLength = proposalNames.length;
@@ -53,14 +52,17 @@ contract Ballot {
     }
 
     /**
-     * @dev Give 'voter' the right to vote on this ballot. May only be called by 'chairperson'.
+     * @return The ballot administrator; same as {owner}.
+     */
+    function chairperson() public view returns (address) {
+        return owner();
+    }
+
+    /**
+     * @dev Give 'voter' the right to vote on this ballot. May only be called by the owner.
      * @param voter address of voter
      */
-    function giveRightToVote(address voter) public {
-        require(
-            msg.sender == chairperson,
-            "Only chairperson can give right to vote."
-        );
+    function giveRightToVote(address voter) public onlyOwner {
         require(!voters[voter].voted, "The voter already voted.");
         require(voters[voter].weight == 0);
         voters[voter].weight = 1;

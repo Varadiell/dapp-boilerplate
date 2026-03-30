@@ -3,6 +3,8 @@
 pragma solidity 0.8.24;
 
 import {Test} from "forge-std/Test.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+
 import {Ballot} from "@/contracts/Ballot.sol";
 
 bytes32 constant YES_B32 = bytes32("Yes");
@@ -136,9 +138,14 @@ contract GiveRightToVoteTest is BallotTestHelper {
     }
 
     function testRevertWhenSenderNotChairman() public {
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                Ownable.OwnableUnauthorizedAccount.selector,
+                addr1
+            )
+        );
         vm.prank(addr1);
-        vm.expectRevert("Only chairperson can give right to vote.");
-        ballotContract.giveRightToVote(addr1);
+        ballotContract.giveRightToVote(addr2);
     }
 
     function testVotersCountIncrements() public {

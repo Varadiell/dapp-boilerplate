@@ -114,10 +114,13 @@ describe('Voting tests', () => {
       );
     });
 
-    it('should revert with a message when the msg.sender is not the chairman', async () => {
-      await expect(
-        ballotContract.connect(addr1).giveRightToVote(addr2),
-      ).to.be.revertedWith('Only chairperson can give right to vote.');
+    it('should revert with OwnableUnauthorizedAccount when the msg.sender is not the owner', async () => {
+      await expect(ballotContract.connect(addr1).giveRightToVote(addr2))
+        .to.be.revertedWithCustomError(
+          ballotContract,
+          'OwnableUnauthorizedAccount',
+        )
+        .withArgs(addr1.address);
     });
   });
 
