@@ -1,0 +1,32 @@
+name: CI — Frontend
+
+on:
+  workflow_call:
+
+jobs:
+  frontend:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: CodeSpell
+        uses: codespell-project/actions-codespell@v2.0
+        with:
+          check_hidden: true
+          check_filenames: true
+          skip: bun.lock,./.git/objects
+
+      - name: Set up environment
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: |
+          cd frontend
+          bun run lint
+
+      - name: Audit (high+)
+        run: |
+          cd frontend
+          bun audit --audit-level=high

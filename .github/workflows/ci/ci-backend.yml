@@ -1,0 +1,36 @@
+name: CI — Backend
+
+on:
+  workflow_call:
+
+jobs:
+  backend:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: |
+          cd backend
+          bun run lint
+
+      - name: Audit (high+)
+        run: |
+          cd backend
+          bun audit --audit-level=high
+
+      - name: Hardhat tests with coverage
+        run: |
+          cd backend
+          bun run test:hardhat:coverage
+
+      - name: Code coverage at 100% (Hardhat)
+        uses: VeryGoodOpenSource/very_good_coverage@v3
+        with:
+          path: "./backend/coverage/lcov.info"
+          min_coverage: 100
