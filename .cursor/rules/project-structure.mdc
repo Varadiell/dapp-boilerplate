@@ -40,7 +40,7 @@ The frontend is located in the [frontend/](mdc:frontend/) directory and contains
 - **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
 - **Web3**: Wagmi, ConnectKit, Viem
 - **UI**: Radix UI, shadcn/ui components
-- **Package Manager**: pnpm with workspace configuration
+- **Package Manager**: Bun (`bun.lock` per package in `backend/` and `frontend/`)
   description:
   globs:
   alwaysApply: false

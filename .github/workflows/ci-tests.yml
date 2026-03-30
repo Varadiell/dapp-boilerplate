@@ -26,7 +26,7 @@ jobs:
       - name: Run lint check
         run: |
           cd backend
-          pnpm lint
+          bun run lint
 
   frontend-lint:
     timeout-minutes: 2
@@ -43,9 +43,9 @@ jobs:
       - name: Run lint check
         run: |
           cd frontend
-          pnpm lint
+          bun run lint
 
-  backend-npm-audit:
+  backend-audit:
     timeout-minutes: 2
     runs-on: ubuntu-latest
     steps:
@@ -57,12 +57,12 @@ jobs:
         with:
           directory: "backend"
 
-      - name: Run pnpm audit
+      - name: Run bun audit
         run: |
           cd backend
-          pnpm audit --audit-level=high
+          bun audit --audit-level=high
 
-  frontend-npm-audit:
+  frontend-audit:
     timeout-minutes: 2
     runs-on: ubuntu-latest
     steps:
@@ -74,10 +74,10 @@ jobs:
         with:
           directory: "frontend"
 
-      - name: Run pnpm audit
+      - name: Run bun audit
         run: |
           cd frontend
-          pnpm audit --audit-level=high
+          bun audit --audit-level=high
 
   backend-tests-hardhat:
     timeout-minutes: 5
@@ -94,7 +94,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           cd backend
-          pnpm test:hardhat:coverage
+          bun run test:hardhat:coverage
 
       - name: Code coverage at 100%
         uses: VeryGoodOpenSource/very_good_coverage@v3
@@ -162,4 +162,4 @@ jobs:
         with:
           check_hidden: true
           check_filenames: true
-          skip: pnpm-lock.yaml,./.git/objects
+          skip: bun.lock,./.git/objects

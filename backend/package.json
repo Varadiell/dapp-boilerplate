@@ -4,12 +4,12 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.10.0"
+    "bun": ">=1.1.0"
   },
   "scripts": {
     "cspell": "cspell --gitignore **/*.{js,ts,md,sol}",
     "docgen": "forge doc",
-    "lint": "pnpm lint:solhint && pnpm lint:prettier:ts && pnpm lint:prettier:sol",
+    "lint": "bun run lint:solhint && bun run lint:prettier:ts && bun run lint:prettier:sol",
     "lint:prettier:sol": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --check",
     "lint:prettier:sol:fix": "prettier --log-level warn --ignore-path .gitignore '{contracts,test}/**/*.sol' --write",
     "lint:prettier:ts": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts}' --check",
@@ -18,7 +18,7 @@
     "prepare": "git config --local core.hooksPath .githooks",
     "slither": "poetry run slither .",
     "start:node": "hardhat node",
-    "test": "pnpm test:hardhat && pnpm test:foundry",
+    "test": "bun run test:hardhat && bun run test:foundry",
     "test:foundry": "forge test",
     "test:hardhat": "hardhat test mocha",
     "test:hardhat:coverage": "hardhat test mocha --coverage",

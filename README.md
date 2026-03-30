@@ -4,7 +4,7 @@
 
 ```
 $ cd backend
-$ pnpm install
+$ bun install
 ```
 
 Install Foundry
@@ -16,7 +16,7 @@ $ curl -L https://foundry.paradigm.xyz | bash
 
 ```
 $ cd frontend
-$ pnpm install
+$ bun install
 ```
 
 ## Githooks

@@ -2,13 +2,13 @@
 
 Deploy contract on localhost:
 ```
-$ pnpm hardhat node
-$ pnpm hardhat ignition deploy ignition/modules/Ballot.ts --network localhost
+$ bun run start:node
+$ bunx hardhat ignition deploy ignition/modules/Ballot.ts --network localhost
 ```
 
 Run hardhat tests with coverage
 ```
-$ pnpm hardhat coverage
+$ bun run test:hardhat:coverage
 ```
 
 # Foundry
@@ -29,5 +29,5 @@ $ poetry install
 Run analysis:
 
 ```
-$ pnpm slither
+$ bun run slither
 ```

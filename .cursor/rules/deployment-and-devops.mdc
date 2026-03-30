@@ -45,8 +45,8 @@ Required environment variables for deployment:
 
 From [frontend/package.json](mdc:frontend/package.json):
 
-- `pnpm build` - Create production build
-- `pnpm start` - Start production server
+- `bun run build` - Create production build
+- `bun run start` - Start production server
 - Ensure all dependencies are properly installed
 
 ## CI/CD Pipeline

@@ -58,10 +58,10 @@ The Web3Provider in [frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/c
 
 From [frontend/package.json](mdc:frontend/package.json):
 
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm lint` - Run linting checks
-- `pnpm cspell` - Run spell checking
+- `bun run dev` - Start development server
+- `bun run build` - Build for production
+- `bun run lint` - Run linting checks
+- `bun run cspell` - Run spell checking
 
 ## Best Practices
 

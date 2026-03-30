@@ -21,11 +21,11 @@ The project uses dual testing frameworks:
 
 From [backend/package.json](mdc:backend/package.json):
 
-- `pnpm test` - Run both Foundry and Hardhat tests
-- `pnpm test:foundry` - Run only Foundry tests
-- `pnpm test:hardhat` - Run only Hardhat tests
-- `pnpm lint` - Run all linting checks
-- `pnpm slither` - Run security analysis
+- `bun run test` - Run both Foundry and Hardhat tests
+- `bun run test:foundry` - Run only Foundry tests
+- `bun run test:hardhat` - Run only Hardhat tests
+- `bun run lint` - Run all linting checks
+- `bun run slither` - Run security analysis
 
 ## Security Best Practices
 

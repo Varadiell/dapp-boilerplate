@@ -1,26 +1,26 @@
 # Package Management Guidelines
 
-## Workspace Configuration
+## Layout
 
-This project uses pnpm workspaces with configuration in [pnpm-workspace.yaml](mdc:pnpm-workspace.yaml):
+The backend and frontend are **separate packages** (not a single workspace root). Install dependencies from each directory:
 
-- Backend workspace: `backend/`
-- Frontend workspace: `frontend/`
+- Backend: [backend/package.json](mdc:backend/package.json) and [backend/bun.lock](mdc:backend/bun.lock)
+- Frontend: [frontend/package.json](mdc:frontend/package.json) and [frontend/bun.lock](mdc:frontend/bun.lock)
 
 ## Package Manager
 
-- **Primary**: pnpm for all package management
-- **Lock File**: [pnpm-lock.yaml](mdc:pnpm-lock.yaml) at root level
-- **Installation**: Run `pnpm install` from root to install all workspace dependencies
+- **Primary**: [Bun](https://bun.sh) for installs and running scripts (runtime and package manager)
+- **Lock file**: Commit each `bun.lock` for reproducible installs
+- **Installation**: From `backend/` or `frontend/`, run `bun install`
 
 ## Backend Dependencies
 
 Key dependencies from [backend/package.json](mdc:backend/package.json):
 
-- **Hardhat**: `^2.25.0` - Ethereum development environment
-- **Ethers**: `^6.15.0` - Ethereum library
+- **Hardhat** — Ethereum development environment
+- **Ethers** — Ethereum library
 - **Foundry**: Installed via curl script for testing and deployment
-- **TypeScript**: `^5.8.3` - Type safety
+- **TypeScript** — Type safety
 - **Testing**: Chai, Mocha, Foundry for comprehensive testing
 - **Linting**: Prettier, Solhint, Slither for code quality
 
@@ -28,31 +28,30 @@ Key dependencies from [backend/package.json](mdc:backend/package.json):
 
 Key dependencies from [frontend/package.json](mdc:frontend/package.json):
 
-- **Next.js**: `14.2.4` - React framework
-- **React**: `^18.3.1` - UI library
-- **Web3**: Wagmi `^2.15.6`, Viem `~2.31.7`, ConnectKit `^1.9.1`
+- **Next.js** — React framework
+- **React** — UI library
+- **Web3**: Wagmi, Viem, ConnectKit
 - **UI**: Radix UI components, shadcn/ui, Tailwind CSS
 - **Forms**: React Hook Form with Zod validation
 - **State**: TanStack Query for server state management
 
 ## Development Scripts
 
-### Root Level
+### Backend (`cd backend`)
 
-- `pnpm install` - Install all workspace dependencies
-- `pnpm prepare` - Set up git hooks
+- `bun install` — Install dependencies
+- `bun run prepare` — Set up git hooks
+- `bun run test` — Run all tests (Foundry + Hardhat)
+- `bun run lint` — Run all linting checks
+- `bun run start:node` — Start local Hardhat node
 
-### Backend Scripts
+### Frontend (`cd frontend`)
 
-- `pnpm test` - Run all tests (Foundry + Hardhat)
-- `pnpm lint` - Run all linting checks
-- `pnpm start:node` - Start local Hardhat node
-
-### Frontend Scripts
-
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm lint` - Run linting checks
+- `bun install` — Install dependencies
+- `bun run prepare` — Set up git hooks
+- `bun run dev` — Start development server
+- `bun run build` — Build for production
+- `bun run lint` — Run linting checks
 
 ## Git Hooks
 
@@ -72,10 +71,9 @@ Required environment variables for frontend:
 
 ## Best Practices
 
-1. **Workspace Commands**: Use `pnpm --filter <workspace> <command>` for workspace-specific operations
-2. **Dependency Updates**: Update dependencies in both workspaces when needed
-3. **Lock File**: Always commit pnpm-lock.yaml for reproducible builds
-4. **Scripts**: Use the established script patterns for consistency
+1. **Per-package installs**: Run `bun install` in `backend/` and `frontend/` when dependencies change
+2. **Lock files**: Always commit `bun.lock` in each package for reproducible builds
+3. **Scripts**: Use `bun run <script>` for npm scripts; use `bunx <cli>` for one-off binaries (e.g. `bunx hardhat`)
    description:
    globs:
    alwaysApply: false

@@ -2,7 +2,7 @@
 
 # Check code lint & code spell (backend side)
 echo "Checking code lint and code spell..."
-(cd backend && pnpm lint && pnpm cspell)
+(cd backend && bun run lint && bun run cspell)
 LINT_RESULT=$?
 
 if [ $LINT_RESULT -ne 0 ]; then
@@ -12,7 +12,7 @@ fi
 
 # Check code lint & code spell (frontend side)
 echo "Checking code lint and code spell..."
-(cd frontend && pnpm lint && pnpm cspell)
+(cd frontend && bun run lint && bun run cspell)
 LINT_RESULT=$?
 
 if [ $LINT_RESULT -ne 0 ]; then
@@ -22,7 +22,7 @@ fi
 
 # Execute unit tests
 echo "Running tests..."
-(cd backend && pnpm test:hardhat)
+(cd backend && bun run test:hardhat)
 TEST_RESULT=$?
 
 if [ $TEST_RESULT -ne 0 ]; then
