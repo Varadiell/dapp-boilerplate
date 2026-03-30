@@ -4,6 +4,7 @@
     "description": "Ballot dApp dashboard"
   },
   "nav": {
+    "mobileMenu": "Navigation menu",
     "projectName": "The Ballot Project",
     "dashboard": "Dashboard",
     "voters": "Voters",

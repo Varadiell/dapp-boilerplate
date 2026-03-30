@@ -4,6 +4,7 @@
     "description": "Tableau de bord de la dApp de vote"
   },
   "nav": {
+    "mobileMenu": "Menu de navigation",
     "projectName": "The Ballot Project",
     "dashboard": "Tableau de bord",
     "voters": "Électeurs",

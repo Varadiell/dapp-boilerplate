@@ -13,7 +13,12 @@ import {
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LanguageToggle } from '@/components/shared/language-toggle';
 import { usePathname } from 'next/navigation';
@@ -145,7 +150,12 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="flex flex-col">
+            <SheetContent
+              side="left"
+              className="flex flex-col"
+              aria-describedby={undefined}
+            >
+              <SheetTitle className="sr-only">{t('nav.mobileMenu')}</SheetTitle>
               <nav className="grid gap-2 text-lg font-medium">
                 <Link
                   href="/"
