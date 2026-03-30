@@ -69,6 +69,11 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
     },
   ];
 
+  const pageTitle =
+    pathname === '/'
+      ? 'Home'
+      : (pages.find((p) => p.url === pathname)?.label ?? '');
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -119,7 +124,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
             <SheetContent side="left" className="flex flex-col">
               <nav className="grid gap-2 text-lg font-medium">
                 <Link
-                  href="#"
+                  href="/"
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Landmark className="h-6 w-6" />
@@ -147,9 +152,17 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
               </nav>
             </SheetContent>
           </Sheet>
-          <div className="w-full flex-1"></div>
-          <ThemeToggle />
-          <AppKitButton balance="show" />
+          {pageTitle ? (
+            <h1 className="flex flex-start min-w-0 flex-1 items-center justify-start truncate text-lg font-semibold tracking-tight">
+              {pageTitle}
+            </h1>
+          ) : (
+            <div className="min-w-0 flex-1" aria-hidden />
+          )}
+          <div className="flex shrink-0 items-center gap-2">
+            <ThemeToggle />
+            <AppKitButton balance="show" />
+          </div>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 w-full max-w-screen-md place-self-center">
           {children}

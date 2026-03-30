@@ -6,7 +6,6 @@ import { VotersCountCard } from '@/components/shared/voters-count-card';
 export default function Voters() {
   return (
     <>
-      <h1>Voters</h1>
       <GiveRightToVoteCard />
       <DelegateCard />
       <VotersCountCard />

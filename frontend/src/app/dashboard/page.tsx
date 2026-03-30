@@ -7,7 +7,6 @@ import { WinningProposal } from '@/components/shared/winning-proposal';
 export default function Dashboard() {
   return (
     <>
-      <h1>Dashboard</h1>
       <AccountInfo />
       <ChairPerson />
       <VotersCountCard />

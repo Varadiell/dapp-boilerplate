@@ -6,7 +6,6 @@ import { VoteEventsTable } from '@/components/shared/vote-events-table';
 export default function Votes() {
   return (
     <>
-      <h1>Votes</h1>
       <VoteCard />
       <WinningProposal />
       <ProposalsList />
