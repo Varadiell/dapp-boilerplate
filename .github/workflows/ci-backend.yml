@@ -42,3 +42,5 @@ jobs:
         with:
           path: "./backend/coverage/lcov.info"
           min_coverage: 100
+          # Paths are relative to backend/ (Hardhat cwd), same as SF: entries in lcov.info
+          exclude: "lib/**"
