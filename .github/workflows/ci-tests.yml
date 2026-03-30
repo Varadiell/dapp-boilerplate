@@ -122,7 +122,7 @@ jobs:
           min_coverage: 100
 
   slither:
-    timeout-minutes: 2
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -131,12 +131,25 @@ jobs:
       - name: Set up environment
         uses: ./.github/actions/setup
 
+      # Bun workspace: no package-lock in backend/, so slither-action would run `npm i` and fail.
+      # With ignore-compile, the action skips JS/Foundry install inside Docker; we compile here instead.
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Forge build (artifacts for Slither)
+        run: |
+          cd backend
+          forge build
+
       - name: Run Slither
         uses: crytic/slither-action@v0.4.0
         with:
           target: "backend/"
           solc-version: "0.8.24"
           slither-config: "./backend/slither.config.json"
+          ignore-compile: true
 
   codespell:
     timeout-minutes: 5
