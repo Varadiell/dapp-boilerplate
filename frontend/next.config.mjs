@@ -1,10 +1,19 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const nodeStub = path.join(__dirname, 'src/lib/node-stub.ts');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  webpack: (config) => {
-    config.resolve.fallback = { fs: false, net: false, tls: false };
-    config.externals.push('pino-pretty', 'encoding');
-    return config;
+  serverExternalPackages: ['pino-pretty', 'encoding'],
+  turbopack: {
+    resolveAlias: {
+      fs: { browser: nodeStub },
+      net: { browser: nodeStub },
+      tls: { browser: nodeStub },
+    },
   },
 };
 
