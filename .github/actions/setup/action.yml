@@ -1,10 +1,5 @@
 name: Setup
-description: Common environment setup
-
-inputs:
-  directory:
-    description: The directory to install dependencies in (frontend / backend)
-    required: true
+description: Common environment setup (Bun workspaces — install from repo root)
 
 runs:
   using: composite
@@ -25,12 +20,10 @@ runs:
       uses: actions/cache@v4
       with:
         path: ~/.bun/install/cache
-        key: ${{ runner.os }}-bun-${{ hashFiles('backend/bun.lock', 'frontend/bun.lock') }}
+        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
         restore-keys: |
           ${{ runner.os }}-bun-
 
     - name: Install dependencies with Bun
       shell: bash
-      run: |
-        cd ${{ inputs.directory }}
-        bun install --frozen-lockfile
+      run: bun install --frozen-lockfile

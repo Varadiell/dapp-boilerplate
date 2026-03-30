@@ -1,0 +1,8 @@
+{
+  "name": "dapp-boilerplate",
+  "private": true,
+  "engines": {
+    "bun": ">=1.1.0"
+  },
+  "workspaces": ["frontend", "backend"]
+}

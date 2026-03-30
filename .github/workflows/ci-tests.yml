@@ -20,8 +20,6 @@ jobs:
 
       - name: Set up environment
         uses: ./.github/actions/setup
-        with:
-          directory: "backend"
 
       - name: Run lint check
         run: |
@@ -37,8 +35,6 @@ jobs:
 
       - name: Set up environment
         uses: ./.github/actions/setup
-        with:
-          directory: "frontend"
 
       - name: Run lint check
         run: |
@@ -54,8 +50,6 @@ jobs:
 
       - name: Set up environment
         uses: ./.github/actions/setup
-        with:
-          directory: "backend"
 
       - name: Run bun audit
         run: |
@@ -71,8 +65,6 @@ jobs:
 
       - name: Set up environment
         uses: ./.github/actions/setup
-        with:
-          directory: "frontend"
 
       - name: Run bun audit
         run: |
@@ -88,8 +80,6 @@ jobs:
 
       - name: Set up environment
         uses: ./.github/actions/setup
-        with:
-          directory: "backend"
 
       - name: Run tests with coverage
         run: |
@@ -140,8 +130,6 @@ jobs:
 
       - name: Set up environment
         uses: ./.github/actions/setup
-        with:
-          directory: "backend"
 
       - name: Run Slither
         uses: crytic/slither-action@v0.4.0

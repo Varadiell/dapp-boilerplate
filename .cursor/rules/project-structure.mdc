@@ -1,3 +1,9 @@
+---
+description: High-level layout of backend, frontend, and tooling in this monorepo.
+globs: "**/*"
+alwaysApply: false
+---
+
 # DApp Boilerplate Project Structure
 
 This is a full-stack decentralized application (DApp) boilerplate with a voting system implementation. The project follows a monorepo structure with separate backend (blockchain) and frontend (web application) directories.
@@ -40,9 +46,4 @@ The frontend is located in the [frontend/](mdc:frontend/) directory and contains
 - **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
 - **Web3**: Wagmi, ConnectKit, Viem
 - **UI**: Radix UI, shadcn/ui components
-- **Package Manager**: Bun (`bun.lock` per package in `backend/` and `frontend/`)
-  description:
-  globs:
-  alwaysApply: false
-
----
+- **Package Manager**: Bun workspaces — root [package.json](mdc:package.json) and [bun.lock](mdc:bun.lock); packages in `backend/` and `frontend/`

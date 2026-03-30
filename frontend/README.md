@@ -1,8 +1,6 @@
 # Install
 
-```
-$ bun install
-```
+From the repo root (workspaces): `bun install`. If you only touch frontend deps, that single install is enough.
 
 # Dev
 

@@ -1,17 +1,23 @@
+---
+description: Bun workspace installs, lockfile, and script conventions for this monorepo.
+globs: package.json,bun.lock,**/package.json
+alwaysApply: false
+---
+
 # Package Management Guidelines
 
 ## Layout
 
-The backend and frontend are **separate packages** (not a single workspace root). Install dependencies from each directory:
+The repo is a **Bun workspace**: root [package.json](mdc:package.json) lists `frontend` and `backend` in `workspaces`. One lockfile at the root: [bun.lock](mdc:bun.lock).
 
-- Backend: [backend/package.json](mdc:backend/package.json) and [backend/bun.lock](mdc:backend/bun.lock)
-- Frontend: [frontend/package.json](mdc:frontend/package.json) and [frontend/bun.lock](mdc:frontend/bun.lock)
+- Backend: [backend/package.json](mdc:backend/package.json)
+- Frontend: [frontend/package.json](mdc:frontend/package.json)
 
 ## Package Manager
 
 - **Primary**: [Bun](https://bun.sh) for installs and running scripts (runtime and package manager)
-- **Lock file**: Commit each `bun.lock` for reproducible installs
-- **Installation**: From `backend/` or `frontend/`, run `bun install`
+- **Lock file**: Commit the root `bun.lock` for reproducible installs
+- **Installation**: From the repository root, run `bun install` (installs all workspace packages)
 
 ## Backend Dependencies
 
@@ -39,7 +45,6 @@ Key dependencies from [frontend/package.json](mdc:frontend/package.json):
 
 ### Backend (`cd backend`)
 
-- `bun install` — Install dependencies
 - `bun run prepare` — Set up git hooks
 - `bun run test` — Run all tests (Foundry + Hardhat)
 - `bun run lint` — Run all linting checks
@@ -47,11 +52,14 @@ Key dependencies from [frontend/package.json](mdc:frontend/package.json):
 
 ### Frontend (`cd frontend`)
 
-- `bun install` — Install dependencies
 - `bun run prepare` — Set up git hooks
 - `bun run dev` — Start development server
 - `bun run build` — Build for production
 - `bun run lint` — Run linting checks
+
+### From repo root (optional)
+
+- `bun run --filter frontend <script>` / `bun run --filter backend <script>` — Run a script in one workspace without changing directory
 
 ## Git Hooks
 
@@ -71,11 +79,6 @@ Required environment variables for frontend:
 
 ## Best Practices
 
-1. **Per-package installs**: Run `bun install` in `backend/` and `frontend/` when dependencies change
-2. **Lock files**: Always commit `bun.lock` in each package for reproducible builds
+1. **Workspace install**: After changing any `package.json`, run `bun install` from the repo root
+2. **Lock file**: Always commit the root `bun.lock` for reproducible CI and local installs
 3. **Scripts**: Use `bun run <script>` for npm scripts; use `bunx <cli>` for one-off binaries (e.g. `bunx hardhat`)
-   description:
-   globs:
-   alwaysApply: false
-
----
