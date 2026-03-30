@@ -10,9 +10,14 @@ concurrency:
   group: checks-${{ github.ref }}
   cancel-in-progress: true
 
+# Three parallel jobs instead of nine: one checkout + one tool setup per lane.
+# - backend: single Bun install for lint, audit, and Hardhat coverage.
+# - frontend: CodeSpell first (no deps), then Bun for lint + audit.
+# - backend-solidity: Foundry only (no Bun); one forge build feeds Slither then coverage.
+
 jobs:
-  backend-lint:
-    timeout-minutes: 2
+  backend:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,79 +26,56 @@ jobs:
       - name: Set up environment
         uses: ./.github/actions/setup
 
-      - name: Run lint check
+      - name: Lint
         run: |
           cd backend
           bun run lint
 
-  frontend-lint:
-    timeout-minutes: 2
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up environment
-        uses: ./.github/actions/setup
-
-      - name: Run lint check
-        run: |
-          cd frontend
-          bun run lint
-
-  backend-audit:
-    timeout-minutes: 2
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up environment
-        uses: ./.github/actions/setup
-
-      - name: Run bun audit
+      - name: Audit (high+)
         run: |
           cd backend
           bun audit --audit-level=high
 
-  frontend-audit:
-    timeout-minutes: 2
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up environment
-        uses: ./.github/actions/setup
-
-      - name: Run bun audit
-        run: |
-          cd frontend
-          bun audit --audit-level=high
-
-  backend-tests-hardhat:
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up environment
-        uses: ./.github/actions/setup
-
-      - name: Run tests with coverage
+      - name: Hardhat tests with coverage
         run: |
           cd backend
           bun run test:hardhat:coverage
 
-      - name: Code coverage at 100%
+      - name: Code coverage at 100% (Hardhat)
         uses: VeryGoodOpenSource/very_good_coverage@v3
         with:
           path: "./backend/coverage/lcov.info"
           min_coverage: 100
 
-  backend-tests-foundry:
-    timeout-minutes: 5
+  frontend:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: CodeSpell
+        uses: codespell-project/actions-codespell@v2.0
+        with:
+          check_hidden: true
+          check_filenames: true
+          skip: bun.lock,./.git/objects
+
+      - name: Set up environment
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: |
+          cd frontend
+          bun run lint
+
+      - name: Audit (high+)
+        run: |
+          cd frontend
+          bun audit --audit-level=high
+
+  backend-solidity:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -104,46 +86,13 @@ jobs:
         with:
           version: nightly
 
-      - name: Run Forge build
+      - name: Forge build
         run: |
           cd backend
           forge --version
           forge build --sizes
 
-      - name: Run Forge tests
-        run: |
-          cd backend
-          forge coverage -vvv --report lcov
-
-      - name: Code coverage at 100%
-        uses: VeryGoodOpenSource/very_good_coverage@v3
-        with:
-          path: "./backend/lcov.info"
-          min_coverage: 100
-
-  slither:
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up environment
-        uses: ./.github/actions/setup
-
-      # Bun workspace: no package-lock in backend/, so slither-action would run `npm i` and fail.
-      # With ignore-compile, the action skips JS/Foundry install inside Docker; we compile here instead.
-      - name: Install Foundry
-        uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly
-
-      - name: Forge build (artifacts for Slither)
-        run: |
-          cd backend
-          forge build
-
-      - name: Run Slither
+      - name: Slither
         uses: crytic/slither-action@v0.4.0
         with:
           target: "backend/"
@@ -151,16 +100,13 @@ jobs:
           slither-config: "./backend/slither.config.json"
           ignore-compile: true
 
-  codespell:
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Forge coverage
+        run: |
+          cd backend
+          forge coverage -vvv --report lcov
 
-      - name: Run CodeSpell
-        uses: codespell-project/actions-codespell@v2.0
+      - name: Code coverage at 100% (Foundry)
+        uses: VeryGoodOpenSource/very_good_coverage@v3
         with:
-          check_hidden: true
-          check_filenames: true
-          skip: bun.lock,./.git/objects
+          path: "./backend/lcov.info"
+          min_coverage: 100
