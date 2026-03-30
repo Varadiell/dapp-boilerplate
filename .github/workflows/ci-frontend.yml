@@ -7,9 +7,12 @@ jobs:
   frontend:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    env:
+      # Third-party actions still on Node 20 until they ship node24; see GitHub Actions changelog.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: CodeSpell
         uses: codespell-project/actions-codespell@v2.0
