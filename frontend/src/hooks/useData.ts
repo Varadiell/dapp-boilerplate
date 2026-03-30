@@ -1,113 +1,37 @@
 'use client';
 
-import { useAccount, useReadContract, useWatchContractEvent } from 'wagmi';
-import { ballotContract } from '@/contracts/ballot.contract';
-import { bytesToString } from '@/utils/bytesToString';
+import { useBallotContractReads } from '@/hooks/ballot/use-ballot-contract-reads';
+import { useBallotEvents } from '@/hooks/ballot/use-ballot-events';
+import { useBallotProposals } from '@/hooks/ballot/use-ballot-proposals';
+import { useBallotVoter } from '@/hooks/ballot/use-ballot-voter';
 import { useDataStore } from '@/stores/use-data-store';
-import type { DataType, EventLog } from '@/types/ballot-data';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import type { DataType } from '@/types/ballot-data';
+import { bytesToString } from '@/utils/bytesToString';
+import { useAccount } from 'wagmi';
+import { useLayoutEffect, useMemo } from 'react';
 
 /** Reads on-chain ballot state via Wagmi and mirrors it into `useDataStore`. */
 export function useData(): void {
   const { isConnected, address } = useAccount();
-  const [eventLogs, setEventLogs] = useState<EventLog[] | undefined>(undefined);
-  const [isEventsLoading, setIsEventsLoading] = useState(true);
+  const { eventLogs, isEventsLoading } = useBallotEvents();
 
-  // Watch for new events
-  useWatchContractEvent({
-    ...ballotContract,
-    fromBlock: ballotContract.fromBlock, // Query optimization.
-    onLogs: (logs) => {
-      setEventLogs(logs as EventLog[]);
-      setIsEventsLoading(false);
-    },
-    onError: () => {
-      setEventLogs([]);
-      setIsEventsLoading(false);
-    },
-    poll: true,
-    pollingInterval: 10_000, // 10 seconds.
-  });
-
-  // Set loading to false after a delay to allow events to load.
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsEventsLoading(false);
-    }, 10000); // Wait 10 seconds for events to potentially load.
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const { data: chairPerson } = useReadContract({
-    ...ballotContract,
-    account: address,
-    functionName: 'chairperson',
-  });
-
-  const { data: proposalsCount } = useReadContract({
-    ...ballotContract,
-    account: address,
-    functionName: 'proposalsCount',
-  });
-
-  const { data: winnerName, refetch: refetchWinnerName } = useReadContract({
-    ...ballotContract,
-    account: address,
-    functionName: 'winnerName',
-  });
-
-  const { data: winningProposal, refetch: refetchWinningProposal } =
-    useReadContract({
-      ...ballotContract,
-      account: address,
-      functionName: 'winningProposal',
-    });
-
-  const { data: votersCount, refetch: refetchVotersCount } = useReadContract({
-    ...ballotContract,
-    account: address,
-    functionName: 'votersCount',
-  });
-
-  const { data: account, refetch: refetchAccount } = useReadContract({
-    ...ballotContract,
-    account: address,
-    functionName: 'voters',
-    args: [address!],
-  });
-
-  const [proposals, setProposals] = useState<
-    { name: string; voteCount: number }[]
-  >([]);
   const {
-    data: proposal,
-    refetch: refetchProposal,
-    isLoading: isProposalsLoading,
-  } = useReadContract({
-    ...ballotContract,
-    account: address, // Mandatory for "onlyVoters" modifier.
-    functionName: 'proposals',
-    args: [BigInt(proposals.length)],
-    query: {
-      gcTime: 0, // Mandatory to avoid cache on loops.
-    },
-  });
+    chairPerson,
+    proposalsCount,
+    winnerName,
+    winningProposal,
+    votersCount,
+    refetchWinnerName,
+    refetchWinningProposal,
+    refetchVotersCount,
+  } = useBallotContractReads(address);
 
-  if (proposal) {
-    setProposals([
-      ...proposals,
-      {
-        name: bytesToString(proposal[0]),
-        voteCount: Number(proposal[1]),
-      },
-    ]);
-    refetchProposal(); // Loop over proposals.
-  }
+  const { account, refetchAccount } = useBallotVoter(address);
 
-  function resetProposals() {
-    setProposals([]);
-    refetchProposal();
-  }
+  const count =
+    proposalsCount !== undefined ? Number(proposalsCount) : undefined;
+  const { proposals, isProposalsLoading, refetchProposals } =
+    useBallotProposals(address, count);
 
   const eventLogsCount = eventLogs?.length || 0;
   const votesCount = proposals?.reduce(
@@ -115,37 +39,59 @@ export function useData(): void {
     0,
   );
 
-  const snapshot: DataType = {
-    data: {
-      account: account
-        ? {
-            weight: Number(account[0]),
-            voted: account[1],
-            delegate: String(account?.[2]),
-            vote: Number(account[3]),
-          }
-        : undefined,
+  const snapshot: DataType = useMemo(
+    () => ({
+      data: {
+        account: account
+          ? {
+              weight: Number(account[0]),
+              voted: account[1],
+              delegate: String(account?.[2]),
+              vote: Number(account[3]),
+            }
+          : undefined,
+        chairPerson,
+        eventLogs: eventLogs,
+        eventLogsCount,
+        proposals,
+        proposalsCount: count,
+        votesCount,
+        votersCount: votersCount ? Number(votersCount) : undefined,
+        walletAddress: address,
+        winnerName: winnerName ? bytesToString(winnerName) : undefined,
+        winningProposal:
+          winningProposal !== undefined ? Number(winningProposal) : undefined,
+      },
+      isConnected: isConnected,
+      isProposalsLoading,
+      isEventsLoading,
+      refetchAccount,
+      refetchProposals,
+      refetchVotersCount,
+      refetchWinnerName,
+      refetchWinningProposal,
+    }),
+    [
+      account,
       chairPerson,
-      eventLogs: eventLogs,
+      count,
+      eventLogs,
       eventLogsCount,
+      isConnected,
+      isEventsLoading,
+      isProposalsLoading,
       proposals,
-      proposalsCount: proposalsCount ? Number(proposalsCount) : undefined,
-      votesCount,
-      votersCount: votersCount ? Number(votersCount) : undefined,
-      walletAddress: address,
-      winnerName: winnerName ? bytesToString(winnerName) : undefined,
-      winningProposal:
-        winningProposal !== undefined ? Number(winningProposal) : undefined,
-    },
-    isConnected: isConnected,
-    isProposalsLoading,
-    isEventsLoading,
-    refetchAccount,
-    refetchProposals: resetProposals,
-    refetchVotersCount,
-    refetchWinnerName,
-    refetchWinningProposal,
-  };
+      refetchAccount,
+      refetchProposals,
+      refetchVotersCount,
+      refetchWinnerName,
+      refetchWinningProposal,
+      address,
+      votersCount,
+      winnerName,
+      winningProposal,
+    ],
+  );
 
   useLayoutEffect(() => {
     useDataStore.setState(snapshot);
