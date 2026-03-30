@@ -10,6 +10,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      # hardhat-foundry runs `forge remappings` when resolving Solidity imports (e.g. OpenZeppelin in lib/).
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
 
       - name: Set up environment
         uses: ./.github/actions/setup
