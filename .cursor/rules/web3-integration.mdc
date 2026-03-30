@@ -30,8 +30,10 @@ The Web3Provider in [frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/c
 Configure chains in [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts):
 
 - **Hardhat**: Local development chain
-- **Polygon zkEVM Cardona**: Testnet for testing
-- **Polygon zkEVM**: Mainnet for production
+- **Sepolia**: Ethereum testnet
+- **Base Sepolia**: Base testnet
+- **Ethereum (mainnet)**: Production L1
+- **Base**: Production L2
 - Use environment variables for RPC endpoints and API keys
 
 ## Wallet Connectors

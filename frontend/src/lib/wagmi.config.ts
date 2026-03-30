@@ -1,14 +1,18 @@
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import {
+  base,
+  baseSepolia,
   hardhat,
-  polygonZkEvm,
-  polygonZkEvmCardona,
+  mainnet,
+  sepolia,
 } from '@reown/appkit/networks';
 import { cookieStorage, createStorage, http } from 'wagmi';
 
 const {
-  ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET = '',
-  ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA = '',
+  ALCHEMY_ENDPOINT_URL_BASE_MAINNET = '',
+  ALCHEMY_ENDPOINT_URL_BASE_SEPOLIA = '',
+  ALCHEMY_ENDPOINT_URL_ETHEREUM_MAINNET = '',
+  ALCHEMY_ENDPOINT_URL_ETHEREUM_SEPOLIA = '',
   ALCHEMY_API_KEY = '',
 } = process.env;
 
@@ -21,7 +25,7 @@ if (!projectId) {
   );
 }
 
-export const networks = [hardhat, polygonZkEvmCardona, polygonZkEvm] as const;
+export const networks = [hardhat, sepolia, baseSepolia, mainnet, base] as const;
 
 export const wagmiAdapter = new WagmiAdapter({
   projectId,
@@ -33,12 +37,16 @@ export const wagmiAdapter = new WagmiAdapter({
   }),
   transports: {
     [hardhat.id]: http(),
-    [polygonZkEvmCardona.id]: http(
-      `${ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA}${ALCHEMY_API_KEY}`,
+    [sepolia.id]: http(
+      `${ALCHEMY_ENDPOINT_URL_ETHEREUM_SEPOLIA}${ALCHEMY_API_KEY}`,
     ),
-    [polygonZkEvm.id]: http(
-      `${ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET}${ALCHEMY_API_KEY}`,
+    [baseSepolia.id]: http(
+      `${ALCHEMY_ENDPOINT_URL_BASE_SEPOLIA}${ALCHEMY_API_KEY}`,
     ),
+    [mainnet.id]: http(
+      `${ALCHEMY_ENDPOINT_URL_ETHEREUM_MAINNET}${ALCHEMY_API_KEY}`,
+    ),
+    [base.id]: http(`${ALCHEMY_ENDPOINT_URL_BASE_MAINNET}${ALCHEMY_API_KEY}`),
   },
 });
 
