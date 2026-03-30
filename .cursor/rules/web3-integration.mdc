@@ -23,7 +23,7 @@ The Web3Provider in [frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/c
 
 - **WagmiProvider**: Core blockchain interaction functionality
 - **QueryClientProvider**: React Query for data fetching and caching
-- **ConnectKitProvider**: Wallet connection UI with custom theming
+- **ReownProvider**: Wallet connection UI with custom theming
 
 ## Chain Configuration
 

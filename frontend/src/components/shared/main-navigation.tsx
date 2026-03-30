@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { usePathname } from 'next/navigation';
-import { ConnectKitButton } from 'connectkit';
+import { AppKitButton } from '@reown/appkit/react';
 import { useContext } from 'react';
 import { DataContext } from '@/contexts/data-provider';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -138,7 +138,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
           </Sheet>
           <div className="w-full flex-1"></div>
           <ThemeToggle />
-          <ConnectKitButton showAvatar={true} showBalance={true} />
+          <AppKitButton balance="show" />
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 w-full max-w-screen-md place-self-center">
           {children}

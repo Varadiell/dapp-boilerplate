@@ -1,50 +1,50 @@
 'use client';
 
+import { createAppKit } from '@reown/appkit/react';
+import { hardhat } from '@reown/appkit/networks';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { WagmiProvider } from 'wagmi';
-import { config } from '@/lib/wagmi.config';
-import React from 'react';
-import { ConnectKitProvider } from 'connectkit';
+import { networks, projectId, wagmiAdapter } from '@/lib/wagmi.config';
+import { type ReactNode } from 'react';
+import { cookieToInitialState, WagmiProvider } from 'wagmi';
 
 const queryClient = new QueryClient();
 
-export function Web3Provider({ children }: { children: React.ReactNode }) {
+const metadata = {
+  name: 'The Ballot Project',
+  description: 'The Ballot Project',
+  url:
+    typeof window !== 'undefined'
+      ? window.location.origin
+      : 'http://localhost:3000',
+  icons: [],
+};
+
+createAppKit({
+  adapters: [wagmiAdapter],
+  projectId,
+  networks: [...networks],
+  defaultNetwork: hardhat,
+  metadata,
+  features: {
+    analytics: false,
+  },
+});
+
+export function Web3Provider({
+  children,
+  cookies,
+}: {
+  children: ReactNode;
+  cookies: string | null;
+}) {
+  const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig, cookies);
+
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider
-          customTheme={{
-            '--ck-connectbutton-border-radius': '6px',
-            '--ck-connectbutton-background': 'hsl(var(--background))',
-            '--ck-connectbutton-color': 'hsl(var(--accent-foreground))',
-            '--ck-connectbutton-hover-background': 'hsl(var(--accent))',
-            '--ck-connectbutton-active-background': 'hsl(var(--background))',
-            '--ck-connectbutton-balance-background': 'hsl(var(--muted))',
-            '--ck-connectbutton-balance-color': 'hsl(var(--accent-foreground))',
-            '--ck-connectbutton-balance-hover-background': 'hsl(var(--muted))',
-            '--ck-connectbutton-balance-active-background':
-              'hsl(var(--background))',
-            '--ck-connectbutton-box-shadow': '0 0 0 1px hsl(var(--input))',
-            '--ck-connectbutton-balance-box-shadow':
-              '0 0 0 1px hsl(var(--input))',
-            '--ck-connectbutton-hover-box-shadow':
-              '0 0 0 1px hsl(var(--input))',
-            '--ck-connectbutton-balance-hover-box-shadow':
-              '0 0 0 1px hsl(var(--input))',
-            '--ck-connectbutton-active-box-shadow':
-              '0 0 0 1px hsl(var(--input))',
-            '--ck-connectbutton-balance-active-box-shadow':
-              '0 0 0 1px hsl(var(--input))',
-          }}
-          options={{
-            language: 'en-US',
-          }}
-          mode="auto"
-          theme="auto"
-        >
-          {children}
-        </ConnectKitProvider>
-      </QueryClientProvider>
+    <WagmiProvider
+      config={wagmiAdapter.wagmiConfig}
+      initialState={initialState}
+    >
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );
 }

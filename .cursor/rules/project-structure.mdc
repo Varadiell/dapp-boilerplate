@@ -34,7 +34,7 @@ The frontend is located in the [frontend/](mdc:frontend/) directory and contains
   - [frontend/src/components/shared/](mdc:frontend/src/components/shared/) - DApp-specific components
   - [frontend/src/components/ui/](mdc:frontend/src/components/ui/) - Reusable UI components (shadcn/ui)
 - **Web3 Integration**:
-  - [frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/contexts/web3-provider.tsx) - Wagmi and ConnectKit providers
+  - [frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/contexts/web3-provider.tsx) - Wagmi and Reown providers
   - [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts) - Wagmi configuration for blockchain connections
   - [frontend/src/contracts/ballot.contract.ts](mdc:frontend/src/contracts/ballot.contract.ts) - Contract ABI and configuration
 - **Hooks**: [frontend/src/hooks/](mdc:frontend/src/hooks/) - Custom React hooks for blockchain interactions
@@ -44,6 +44,6 @@ The frontend is located in the [frontend/](mdc:frontend/) directory and contains
 
 - **Blockchain**: Solidity, Hardhat, Foundry, Ethers.js
 - **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
-- **Web3**: Wagmi, ConnectKit, Viem
+- **Web3**: Wagmi, Reown, Viem
 - **UI**: Radix UI, shadcn/ui components
 - **Package Manager**: Bun workspaces — root [package.json](mdc:package.json) and [bun.lock](mdc:bun.lock); packages in `backend/` and `frontend/`

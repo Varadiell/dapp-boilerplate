@@ -6,6 +6,9 @@ const nodeStub = path.join(__dirname, 'src/lib/node-stub.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    WALLET_CONNECT_PROJECT_ID: process.env.WALLET_CONNECT_PROJECT_ID ?? '',
+  },
   reactStrictMode: true,
   serverExternalPackages: ['pino-pretty', 'encoding'],
   turbopack: {

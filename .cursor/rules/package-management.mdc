@@ -36,7 +36,7 @@ Key dependencies from [frontend/package.json](mdc:frontend/package.json):
 
 - **Next.js** — React framework
 - **React** — UI library
-- **Web3**: Wagmi, Viem, ConnectKit
+- **Web3**: Wagmi, Viem, Reown
 - **UI**: Radix UI components, shadcn/ui, Tailwind CSS
 - **Forms**: React Hook Form with Zod validation
 - **State**: TanStack Query for server state management

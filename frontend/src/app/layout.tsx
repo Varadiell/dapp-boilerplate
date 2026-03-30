@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Inter as FontSans } from 'next/font/google';
 import '@/styles/globals.css';
 import { cn } from '@/lib/utils';
@@ -19,11 +20,13 @@ export const metadata: Metadata = {
   description: '',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieHeader = (await headers()).get('cookie');
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -38,7 +41,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Web3Provider>
+          <Web3Provider cookies={cookieHeader}>
             <DataProvider>
               <MainNavigation>{children}</MainNavigation>
               <Sonner
