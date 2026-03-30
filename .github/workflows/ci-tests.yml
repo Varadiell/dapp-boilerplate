@@ -94,7 +94,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           cd backend
-          pnpm hardhat coverage
+          pnpm test:hardhat:coverage
 
       - name: Code coverage at 100%
         uses: VeryGoodOpenSource/very_good_coverage@v3

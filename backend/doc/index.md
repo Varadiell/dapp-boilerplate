@@ -42,6 +42,18 @@ struct Proposal {
 }
 ```
 
+### votersCount
+
+```solidity
+uint256 votersCount
+```
+
+### proposalsCount
+
+```solidity
+uint256 proposalsCount
+```
+
 ### chairperson
 
 ```solidity

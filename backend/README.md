@@ -20,9 +20,14 @@ $ forge coverage
 
 # Slither
 
-Install Slither
+Install [Poetry](https://python-poetry.org/docs/#installation), then from `backend/`:
+
 ```
-$ python3 --version
-$ pip3 --version
-$ python3 -m pip install slither-analyzer
+$ poetry install
+```
+
+Run analysis:
+
+```
+$ pnpm slither
 ```

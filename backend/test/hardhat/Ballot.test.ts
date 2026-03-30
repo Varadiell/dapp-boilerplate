@@ -1,8 +1,10 @@
 import { expect } from 'chai';
-import { ethers } from 'hardhat';
-import { Ballot } from '@/typechain-types';
-import { HardhatEthersSigner } from '@nomicfoundation/hardhat-ethers/signers';
-import { loadFixture } from '@nomicfoundation/hardhat-toolbox/network-helpers';
+import { network } from 'hardhat';
+import type { Ballot } from '@/typechain-types';
+import type { HardhatEthersSigner } from '@nomicfoundation/hardhat-ethers/signers';
+
+const { ethers, networkHelpers } = await network.connect();
+const { loadFixture } = networkHelpers;
 
 const YES_B32 = ethers.encodeBytes32String('Yes');
 const MAYBE_B32 = ethers.encodeBytes32String('Maybe');
@@ -78,7 +80,9 @@ describe('Voting tests', () => {
         name: NO_B32,
         voteCount: 0n,
       });
-      await expect(ballotContract.proposals(3)).to.be.revertedWithoutReason();
+      await expect(ballotContract.proposals(3)).to.be.revertedWithoutReason(
+        ethers,
+      );
     });
   });
 
@@ -99,7 +103,7 @@ describe('Voting tests', () => {
       await ballotContract.giveRightToVote(addr1);
       await expect(
         ballotContract.connect(owner).giveRightToVote(addr1),
-      ).to.be.revertedWithoutReason();
+      ).to.be.revertedWithoutReason(ethers);
     });
 
     it('should revert with a message when the voter already voted', async () => {

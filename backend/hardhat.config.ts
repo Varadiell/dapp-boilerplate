@@ -1,42 +1,46 @@
-import { HardhatUserConfig } from 'hardhat/config';
-import '@nomicfoundation/hardhat-toolbox';
-import 'solidity-docgen';
+import { defineConfig } from 'hardhat/config';
+import hardhatFoundry from '@nomicfoundation/hardhat-foundry';
+import hardhatToolboxMochaEthers from '@nomicfoundation/hardhat-toolbox-mocha-ethers';
 
-const {
-  ALCHEMY_API_KEY = '',
-  ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA = '',
-  ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET = '',
-  ETHERSCAN_API_KEY = '',
-  PRIVATE_KEY = '',
-} = process.env;
+const { ETHERSCAN_API_KEY = '' } = process.env;
 
-const config: HardhatUserConfig = {
-  docgen: { outputDir: 'doc' },
-  etherscan: {
-    apiKey: ETHERSCAN_API_KEY,
+export default defineConfig({
+  plugins: [hardhatToolboxMochaEthers, hardhatFoundry],
+  paths: {
+    tests: {
+      mocha: './test/hardhat',
+    },
   },
-  gasReporter: {
-    enabled: true,
+  solidity: {
+    version: '0.8.24',
+  },
+  typechain: {
+    outDir: './typechain-types',
   },
   networks: {
     hardhat: {
-      accounts: {
-        passphrase: PRIVATE_KEY,
-      },
+      type: 'edr-simulated',
+      chainType: 'l1',
       chainId: 31337,
     },
     // polygonZkEvm: {
-    //     accounts: [PRIVATE_KEY],
-    //     chainId: 1101,
-    //     url: ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET,
-    //   },
-    //   polygonZkEvmCardona: {
-    //     accounts: [PRIVATE_KEY],
-    //     chainId: 2442,
-    //     url: ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA,
-    //   },
+    //   type: 'http',
+    //   chainType: 'l1',
+    //   chainId: 1101,
+    //   url: process.env.ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_MAINNET ?? '',
+    //   accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    // },
+    // polygonZkEvmCardona: {
+    //   type: 'http',
+    //   chainType: 'l1',
+    //   chainId: 2442,
+    //   url: process.env.ALCHEMY_ENDPOINT_URL_POLYGON_ZKEVM_CARDONA ?? '',
+    //   accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    // },
   },
-  solidity: '0.8.24',
-};
-
-export default config;
+  verify: {
+    etherscan: {
+      apiKey: ETHERSCAN_API_KEY,
+    },
+  },
+});
