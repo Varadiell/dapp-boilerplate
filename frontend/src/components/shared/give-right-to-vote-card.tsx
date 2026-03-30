@@ -16,8 +16,10 @@ import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useDataStore } from '@/stores/use-data-store';
 import { useShallow } from 'zustand/react/shallow';
+import { useTranslation } from 'react-i18next';
 
 export function GiveRightToVoteCard() {
+  const { t } = useTranslation('common');
   const [giveRightAddress, setGiveRightAddress] = useState<string>('');
   const { chairPerson, walletAddress, refetchVotersCount } = useDataStore(
     useShallow((s) => ({
@@ -47,15 +49,13 @@ export function GiveRightToVoteCard() {
   return (
     <Card>
       <CardHeader className="bg-muted/50">
-        <CardTitle>Give right to vote</CardTitle>
-        <CardDescription>
-          As an admin, you can give the right to vote to another address.
-        </CardDescription>
+        <CardTitle>{t('giveRight.title')}</CardTitle>
+        <CardDescription>{t('giveRight.description')}</CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         <form className="flex-row gap-6" onSubmit={submitGiveRights}>
           <div className="grid gap-3">
-            <Label htmlFor="give_right_address">Address</Label>
+            <Label htmlFor="give_right_address">{t('giveRight.address')}</Label>
             <div className="flex gap-2">
               <Input
                 className="w-full"
@@ -66,7 +66,7 @@ export function GiveRightToVoteCard() {
                 onChange={(event) =>
                   setGiveRightAddress(event.currentTarget.value)
                 }
-                placeholder="0x..."
+                placeholder={t('giveRight.placeholder')}
                 required={true}
                 type="text"
                 value={giveRightAddress}
@@ -79,7 +79,7 @@ export function GiveRightToVoteCard() {
                 {isPending ? (
                   <LoaderCircle className="animate-spin" />
                 ) : (
-                  <>Give rights</>
+                  <>{t('giveRight.submit')}</>
                 )}
               </Button>
             </div>

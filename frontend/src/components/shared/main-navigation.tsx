@@ -15,11 +15,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { LanguageToggle } from '@/components/shared/language-toggle';
 import { usePathname } from 'next/navigation';
 import { AppKitButton } from '@reown/appkit/react';
 import { useDataStore } from '@/stores/use-data-store';
 import { useShallow } from 'zustand/react/shallow';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type PageType = {
   count: number | undefined | null;
@@ -30,6 +33,7 @@ type PageType = {
 
 export function MainNavigation({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { t } = useTranslation('common');
   const {
     eventLogsCount,
     proposalsCount,
@@ -46,33 +50,53 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
     })),
   );
 
-  const pages: PageType[] = [
-    {
-      count: null,
-      icon: LayoutDashboard,
-      label: 'Dashboard',
-      url: '/dashboard',
-    },
-    { count: votersCount, icon: Users, label: 'Voters', url: '/voters' },
-    {
-      count: proposalsCount,
-      icon: ScrollText,
-      label: 'Proposals',
-      url: '/proposals',
-    },
-    { count: votesCount, icon: Vote, label: 'Votes', url: '/votes' },
-    {
-      count: isEventsLoading ? undefined : eventLogsCount,
-      icon: DatabaseZap,
-      label: 'Events',
-      url: '/events',
-    },
-  ];
+  const pages: PageType[] = useMemo(
+    () => [
+      {
+        count: null,
+        icon: LayoutDashboard,
+        label: t('nav.dashboard'),
+        url: '/dashboard',
+      },
+      {
+        count: votersCount,
+        icon: Users,
+        label: t('nav.voters'),
+        url: '/voters',
+      },
+      {
+        count: proposalsCount,
+        icon: ScrollText,
+        label: t('nav.proposals'),
+        url: '/proposals',
+      },
+      {
+        count: votesCount,
+        icon: Vote,
+        label: t('nav.votes'),
+        url: '/votes',
+      },
+      {
+        count: isEventsLoading ? undefined : eventLogsCount,
+        icon: DatabaseZap,
+        label: t('nav.events'),
+        url: '/events',
+      },
+    ],
+    [
+      t,
+      votersCount,
+      proposalsCount,
+      votesCount,
+      eventLogsCount,
+      isEventsLoading,
+    ],
+  );
 
   const pageTitle =
     pathname === '/'
-      ? 'Home'
-      : (pages.find((p) => p.url === pathname)?.label ?? '404');
+      ? t('nav.home')
+      : (pages.find((p) => p.url === pathname)?.label ?? t('nav.notFound'));
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -81,7 +105,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Landmark className="h-6 w-6" />
-              <span>The Ballot Project</span>
+              <span>{t('nav.projectName')}</span>
             </Link>
           </div>
           <div className="flex-1">
@@ -128,7 +152,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Landmark className="h-6 w-6" />
-                  <span>The Ballot Project</span>
+                  <span>{t('nav.projectName')}</span>
                 </Link>
                 {pages.map((page, index) => (
                   <Link
@@ -156,6 +180,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
             {pageTitle}
           </h1>
           <div className="flex shrink-0 items-center gap-2">
+            <LanguageToggle />
             <ThemeToggle />
             <AppKitButton balance="show" />
           </div>

@@ -1,14 +1,5 @@
-import { EventsTable } from '@/components/shared/events-table';
+import { EventsSection } from '@/app/events/events-section';
 
 export default function Events() {
-  return (
-    <>
-      <EventsTable
-        title="All Contract Events"
-        description="Complete overview of all recent events from the ballot contract."
-        eventTypes={['GiveRight', 'Delegate', 'Vote']}
-        maxEvents={10}
-      />
-    </>
-  );
+  return <EventsSection />;
 }

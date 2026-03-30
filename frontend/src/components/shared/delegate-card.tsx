@@ -16,8 +16,10 @@ import { useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
 import { useDataStore } from '@/stores/use-data-store';
 import { useShallow } from 'zustand/react/shallow';
+import { useTranslation } from 'react-i18next';
 
 export function DelegateCard() {
+  const { t } = useTranslation('common');
   const [delegateAddress, setDelegateAddress] = useState<string>('');
   const { data, refetchAccount } = useDataStore(
     useShallow((s) => ({ data: s.data, refetchAccount: s.refetchAccount })),
@@ -43,24 +45,20 @@ export function DelegateCard() {
   return (
     <Card>
       <CardHeader className="bg-muted/50">
-        <CardTitle>Delegate</CardTitle>
-        <CardDescription>
-          As a registered voter, you can delegate your right to vote to another
-          address.
-        </CardDescription>
+        <CardTitle>{t('delegate.title')}</CardTitle>
+        <CardDescription>{t('delegate.description')}</CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         {data.account.voted ? (
           <div className="text-center py-4">
             <p className="text-muted-foreground">
-              You cannot delegate your vote because you have already voted in
-              this ballot.
+              {t('delegate.cannotDelegate')}
             </p>
           </div>
         ) : (
           <form className="flex-row gap-6" onSubmit={submitDelegate}>
             <div className="grid gap-3">
-              <Label htmlFor="delegate_address">Address</Label>
+              <Label htmlFor="delegate_address">{t('delegate.address')}</Label>
               <div className="flex gap-2">
                 <Input
                   className="w-full"
@@ -71,7 +69,7 @@ export function DelegateCard() {
                   onChange={(event) =>
                     setDelegateAddress(event.currentTarget.value)
                   }
-                  placeholder="0x..."
+                  placeholder={t('delegate.placeholder')}
                   required={true}
                   type="text"
                   value={delegateAddress}
@@ -84,7 +82,7 @@ export function DelegateCard() {
                   {isPending ? (
                     <LoaderCircle className="animate-spin" />
                   ) : (
-                    <>Delegate</>
+                    <>{t('delegate.submit')}</>
                   )}
                 </Button>
               </div>

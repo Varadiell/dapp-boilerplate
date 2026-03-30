@@ -22,8 +22,10 @@ import { LoaderCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useDataStore } from '@/stores/use-data-store';
 import { useShallow } from 'zustand/react/shallow';
+import { useTranslation } from 'react-i18next';
 
 export function VoteCard() {
+  const { t } = useTranslation('common');
   const {
     data,
     refetchAccount,
@@ -64,22 +66,22 @@ export function VoteCard() {
   return (
     <Card>
       <CardHeader className="bg-muted/50">
-        <CardTitle>Vote</CardTitle>
-        <CardDescription>
-          As a registered voter, you can vote for a proposal.
-        </CardDescription>
+        <CardTitle>{t('voteCard.title')}</CardTitle>
+        <CardDescription>{t('voteCard.description')}</CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         {data.account.voted ? (
           <div className="text-center py-4">
             <p className="text-muted-foreground">
-              You have already voted in this ballot.
+              {t('voteCard.alreadyVoted')}
             </p>
           </div>
         ) : (
           <form className="flex-row gap-6" onSubmit={submitVote}>
             <div className="grid gap-3">
-              <Label htmlFor="vote_proposal">Proposal</Label>
+              <Label htmlFor="vote_proposal">
+                {t('voteCard.proposalLabel')}
+              </Label>
               <div className="flex gap-2">
                 <Select
                   required={true}
@@ -91,7 +93,9 @@ export function VoteCard() {
                     id="vote_proposal"
                     disabled={isPending || !isConnected}
                   >
-                    <SelectValue placeholder="Select a proposal..." />
+                    <SelectValue
+                      placeholder={t('voteCard.selectPlaceholder')}
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {data.proposals &&
@@ -110,7 +114,7 @@ export function VoteCard() {
                   {isPending ? (
                     <LoaderCircle className="animate-spin" />
                   ) : (
-                    <>Vote</>
+                    <>{t('voteCard.submit')}</>
                   )}
                 </Button>
               </div>

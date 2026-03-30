@@ -11,19 +11,19 @@ import {
 import { BookUser } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from 'react-i18next';
 
 export function ChairPerson() {
+  const { t } = useTranslation('common');
   const chairPerson = useDataStore((s) => s.data.chairPerson);
 
   return (
     <Card>
       <CardHeader className="bg-muted/50">
         <CardTitle className="text-2xl font-semibold leading-none tracking-tight">
-          Chair person
+          {t('chairPerson.title')}
         </CardTitle>
-        <CardDescription>
-          The address that owns The Ballot Project.
-        </CardDescription>
+        <CardDescription>{t('chairPerson.description')}</CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         <div className="grid gap-3">
@@ -31,7 +31,7 @@ export function ChairPerson() {
             <div className="flex items-center justify-between">
               <dt className="flex items-center gap-1 text-muted-foreground">
                 <BookUser className="h-5 w-5 mr-2" />
-                Address
+                {t('chairPerson.address')}
               </dt>
               <dd>
                 {!chairPerson ? (

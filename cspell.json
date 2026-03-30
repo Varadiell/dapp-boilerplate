@@ -1,21 +1,21 @@
 {
-    "language": "en",
-    "words": [
-      "cmdk",
-      "appkit",
-      "connectbutton",
-      "embla",
-      "reown",
-      "nomicfoundation",
-      "sonner",
-      "struct",
-      "typechain",
-      "vaul",
-      "viem",
-      "wagmi"
-    ],
-    "ignorePaths": [
-      "**/lib/**",
-      "*.config.*"
-    ]
+  "language": "en,fr",
+  "languageId": "javascript,typescript,css",
+  "words": [
+    "cmdk",
+    "appkit",
+    "connectbutton",
+    "describedby",
+    "embla",
+    "reown",
+    "nomicfoundation",
+    "roledescription",
+    "sonner",
+    "struct",
+    "typechain",
+    "vaul",
+    "viem",
+    "wagmi"
+  ],
+  "ignorePaths": ["**/lib/**", "*.config.*"]
 }

@@ -24,10 +24,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useTranslation } from 'react-i18next';
 
 const ADDRESS_0 = '0x0000000000000000000000000000000000000000';
 
 export function AccountInfo() {
+  const { t } = useTranslation('common');
   const { account, proposals, isConnected } = useDataStore(
     useShallow((s) => ({
       account: s.data.account,
@@ -43,10 +45,8 @@ export function AccountInfo() {
   return (
     <Card>
       <CardHeader className="bg-muted/50">
-        <CardTitle>Your rights</CardTitle>
-        <CardDescription>
-          Here are some info about your rights in The Ballot Project.
-        </CardDescription>
+        <CardTitle>{t('account.title')}</CardTitle>
+        <CardDescription>{t('account.description')}</CardDescription>
       </CardHeader>
       <CardContent className="pt-6">
         <div className="grid gap-3">
@@ -54,18 +54,18 @@ export function AccountInfo() {
             <div className="flex items-center justify-between">
               <dt className="flex items-center gap-1 text-muted-foreground">
                 <BookMarked className="h-5 w-5 mr-2" />
-                Registration status
+                {t('account.registrationStatus')}
               </dt>
               <dd>
                 {!account ? (
                   <Skeleton className="h-6 w-20 rounded-full" />
                 ) : account.weight > 0 ? (
                   <Badge className="h-6 bg-green-700 hover:bg-green-800">
-                    Registered
+                    {t('account.registered')}
                   </Badge>
                 ) : (
                   <Badge className="h-6" variant="destructive">
-                    Not registered
+                    {t('account.notRegistered')}
                   </Badge>
                 )}
               </dd>
@@ -73,18 +73,18 @@ export function AccountInfo() {
             <div className="flex items-center justify-between">
               <dt className="flex items-center gap-1 text-muted-foreground">
                 <Vote className="h-5 w-5 mr-2" />
-                Has voted
+                {t('account.hasVoted')}
               </dt>
               <dd>
                 {!account ? (
                   <Skeleton className="h-6 w-20 rounded-full" />
                 ) : account.voted ? (
                   <Badge className="h-6 bg-green-700 hover:bg-green-800">
-                    Yes
+                    {t('account.yes')}
                   </Badge>
                 ) : (
                   <Badge className="h-6" variant="secondary">
-                    No
+                    {t('account.no')}
                   </Badge>
                 )}
               </dd>
@@ -92,7 +92,7 @@ export function AccountInfo() {
             <div className="flex items-center justify-between">
               <dt className="flex items-center gap-1 text-muted-foreground">
                 <Weight className="h-5 w-5 mr-2" />
-                Vote weight
+                {t('account.voteWeight')}
               </dt>
               <dd>
                 {!account ? (
@@ -107,7 +107,7 @@ export function AccountInfo() {
             <div className="flex items-center justify-between">
               <dt className="flex items-center gap-1 text-muted-foreground">
                 <HandHelping className="h-5 w-5 mr-2" />
-                Delegation
+                {t('account.delegation')}
               </dt>
               <dd>
                 {!account ? (
@@ -125,7 +125,7 @@ export function AccountInfo() {
                   </TooltipProvider>
                 ) : (
                   <Badge className="h-6" variant="secondary">
-                    No
+                    {t('account.no')}
                   </Badge>
                 )}
               </dd>
@@ -133,7 +133,7 @@ export function AccountInfo() {
             <div className="flex items-center justify-between">
               <dt className="flex items-center gap-1 text-muted-foreground">
                 <ScrollText className="h-5 w-5 mr-2" />
-                Vote proposal
+                {t('account.voteProposal')}
               </dt>
               <dd>
                 {!account || !proposals ? (

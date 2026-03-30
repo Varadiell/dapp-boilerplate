@@ -16,29 +16,31 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Skeleton } from '../ui/skeleton';
+import { useTranslation } from 'react-i18next';
 
 export function ProposalsList({
   displayVotes = true,
 }: {
   displayVotes?: boolean;
 }) {
+  const { t } = useTranslation('common');
   const proposals = useDataStore((s) => s.data.proposals);
 
   return (
     <Card>
       <CardHeader className="bg-muted/50">
-        <CardTitle>Proposals</CardTitle>
-        <CardDescription>
-          List of available proposals for the vote.
-        </CardDescription>
+        <CardTitle>{t('proposalsList.title')}</CardTitle>
+        <CardDescription>{t('proposalsList.description')}</CardDescription>
       </CardHeader>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="max-w-1">ID</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead className="max-w-1">{t('proposalsList.id')}</TableHead>
+            <TableHead>{t('proposalsList.name')}</TableHead>
             {displayVotes && (
-              <TableHead className="max-w-1 text-right">Vote count</TableHead>
+              <TableHead className="max-w-1 text-right">
+                {t('proposalsList.voteCount')}
+              </TableHead>
             )}
           </TableRow>
         </TableHeader>
