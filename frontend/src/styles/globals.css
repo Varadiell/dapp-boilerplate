@@ -66,7 +66,7 @@ html.dark {
   --apkt-tokens-theme-textSecondary: hsl(var(--foreground));
   --apkt-tokens-theme-foregroundPrimary: hsl(var(--muted));
   --apkt-tokens-theme-foregroundSecondary: hsl(var(--accent));
-  --apkt-tokens-theme-foregroundTertiary: hsl(var(--muted-foreground));
+  --apkt-tokens-theme-foregroundTertiary: hsl(var(--popover));
   --apkt-tokens-theme-backgroundPrimary: hsl(var(--background));
   --apkt-tokens-theme-iconInverse: hsl(var(--foreground));
   --apkt-tokens-theme-textInvert: hsl(var(--primary-foreground));
