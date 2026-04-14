@@ -38,6 +38,7 @@ cp .env.example .env
 ## Versions and paths
 
 - **Solidity** `0.8.28` (aligned with Slither / Forge CI).
+- **Forge fuzzing:** default profile uses **50** fuzz runs for fast local feedback; CI sets `FOUNDRY_PROFILE=ci` (**256** runs) via [`foundry.toml`](foundry.toml). Run `FOUNDRY_PROFILE=ci forge test` locally to match CI fuzz depth.
 - Hardhat (Mocha) tests live under `test/hardhat/`.
 - **TypeChain** output goes to `typechain-types/` per Hardhat config.
 

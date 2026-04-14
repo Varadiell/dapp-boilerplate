@@ -14,3 +14,8 @@ remappings = [
 
 [fuzz]
 runs = 50
+
+# CI and release checks: heavier fuzzing than local default (forge test / coverage).
+[profile.ci]
+inherits = "default"
+fuzz = { runs = 256 }
