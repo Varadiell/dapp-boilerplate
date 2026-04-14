@@ -29,7 +29,7 @@ jobs:
           forge build --build-info --sizes contracts
 
       - name: Slither
-        uses: crytic/slither-action@v0.4.0
+        uses: crytic/slither-action@v0.4.2
         with:
           target: "backend/contracts"
           solc-version: "0.8.28"
