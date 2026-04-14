@@ -17,22 +17,11 @@ Follow the pattern established in [backend/contracts/Ballot.sol](mdc:backend/con
 5. **Events**: Emit events for state changes worth indexing
 6. **Access control**: `require`, custom errors, or OZ access modules as appropriate
 
-## Testing Strategy
+## Testing and commands
 
-The project uses dual testing frameworks:
+Dual framework (Foundry + Hardhat), scripts, and testing workflow: skill [dapp-testing](mdc:.cursor/skills/dapp-testing/SKILL.md); rule [testing-strategy.mdc](mdc:.cursor/rules/testing-strategy.mdc).
 
-- **Foundry Tests**: Located in [backend/test/foundry/](mdc:backend/test/foundry/) for fast, gas-efficient testing
-- **Hardhat Tests**: Located in [backend/test/hardhat/](mdc:backend/test/hardhat/) for TypeScript integration testing
-
-## Development Commands
-
-From [backend/package.json](mdc:backend/package.json):
-
-- `bun run test` - Run both Foundry and Hardhat tests
-- `bun run test:foundry` - Run only Foundry tests
-- `bun run test:hardhat` - Run only Hardhat tests
-- `bun run lint` - Run all linting checks
-- `bun run slither` - Run security analysis
+From [backend/package.json](mdc:backend/package.json): `bun run test`, `test:foundry`, `test:hardhat`, `lint`, `slither`.
 
 ## Security Best Practices
 
@@ -44,4 +33,4 @@ From [backend/package.json](mdc:backend/package.json):
 
 ## Deployment
 
-Use Hardhat Ignition for deployment scripts in [backend/ignition/modules/](mdc:backend/ignition/modules/).
+Ignition modules live in [backend/ignition/modules/](mdc:backend/ignition/modules/). Full deploy/staging/production guidance: skill [dapp-deployment-devops](mdc:.cursor/skills/dapp-deployment-devops/SKILL.md); rule [deployment-and-devops.mdc](mdc:.cursor/rules/deployment-and-devops.mdc).
