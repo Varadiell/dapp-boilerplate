@@ -12,7 +12,7 @@
     "start": "next start",
     "cspell": "cspell --gitignore \"**/*.{js,ts,tsx,md,json}\"",
     "lint": "bun run lint:eslint && bun run lint:prettier:ts",
-    "lint:eslint": "eslint .",
+    "lint:eslint": "eslint . --max-warnings 0",
     "lint:eslint:fix": "eslint . --fix",
     "lint:prettier:ts": "prettier --ignore-path .gitignore '**/*.{js,ts,tsx}' --check",
     "lint:prettier:ts:fix": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts,tsx}' --write",
