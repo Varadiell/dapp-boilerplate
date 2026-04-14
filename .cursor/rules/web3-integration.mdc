@@ -1,3 +1,9 @@
+---
+description: Wagmi, contract hooks, wallet flows, and Web3 patterns for the frontend.
+globs: frontend/**/*.ts,frontend/**/*.tsx
+alwaysApply: false
+---
+
 # Web3 Integration Guidelines
 
 ## Contract Integration Pattern
@@ -10,31 +16,29 @@ Follow the established pattern in [frontend/src/contracts/ballot.contract.ts](md
 
 ## Transaction Handling
 
-Use the pattern from [frontend/src/hooks/useContract.ts](mdc:frontend/src/hooks/useContract.ts):
+Use [frontend/src/hooks/useContract.ts](mdc:frontend/src/hooks/useContract.ts) for writes:
 
-- Combine `useWriteContract` and `useWaitForTransactionReceipt` for complete transaction lifecycle
-- Implement proper error handling with user feedback via toast notifications
-- Handle all transaction states: idle, pending, success, error
-- Provide success callbacks for UI updates
+- Combine `useWriteContract` and `useWaitForTransactionReceipt` for the full transaction lifecycle
+- Surface errors and completion with Sonner (`Toaster` / [frontend/src/components/ui/sonner.tsx](mdc:frontend/src/components/ui/sonner.tsx))
+- Handle idle, pending, success, and error states; use success callbacks where the UI must refresh
 
-## Provider Configuration
+For Ballot-specific reads and logs, prefer the focused hooks in [frontend/src/hooks/ballot/](mdc:frontend/src/hooks/ballot/) (e.g. proposals, events, voter data) instead of duplicating logic inline.
 
-The Web3Provider in [frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/contexts/web3-provider.tsx) provides:
+## Provider configuration
 
-- **WagmiProvider**: Core blockchain interaction functionality
-- **QueryClientProvider**: React Query for data fetching and caching
-- **ReownProvider**: Wallet connection UI with custom theming
+[frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/contexts/web3-provider.tsx) composes **Reown AppKit** with Wagmi: `WagmiProvider`, TanStack `QueryClientProvider`, and the AppKit modal/provider from `@reown/appkit-adapter-wagmi`.
 
-## Chain Configuration
+## Adapter and chains
 
-Configure chains in [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts):
+[frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts) exports a **`WagmiAdapter`** from `@reown/appkit-adapter-wagmi` and builds `networks` from `@reown/appkit/networks`:
 
-- **Hardhat**: Local development chain
-- **Sepolia**: Ethereum testnet
-- **Base Sepolia**: Base testnet
-- **Ethereum (mainnet)**: Production L1
-- **Base**: Production L2
-- Use environment variables for RPC endpoints and API keys
+- **hardhat** — local dev
+- **sepolia** — Ethereum testnet
+- **baseSepolia** — Base testnet
+- **mainnet** — Ethereum mainnet
+- **base** — Base mainnet
+
+RPC URLs use `ALCHEMY_*` env vars plus `ALCHEMY_API_KEY`; `WALLET_CONNECT_PROJECT_ID` is required (Reown Cloud project).
 
 ## Wallet Connectors
 
@@ -68,8 +72,3 @@ Supported wallet connectors:
 3. **Transaction Confirmation**: Always require user confirmation for transactions
 4. **Error Recovery**: Provide clear recovery paths for failed transactions
 5. **Network Validation**: Ensure users are on the correct network
-   description:
-   globs:
-   alwaysApply: false
-
----

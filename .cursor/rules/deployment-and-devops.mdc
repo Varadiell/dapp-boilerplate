@@ -1,3 +1,9 @@
+---
+description: Deployment, CI/CD, environments, and operations for backend and frontend.
+globs: backend/ignition/**,.github/**,frontend/next.config.mjs
+alwaysApply: false
+---
+
 # Deployment and DevOps Guidelines
 
 ## Smart Contract Deployment
@@ -12,9 +18,11 @@ Use Hardhat Ignition for deployment scripts in [backend/ignition/modules/](mdc:b
 
 ### Deployment Process
 
-1. **Local Development**: Deploy to Hardhat network for testing
-2. **Testnet**: Deploy to Polygon zkEVM Cardona for integration testing
-3. **Mainnet**: Deploy to Polygon zkEVM for production
+1. **Local**: Deploy to the in-process Hardhat network for development
+2. **Testnets**: Use Ethereum **Sepolia** and/or **Base Sepolia** for staging (RPC via Alchemy env vars)
+3. **Production**: **Ethereum mainnet** and/or **Base** as needed (same variable scheme as [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts))
+
+Legacy Polygon zkEVM network entries in Hardhat config are **commented out**; prefer the Ethereum/Base stack above.
 
 ### Contract Verification
 
@@ -26,7 +34,7 @@ Use Hardhat Ignition for deployment scripts in [backend/ignition/modules/](mdc:b
 
 ### Next.js Deployment
 
-The frontend uses Next.js 14 with configuration in [frontend/next.config.mjs](mdc:frontend/next.config.mjs):
+The frontend uses Next.js (see [frontend/package.json](mdc:frontend/package.json)) with configuration in [frontend/next.config.mjs](mdc:frontend/next.config.mjs):
 
 - Optimize for production builds
 - Configure environment variables
@@ -51,22 +59,18 @@ From [frontend/package.json](mdc:frontend/package.json):
 - `bun run start` - Start production server
 - Ensure all dependencies are properly installed
 
-## CI/CD Pipeline
+## CI/CD
 
-### Pre-commit Hooks
+Workflow orchestration lives under [.github/workflows/](mdc:.github/workflows/) (e.g. [ci-tests.yml](mdc:.github/workflows/ci-tests.yml) calls backend, frontend, and solidity jobs).
 
-The project uses custom git hooks configured in prepare scripts:
+### Pre-commit / hooks
 
-- Linting checks for code quality
-- Spell checking for documentation
-- Test execution for critical paths
+- Repo uses `core.hooksPath` → `.githooks` (see root [README.md](mdc:README.md)); `prepare` scripts set this locally.
 
-### Automated Testing
+### Automated checks
 
-- Run all tests before deployment
-- Include both Foundry and Hardhat tests
-- Perform security analysis with Slither
-- Check code coverage requirements
+- **Backend**: Foundry + Hardhat tests, Slither, Solidity tooling (see [ci-backend.yml](mdc:.github/workflows/ci-backend.yml), [ci-backend-solidity.yml](mdc:.github/workflows/ci-backend-solidity.yml))
+- **Frontend**: `cspell`, Prettier lint, `bun audit --audit-level=high` ([ci-frontend.yml](mdc:.github/workflows/ci-frontend.yml))
 
 ### Deployment Stages
 
@@ -83,13 +87,9 @@ The project uses custom git hooks configured in prepare scripts:
 - Use .env files for local development
 - Implement proper secrets management
 
-### Network Configuration
+### Network configuration
 
-Configure networks in [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts):
-
-- Hardhat for local development
-- Polygon zkEVM Cardona for testing
-- Polygon zkEVM for production
+Align deployments and env vars with [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts): Hardhat, Sepolia, Base Sepolia, mainnet, Base.
 
 ## Monitoring and Analytics
 
@@ -147,8 +147,3 @@ Configure networks in [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wa
 4. **Monitoring**: Implement comprehensive monitoring
 5. **Security**: Prioritize security in all deployments
 6. **Rollback**: Have rollback procedures ready
-   description:
-   globs:
-   alwaysApply: false
-
----

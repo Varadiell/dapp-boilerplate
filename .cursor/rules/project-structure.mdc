@@ -29,21 +29,25 @@ The backend is located in the [backend/](mdc:backend/) directory and contains:
 
 The frontend is located in the [frontend/](mdc:frontend/) directory and contains:
 
-- **Next.js App**: [frontend/src/app/](mdc:frontend/src/app/) - Next.js 14 app router pages
+- **Next.js App**: [frontend/src/app/](mdc:frontend/src/app/) - Next.js app router pages
 - **Components**:
   - [frontend/src/components/shared/](mdc:frontend/src/components/shared/) - DApp-specific components
   - [frontend/src/components/ui/](mdc:frontend/src/components/ui/) - Reusable UI components (shadcn/ui)
 - **Web3 Integration**:
-  - [frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/contexts/web3-provider.tsx) - Wagmi and Reown providers
-  - [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts) - Wagmi configuration for blockchain connections
+  - [frontend/src/contexts/web3-provider.tsx](mdc:frontend/src/contexts/web3-provider.tsx) - Wagmi and Reown AppKit providers
+  - [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts) - `WagmiAdapter` (@reown/appkit-adapter-wagmi), transports, and networks
   - [frontend/src/contracts/ballot.contract.ts](mdc:frontend/src/contracts/ballot.contract.ts) - Contract ABI and configuration
-- **Hooks**: [frontend/src/hooks/](mdc:frontend/src/hooks/) - Custom React hooks for blockchain interactions
+- **Hooks**: [frontend/src/hooks/](mdc:frontend/src/hooks/) — shared helpers (e.g. [useContract.ts](mdc:frontend/src/hooks/useContract.ts)); Ballot-specific reads/events live under [frontend/src/hooks/ballot/](mdc:frontend/src/hooks/ballot/)
+- **Client state**: [frontend/src/stores/use-data-store.ts](mdc:frontend/src/stores/use-data-store.ts) — Zustand store; synced with contract data via [frontend/src/contexts/ballot-data-store-sync.tsx](mdc:frontend/src/contexts/ballot-data-store-sync.tsx)
+- **i18n**: [frontend/src/lib/i18n/client.ts](mdc:frontend/src/lib/i18n/client.ts), [frontend/src/contexts/i18n-provider.tsx](mdc:frontend/src/contexts/i18n-provider.tsx), translations in [frontend/src/locales/](mdc:frontend/src/locales/) (`en`, `fr`)
 - **Package Management**: [frontend/package.json](mdc:frontend/package.json) - Dependencies and scripts for web development
 
 ## Key Technologies
 
 - **Blockchain**: Solidity, Hardhat, Foundry, Ethers.js
-- **Frontend**: Next.js 14, React 18, TypeScript, Tailwind CSS
-- **Web3**: Wagmi, Reown, Viem
-- **UI**: Radix UI, shadcn/ui components
-- **Package Manager**: Bun workspaces — root [package.json](mdc:package.json) and [bun.lock](mdc:bun.lock); packages in `backend/` and `frontend/`
+- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS
+- **Web3**: Wagmi v2, Viem, Reown AppKit (@reown/appkit, @reown/appkit-adapter-wagmi)
+- **UI**: Radix UI, shadcn/ui, Sonner toasts
+- **i18n**: i18next + react-i18next
+- **State**: TanStack Query (via Wagmi) + Zustand for ballot UI state
+- **Package Manager**: Bun workspaces — root [package.json](mdc:package.json) and [bun.lock](mdc:bun.lock); packages in `backend/` and `frontend/`; root `overrides` pin a few transitive deps (see root [package.json](mdc:package.json))

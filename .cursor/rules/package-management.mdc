@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Layout
 
-The repo is a **Bun workspace**: root [package.json](mdc:package.json) lists `frontend` and `backend` in `workspaces`. One lockfile at the root: [bun.lock](mdc:bun.lock).
+The repo is a **Bun workspace**: root [package.json](mdc:package.json) lists `frontend` and `backend` in `workspaces`, optional **`overrides`** for transitive packages (e.g. `serialize-javascript`). One lockfile at the root: [bun.lock](mdc:bun.lock).
 
 - Backend: [backend/package.json](mdc:backend/package.json)
 - Frontend: [frontend/package.json](mdc:frontend/package.json)
@@ -34,12 +34,13 @@ Key dependencies from [backend/package.json](mdc:backend/package.json):
 
 Key dependencies from [frontend/package.json](mdc:frontend/package.json):
 
-- **Next.js** — React framework
-- **React** — UI library
-- **Web3**: Wagmi, Viem, Reown
-- **UI**: Radix UI components, shadcn/ui, Tailwind CSS
-- **Forms**: React Hook Form with Zod validation
-- **State**: TanStack Query for server state management
+- **Next.js** — React framework (v16 in frontend)
+- **React** — UI library (v19)
+- **Web3**: Wagmi v2, Viem, Reown AppKit
+- **UI**: Radix UI, shadcn/ui, Tailwind CSS, Sonner
+- **Forms**: React Hook Form + Zod
+- **State**: TanStack Query (with Wagmi) + **Zustand** for client UI state ([frontend/src/stores/](mdc:frontend/src/stores/))
+- **i18n**: i18next + react-i18next ([frontend/src/locales/](mdc:frontend/src/locales/))
 
 ## Development Scripts
 

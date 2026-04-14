@@ -1,12 +1,18 @@
+---
+description: Next.js App Router, components, styling, and frontend conventions.
+globs: frontend/**/*.ts,frontend/**/*.tsx
+alwaysApply: false
+---
+
 # Frontend Development Guidelines
 
-## Next.js 14 App Router Structure
+## Next.js App Router
 
 Follow the structure in [frontend/src/app/](mdc:frontend/src/app/):
 
-- Use the app router with page.tsx files in each route directory
-- Implement proper layouts with [frontend/src/app/layout.tsx](mdc:frontend/src/app/layout.tsx)
-- Use 'use client' directive for client-side components
+- Use the app router with `page.tsx` files in each route directory
+- Implement layouts with [frontend/src/app/layout.tsx](mdc:frontend/src/app/layout.tsx)
+- Use `'use client'` where the tree needs browser-only APIs (Web3, i18n provider, etc.)
 
 ## Component Architecture
 
@@ -31,14 +37,23 @@ DApp-specific components in [frontend/src/components/shared/](mdc:frontend/src/c
 ### Contract Integration
 
 - Use the contract configuration from [frontend/src/contracts/ballot.contract.ts](mdc:frontend/src/contracts/ballot.contract.ts)
-- Follow the pattern in [frontend/src/hooks/useContract.ts](mdc:frontend/src/hooks/useContract.ts) for transaction handling
+- Follow [frontend/src/hooks/useContract.ts](mdc:frontend/src/hooks/useContract.ts) for writes and receipts; use hooks under [frontend/src/hooks/ballot/](mdc:frontend/src/hooks/ballot/) for Ballot reads and event logs
 - Always handle connection states and transaction statuses
 
 ### Wagmi Configuration
 
-- Configure chains and connectors in [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts)
+- Configure `WagmiAdapter`, networks, and transports in [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts) (networks from `@reown/appkit/networks`)
 - Use environment variables for API keys and endpoints
-- Support multiple chains: Hardhat (local), Polygon zkEVM Cardona (testnet), Polygon zkEVM (mainnet)
+- Supported networks: Hardhat (local), Sepolia, Base Sepolia, Ethereum mainnet, Base
+
+### Internationalization
+
+- i18n is initialized in [frontend/src/lib/i18n/client.ts](mdc:frontend/src/lib/i18n/client.ts); wrap the app with [frontend/src/contexts/i18n-provider.tsx](mdc:frontend/src/contexts/i18n-provider.tsx)
+- Add copy in [frontend/src/locales/](mdc:frontend/src/locales/) (`en/common.json`, `fr/common.json`); use `useTranslation` from `react-i18next` in components
+
+### Client state (Zustand)
+
+- Use [frontend/src/stores/use-data-store.ts](mdc:frontend/src/stores/use-data-store.ts) for derived ballot UI state; keep Wagmi/React Query as the source of truth for chain data and sync via [frontend/src/contexts/ballot-data-store-sync.tsx](mdc:frontend/src/contexts/ballot-data-store-sync.tsx)
 
 ### Provider Setup
 
@@ -60,8 +75,8 @@ From [frontend/package.json](mdc:frontend/package.json):
 
 - `bun run dev` - Start development server
 - `bun run build` - Build for production
-- `bun run lint` - Run linting checks
-- `bun run cspell` - Run spell checking
+- `bun run lint` - Prettier check on JS/TS/TSX
+- `bun run cspell` - Spell checking
 
 ## Best Practices
 
@@ -70,8 +85,3 @@ From [frontend/package.json](mdc:frontend/package.json):
 3. **Loading States**: Show loading indicators for async operations
 4. **Responsive Design**: Ensure components work on all screen sizes
 5. **Accessibility**: Follow WCAG guidelines and use semantic HTML
-   description:
-   globs:
-   alwaysApply: false
-
----

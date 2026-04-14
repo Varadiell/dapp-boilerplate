@@ -1,3 +1,9 @@
+---
+description: Solidity style, tooling, testing, and security for smart contracts.
+globs: "**/*.sol,backend/**"
+alwaysApply: false
+---
+
 # Solidity Development Guidelines
 
 ## Contract Structure
@@ -5,10 +11,11 @@
 Follow the pattern established in [backend/contracts/Ballot.sol](mdc:backend/contracts/Ballot.sol):
 
 1. **SPDX License**: Always include `// SPDX-License-Identifier: GPL-3.0` at the top
-2. **Pragma**: Use `pragma solidity 0.8.24;` for consistency
-3. **Documentation**: Include comprehensive NatSpec comments for all functions and events
-4. **Events**: Emit events for all state-changing operations
-5. **Access Control**: Use `require` statements for access control with descriptive error messages
+2. **Pragma**: Contracts use a flexible pragma (e.g. `pragma solidity ^0.8.20;`); the **compiler** is pinned to **0.8.28** in [backend/hardhat.config.ts](mdc:backend/hardhat.config.ts) and [backend/foundry.toml](mdc:backend/foundry.toml) (`evm_version` Cancun for Foundry)
+3. **OpenZeppelin**: Dependencies live under `backend/lib/openzeppelin-contracts/` with remappings in `foundry.toml`; prefer OZ for standard patterns (e.g. `Ownable` on `Ballot`)
+4. **Documentation**: NatSpec on public/external API
+5. **Events**: Emit events for state changes worth indexing
+6. **Access control**: `require`, custom errors, or OZ access modules as appropriate
 
 ## Testing Strategy
 
@@ -38,8 +45,3 @@ From [backend/package.json](mdc:backend/package.json):
 ## Deployment
 
 Use Hardhat Ignition for deployment scripts in [backend/ignition/modules/](mdc:backend/ignition/modules/).
-description:
-globs:
-alwaysApply: false
-
----

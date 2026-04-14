@@ -1,3 +1,9 @@
+---
+description: Foundry, Hardhat, frontend tests, coverage, and integration testing.
+globs: "**/test/**,**/*.test.ts,**/*.test.tsx,**/*.spec.ts,**/*.spec.tsx"
+alwaysApply: false
+---
+
 # Testing Strategy Guidelines
 
 ## Backend Testing (Blockchain)
@@ -46,6 +52,8 @@ From [backend/package.json](mdc:backend/package.json):
 
 ## Frontend Testing
 
+CI does not run component tests yet; the following is guidance when you add a test runner.
+
 ### Component Testing
 
 Test components in isolation:
@@ -63,12 +71,9 @@ Test blockchain interactions:
 - Test error handling
 - Test connection states
 
-### Testing Tools
+### Frontend unit tests
 
-- **Jest**: Unit testing framework
-- **React Testing Library**: Component testing
-- **MSW**: Mock service worker for API mocking
-- **Wagmi Testing**: Mock blockchain interactions
+CI currently runs **cspell**, **Prettier**, and **audit** for the frontend ([ci-frontend.yml](mdc:.github/workflows/ci-frontend.yml)). There is no Jest/Vitest script in [frontend/package.json](mdc:frontend/package.json) yet; if you add a runner, prefer **Vitest** or **Jest** with **React Testing Library**, and mock Wagmi/viem as needed.
 
 ## Integration Testing
 
@@ -81,13 +86,13 @@ Test complete user flows:
 - Transaction confirmation
 - Error recovery
 
-### Cross-Environment Testing
+### Cross-environment
 
-Test across different environments:
+Exercise flows against:
 
-- Local Hardhat network
-- Testnet (Polygon zkEVM Cardona)
-- Mainnet (Polygon zkEVM)
+- Local Hardhat
+- Ethereum Sepolia and/or Base Sepolia
+- Ethereum mainnet and/or Base (with care and test funds)
 
 ## Test Data Management
 
@@ -117,8 +122,3 @@ Test across different environments:
 4. **Error Testing**: Test both success and failure scenarios
 5. **Gas Testing**: Monitor gas usage in Foundry tests
 6. **Performance Testing**: Test with realistic data volumes
-   description:
-   globs:
-   alwaysApply: false
-
----
