@@ -64,6 +64,10 @@ Next.js loads `.env`, `.env.local`, `.env.development`, etc. depending on the mo
 
 Rename or replace these areas if you swap the Ballot example for your own contracts.
 
+## Dependencies (Radix / shadcn inventory)
+
+`src/components/ui/` follows the usual **shadcn/ui** pattern and declares many **Radix**-related packages in `package.json`. Not every file is used in the sample screens; that is normal for a starter kit. As the product UI stabilizes, remove unused components and drop the matching dependencies to keep upgrades smaller. CI already runs **`bun audit --audit-level=high`**; for a stricter inventory pass you can run **`bunx knip`** (expect false positives on pre-built UI—treat results as hints, not a hard gate).
+
 ## End-to-end tests (Playwright)
 
 Run E2E from `frontend/`:
