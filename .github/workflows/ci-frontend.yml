@@ -13,6 +13,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      # Playwright global setup runs `bunx hardhat` in backend/; hardhat-foundry calls `forge remappings`.
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
 
       - name: Set up environment
         uses: ./.github/actions/setup
