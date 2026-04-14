@@ -40,6 +40,13 @@ jobs:
           cd frontend
           bun audit --audit-level=high
 
+      - name: Production build
+        env:
+          NEXT_PUBLIC_REOWN_PROJECT_ID: ci-placeholder
+        run: |
+          cd frontend
+          bun run build
+
       - name: Install Playwright (Chromium)
         run: |
           cd frontend
