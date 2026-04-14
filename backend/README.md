@@ -13,6 +13,12 @@ $ bun run test:hardhat:coverage
 
 # Foundry
 
+Install Solidity libraries listed in this project (`lib/`, git submodules). From `backend/`:
+
+```
+$ forge install
+```
+
 Run foundry tests with coverage
 ```
 $ forge coverage
