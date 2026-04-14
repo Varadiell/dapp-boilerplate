@@ -2,7 +2,8 @@
   "name": "dapp-boilerplate",
   "private": true,
   "engines": {
-    "bun": ">=1.1.0"
+    "bun": ">=1.1.0",
+    "node": ">=22"
   },
   "workspaces": ["frontend", "backend"],
   "overrides": {
