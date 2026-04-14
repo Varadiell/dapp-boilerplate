@@ -38,7 +38,7 @@ For Ballot-specific reads and logs, prefer the focused hooks in [frontend/src/ho
 - **mainnet** — Ethereum mainnet
 - **base** — Base mainnet
 
-RPC URLs use `ALCHEMY_*` env vars plus `ALCHEMY_API_KEY`; `WALLET_CONNECT_PROJECT_ID` is required (Reown Cloud project).
+RPC URLs use `ALCHEMY_*` env vars plus `ALCHEMY_API_KEY`. Set `NEXT_PUBLIC_REOWN_PROJECT_ID` for the Reown Cloud project (required — app fails at startup if unset or left as `DUMMY`; see [frontend/src/lib/wagmi.config.ts](mdc:frontend/src/lib/wagmi.config.ts)).
 
 ## Wallet Connectors
 

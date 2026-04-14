@@ -78,7 +78,7 @@ Required environment variables for frontend:
 - `ALCHEMY_ENDPOINT_URL_BASE_MAINNET`
 - `ALCHEMY_ENDPOINT_URL_BASE_SEPOLIA`
 - `ALCHEMY_API_KEY`
-- `WALLET_CONNECT_PROJECT_ID`
+- `NEXT_PUBLIC_REOWN_PROJECT_ID` (Reown / WalletConnect Cloud project ID)
 
 ## Best Practices
 

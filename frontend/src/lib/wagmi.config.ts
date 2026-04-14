@@ -14,16 +14,18 @@ const {
   ALCHEMY_ENDPOINT_URL_ETHEREUM_MAINNET = '',
   ALCHEMY_ENDPOINT_URL_ETHEREUM_SEPOLIA = '',
   ALCHEMY_API_KEY = '',
+  NEXT_PUBLIC_REOWN_PROJECT_ID = '',
 } = process.env;
 
-/** Reown Cloud project ID (https://dashboard.reown.com), same as WalletConnect v2. */
-export const projectId = process.env.WALLET_CONNECT_PROJECT_ID?.trim() ?? '';
-
-if (!projectId) {
+const reownProjectIdEnv = NEXT_PUBLIC_REOWN_PROJECT_ID.trim();
+if (!reownProjectIdEnv || reownProjectIdEnv.toUpperCase() === 'DUMMY') {
   throw new Error(
-    'WALLET_CONNECT_PROJECT_ID is not set. Create a project at https://dashboard.reown.com',
+    'NEXT_PUBLIC_REOWN_PROJECT_ID is missing or still set to DUMMY. Replace it with your Reown Cloud project ID from https://dashboard.reown.com',
   );
 }
+
+/** Reown Cloud project ID — https://dashboard.reown.com */
+export const projectId = reownProjectIdEnv;
 
 export const networks = [hardhat, sepolia, baseSepolia, mainnet, base] as const;
 

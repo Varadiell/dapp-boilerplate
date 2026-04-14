@@ -42,7 +42,7 @@ Legacy Polygon zkEVM entries in Hardhat config are **commented out**; prefer the
 - `ALCHEMY_ENDPOINT_URL_BASE_MAINNET`
 - `ALCHEMY_ENDPOINT_URL_BASE_SEPOLIA`
 - `ALCHEMY_API_KEY`
-- `WALLET_CONNECT_PROJECT_ID`
+- `NEXT_PUBLIC_REOWN_PROJECT_ID`
 
 Align runtime networks with `frontend/src/lib/wagmi.config.ts` (Hardhat, Sepolia, Base Sepolia, mainnet, Base).
 
