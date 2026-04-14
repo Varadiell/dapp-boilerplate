@@ -8,6 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "ci:solidity": "forge build --build-info --sizes contracts && forge coverage -vvv --report lcov",
     "cspell": "cspell --gitignore **/*.{js,ts,md,sol}",
     "docgen": "forge doc",
     "lint": "bun run lint:solhint && bun run lint:prettier:ts && bun run lint:prettier:sol",

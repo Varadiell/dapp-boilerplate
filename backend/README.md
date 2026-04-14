@@ -55,6 +55,7 @@ cp .env.example .env
 | `bun run lint:*:fix` | Variants with autofix where applicable. |
 | `bun run cspell` | Spell check on tracked files (including `.sol`). |
 | `bun run docgen` | Forge docs (`forge doc`). |
+| `bun run ci:solidity` | Same Forge build + `forge coverage` as the GitHub **Backend Solidity** job (run from `backend/` with Foundry installed). |
 | `bun run slither` | Slither analysis (`poetry install` under `backend/` required first). |
 | `bun run prepare` | Configures local Git hooks (`core.hooksPath`). |
 
@@ -103,8 +104,17 @@ CI builds with `forge build --build-info`, then runs Slither with `ignore-compil
 
 ## Continuous integration (summary)
 
-- **Backend** ([`ci-backend.yml`](../.github/workflows/ci-backend.yml)) — submodules, Foundry nightly toolchain, spelling, lint, Bun audit, Hardhat tests with minimum 100% coverage (excluding `lib/**`).
+- **Backend** ([`ci-backend.yml`](../.github/workflows/ci-backend.yml)) — submodules, pinned Foundry toolchain, spelling, lint, Bun audit, Hardhat tests with minimum 100% coverage (excluding `lib/**`).
 - **Backend Solidity** ([`ci-backend-solidity.yml`](../.github/workflows/ci-backend-solidity.yml)) — `forge build`, Slither on `contracts/`, 100% Forge coverage target.
+- **Foundry in CI** is pinned to a tagged release (see workflows) so runs match `foundry.toml` / `solc` more predictably than a moving nightly toolchain.
+
+To mirror the Solidity job locally without opening GitHub:
+
+```bash
+bun run ci:solidity
+```
+
+(From `backend/`, or `bun run --filter backend ci:solidity` from the repo root.)
 
 ## Links
 

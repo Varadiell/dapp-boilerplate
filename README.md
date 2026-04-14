@@ -79,6 +79,16 @@ The [`.github/workflows/ci-tests.yml`](.github/workflows/ci-tests.yml) workflow 
 
 Shared setup (Bun, Node, `bun install --frozen-lockfile`) lives in [`.github/actions/setup/action.yml`](.github/actions/setup/action.yml).
 
+### Local parity with CI
+
+`bun run ci:check` at the repo root matches most of the pipeline (lint, spell check, production build, tests). GitHub also runs **Forge coverage** and **Slither** in a separate job; mirror that locally with:
+
+```bash
+bun run ci:full
+```
+
+`ci:full` runs `ci:check`, then `forge build` / `forge coverage` (same flags as CI) and `bun run slither` in `backend/`. Slither requires Python dependencies (`poetry install` under `backend/`); see [backend/README.md](backend/README.md).
+
 ## Git hooks
 
 Each workspace’s `prepare` script sets `core.hooksPath` to `.githooks` for consistent local checks. Confirm your clone points there:
