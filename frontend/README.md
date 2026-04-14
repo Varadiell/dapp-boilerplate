@@ -1,41 +1,105 @@
-# Install
+# Frontend (Next.js)
 
-From the repo root (workspaces): `bun install`. If you only touch frontend deps, that single install is enough.
+Web application for the monorepo: a DApp UI built with **Next.js**, **React**, **Wagmi** / **Viem**, and **Reown AppKit** for wallet connections. This folder is the `frontend` npm package in the Bun workspace defined at the repo root.
 
-## Environment variables
+## Prerequisites
+
+- **Bun** `>= 1.1.0` (see the repository root).
+- **Node.js** `22+` recommended for CLIs (Next, ESLint, etc.).
+
+## Installing dependencies
+
+From the **repository root** (recommended for a single `bun.lock`):
+
+```bash
+bun install
+```
+
+Even if you only work in `frontend/`, run installs from the root to stay aligned with CI.
+
+## Environment files
 
 | File | Role |
 |------|------|
-| [`.env.example`](.env.example) | Template — copy to `.env` and fill in values. |
-| [`.env.test`](.env.test) | Committed defaults for `bun run test:e2e` (Playwright loads this via Bun). |
-| `.env` | Private overrides (gitignored). |
+| [`.env.example`](.env.example) | Template—copy to `.env` and fill in values. |
+| [`.env.test`](.env.test) | Values used for `bun run test:e2e` (loaded via Bun; may be committed). |
+| `.env` | Local secrets and overrides (**not committed**; create from `.env.example`). |
 
-Typical app dev: `cp .env.example .env`, then set `NEXT_PUBLIC_REOWN_PROJECT_ID` and any Alchemy URLs. Next.js loads `.env` when you run `bun run dev` / `build`.
+For day-to-day development:
 
-# Dev
-
-```
-$ bun run dev
+```bash
+cp .env.example .env
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then set at least:
 
-# End-to-end tests (Playwright)
+- **`NEXT_PUBLIC_REOWN_PROJECT_ID`** — [Reown Cloud](https://dashboard.reown.com) project ID. In **production builds**, the app refuses to start if the ID is missing or still set to the placeholder `DUMMY` (see `src/lib/wagmi.config.ts`).
+- **Alchemy variables** — `ALCHEMY_API_KEY` and `ALCHEMY_ENDPOINT_URL_*` URLs if you connect to the public networks listed in the Wagmi config (Sepolia, Base Sepolia, Ethereum, Base). Without them, the **local Hardhat** network may be enough for simulated-chain testing.
 
-From `frontend/`:
+Next.js loads `.env`, `.env.local`, `.env.development`, etc. depending on the mode (`dev`, `build`, `start`).
+
+## npm / Bun scripts
+
+| Script | Description |
+|--------|-------------|
+| `bun run dev` | Next.js dev server ([http://localhost:3000](http://localhost:3000)). |
+| `bun run build` | Production build. |
+| `bun run start` | Serve the production build (after `build`). |
+| `bun run lint` | Prettier check on `**/*.{js,ts,tsx}`. |
+| `bun run lint:prettier:ts:fix` | Same with autofix. |
+| `bun run cspell` | Spell check (git-tracked files; French dictionary available). |
+| `bun run test` | Bun unit tests (`--pass-with-no-tests` if none). |
+| `bun run test:e2e` | **Playwright** tests (see below). |
+| `bun run prepare` | Sets `core.hooksPath` to this package’s `.githooks` (at repo root, the monorepo hook may be the one that matters). |
+
+## Useful code layout
+
+- **`src/app/`** — App Router routes (`layout.tsx`, `page.tsx`, etc.).
+- **`src/lib/wagmi.config.ts`** — Networks (Hardhat, Sepolia, Base Sepolia, Ethereum, Base), RPC transports (Alchemy), Reown / Wagmi adapter.
+- **`src/contexts/web3-provider.tsx`** — Wagmi, React Query, and wallet modal providers.
+- **`src/contracts/`** — ABI and address config (e.g. Ballot contract).
+- **`src/hooks/ballot/`** — On-chain reads and event logs for Ballot.
+- **`src/locales/`** — Translations (e.g. `en`, `fr`) via i18next.
+- **`src/stores/`** — Client UI state (Zustand), alongside Wagmi / TanStack Query.
+
+Rename or replace these areas if you swap the Ballot example for your own contracts.
+
+## End-to-end tests (Playwright)
+
+Run E2E from `frontend/`:
 
 ```bash
 bun run test:e2e
 ```
 
-This runs SSR route checks (`e2e/routes.spec.ts`) and on-chain ballot flows (`e2e/ballot-flows.spec.ts`) against a production build (`next build` + `next start`). Ballot specs cover registration, votes, delegation, dashboard (winner, chair, voters count, delegatee weight, proposals list), proposals/events/votes pages, sidebar navigation, give-right UI for the chair, and filtered event tables. The web server is started with `NEXT_PUBLIC_E2E_AUTO_CONNECT=1` so the app uses the injected Hardhat wallet in tests (see `e2e/helpers/hardhat-wallet.ts`).
+This uses `bun --env-file=./.env.test` to load test env vars, then runs Playwright.
 
-**Hardhat:** global setup resets the local chain and deploys the Ballot via Ignition. If nothing listens on `127.0.0.1:8545`, a `hardhat node` process is spawned from `../backend` and torn down after the run. If a node is already running, it is reused (PID file records `reuse`).
+### General behavior
 
-**Faster local runs (routes only):** skip chain setup when you are not running ballot specs:
+- Specs include **SSR route checks** (`e2e/routes.spec.ts`) and **on-chain Ballot flows** (`e2e/ballot-flows.spec.ts`) against a **production build** (`next build` then `next start`), matching CI.
+- For Ballot flows, **global setup** resets the local chain and deploys the contract with **Ignition**. If nothing listens on `127.0.0.1:8545`, a `hardhat node` process is started from `../backend` and torn down afterward; if a node is already running, it is **reused**.
+- **`NEXT_PUBLIC_E2E_AUTO_CONNECT=1`** is set on the test server so the app uses the injected Hardhat wallet in tests (see `e2e/helpers/hardhat-wallet.ts`).
+
+### Faster run (routes only)
+
+To skip chain and contract setup when you only run route tests:
 
 ```bash
 PW_SKIP_BALLOT_SETUP=1 bun run test:e2e --grep routes
 ```
 
-Do not set `PW_SKIP_BALLOT_SETUP` when executing `ballot-flows.spec.ts`; those tests require the deployed contract.
+Do **not** set `PW_SKIP_BALLOT_SETUP` when running `ballot-flows.spec.ts`; those tests require the deployed contract.
+
+### CI
+
+On GitHub Actions, Chromium is installed with `bunx playwright install chromium --with-deps`, and `NEXT_PUBLIC_REOWN_PROJECT_ID` is set to an E2E placeholder. See [`.github/workflows/ci-frontend.yml`](../.github/workflows/ci-frontend.yml).
+
+## Dependency quality and security
+
+- **`bun audit --audit-level=high`** runs in CI (see the frontend workflow).
+- Keep **keys and IDs out of the repo**; only use `NEXT_PUBLIC_` prefixes for values that must be exposed to the browser.
+
+## See also
+
+- [Root README](../README.md) — monorepo overview and backend links.
+- [backend/README.md](../backend/README.md) — Hardhat node, Ignition deploy, contract tests.
