@@ -5,8 +5,34 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 15
+    groups:
+      radix-ui:
+        patterns:
+          - "@radix-ui/*"
+      web3:
+        patterns:
+          - "@reown/*"
+          - "wagmi"
+          - "viem"
+          - "@tanstack/react-query"
+      eslint-typescript:
+        patterns:
+          - "eslint*"
+          - "@eslint/*"
+          - "typescript"
+          - "@types/*"
+          - "prettier"
+          - "eslint-config-*"
+      spelling:
+        patterns:
+          - "cspell"
+          - "@cspell/*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
