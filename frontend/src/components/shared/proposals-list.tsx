@@ -27,7 +27,7 @@ export function ProposalsList({
   const proposals = useDataStore((s) => s.data.proposals);
 
   return (
-    <Card>
+    <Card data-testid="e2e-proposals-list">
       <CardHeader className="bg-muted/50">
         <CardTitle>{t('proposalsList.title')}</CardTitle>
         <CardDescription>{t('proposalsList.description')}</CardDescription>

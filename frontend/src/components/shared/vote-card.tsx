@@ -89,6 +89,7 @@ export function VoteCard() {
                   onValueChange={(value) => setProposalId(value)}
                 >
                   <SelectTrigger
+                    data-testid="e2e-vote-proposal-trigger"
                     className="w-full"
                     id="vote_proposal"
                     disabled={isPending || !isConnected}
@@ -107,6 +108,7 @@ export function VoteCard() {
                   </SelectContent>
                 </Select>
                 <Button
+                  data-testid="e2e-vote-submit"
                   className="min-w-32"
                   disabled={isPending || !isConnected || !proposalId}
                   type="submit"

@@ -37,7 +37,11 @@ export function VotersCountCard() {
                 {!votersCount ? (
                   <Skeleton className="h-6 w-16 rounded-full" />
                 ) : (
-                  <Badge className="h-6" variant="secondary">
+                  <Badge
+                    className="h-6"
+                    variant="secondary"
+                    data-testid="e2e-voters-count"
+                  >
                     {votersCount}
                   </Badge>
                 )}

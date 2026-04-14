@@ -13,6 +13,8 @@
     "lint": "bun run lint:prettier:ts",
     "lint:prettier:ts": "prettier --ignore-path .gitignore '**/*.{js,ts,tsx}' --check",
     "lint:prettier:ts:fix": "prettier --log-level warn --ignore-path .gitignore '**/*.{js,ts,tsx}' --write",
+    "test": "bun test --pass-with-no-tests",
+    "test:e2e": "bun --env-file=./.env.test x playwright test",
     "prepare": "git config --local core.hooksPath .githooks"
   },
   "dependencies": {
@@ -78,6 +80,7 @@
     "@types/node": "^22.19.15",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@playwright/test": "^1.56.1",
     "cspell": "^9.7.0",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.2.3",

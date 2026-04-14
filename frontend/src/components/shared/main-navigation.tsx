@@ -22,7 +22,7 @@ import {
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { LanguageToggle } from '@/components/shared/language-toggle';
 import { usePathname } from 'next/navigation';
-import { AppKitButton } from '@reown/appkit/react';
+import { WalletHeaderSlot } from '@/components/shared/wallet-header-slot';
 import { useDataStore } from '@/stores/use-data-store';
 import { useShallow } from 'zustand/react/shallow';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -192,7 +192,7 @@ export function MainNavigation({ children }: { children: React.ReactNode }) {
           <div className="flex shrink-0 items-center gap-2">
             <LanguageToggle />
             <ThemeToggle />
-            <AppKitButton balance="show" />
+            <WalletHeaderSlot />
           </div>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 w-full max-w-screen-md place-self-center">

@@ -72,6 +72,8 @@
   "delegate": {
     "title": "Delegate",
     "description": "As a registered voter, you can delegate your voting power to another address.",
+    "yourWeight": "Your voting weight (delegated in full to the address below)",
+    "invalidAddress": "Enter a valid Ethereum address (0x…).",
     "cannotDelegate": "You cannot delegate your vote because you have already voted in this ballot.",
     "address": "Address",
     "submit": "Delegate",

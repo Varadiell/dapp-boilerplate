@@ -98,7 +98,11 @@ export function AccountInfo() {
                 {!account ? (
                   <Skeleton className="h-6 w-20 rounded-full" />
                 ) : (
-                  <Badge className="h-6" variant="secondary">
+                  <Badge
+                    className="h-6"
+                    variant="secondary"
+                    data-testid="e2e-account-vote-weight"
+                  >
                     {account.weight}
                   </Badge>
                 )}

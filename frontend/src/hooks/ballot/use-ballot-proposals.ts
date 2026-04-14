@@ -7,21 +7,18 @@ import { useReadContracts } from 'wagmi';
 
 export type BallotProposalRow = { name: string; voteCount: number };
 
-export function useBallotProposals(
-  address: `0x${string}` | undefined,
-  proposalsCount: number | undefined,
-) {
+/** Proposal rows are public `view` reads; no connected wallet required. */
+export function useBallotProposals(proposalsCount: number | undefined) {
   const contracts = useMemo(() => {
-    if (!address || proposalsCount === undefined || proposalsCount === 0) {
+    if (proposalsCount === undefined || proposalsCount === 0) {
       return [];
     }
     return Array.from({ length: proposalsCount }, (_, i) => ({
       ...ballotContract,
-      account: address,
       functionName: 'proposals' as const,
       args: [BigInt(i)] as const,
     }));
-  }, [address, proposalsCount]);
+  }, [proposalsCount]);
 
   const { data, isPending, refetch } = useReadContracts({
     contracts,

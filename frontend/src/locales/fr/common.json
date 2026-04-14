@@ -72,6 +72,8 @@
   "delegate": {
     "title": "Déléguer",
     "description": "En tant qu’électeur inscrit, vous pouvez déléguer votre droit de vote à une autre adresse.",
+    "yourWeight": "Votre poids de vote (transmis intégralement à l’adresse ci-dessous)",
+    "invalidAddress": "Indiquez une adresse Ethereum valide (0x…).",
     "cannotDelegate": "Vous ne pouvez pas déléguer car vous avez déjà voté pour ce scrutin.",
     "address": "Adresse",
     "submit": "Déléguer",

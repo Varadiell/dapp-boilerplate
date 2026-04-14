@@ -37,7 +37,11 @@ export function ChairPerson() {
                 {!chairPerson ? (
                   <Skeleton className="h-6 w-48 rounded-full" />
                 ) : (
-                  <Badge className="h-6" variant="secondary">
+                  <Badge
+                    className="h-6"
+                    variant="secondary"
+                    data-testid="e2e-chair-address"
+                  >
                     {chairPerson}
                   </Badge>
                 )}

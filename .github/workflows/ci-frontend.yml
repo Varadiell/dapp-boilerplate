@@ -5,7 +5,7 @@ on:
 
 jobs:
   frontend:
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     env:
       # Third-party actions still on Node 20 until they ship node24; see GitHub Actions changelog.
@@ -31,3 +31,15 @@ jobs:
         run: |
           cd frontend
           bun audit --audit-level=high
+
+      - name: Install Playwright (Chromium)
+        run: |
+          cd frontend
+          bunx playwright install chromium --with-deps
+
+      - name: End-to-end tests (Playwright)
+        env:
+          NEXT_PUBLIC_REOWN_PROJECT_ID: e2e-playwright-placeholder
+        run: |
+          cd frontend
+          bun run test:e2e

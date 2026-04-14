@@ -36,7 +36,9 @@ export function WinningProposal() {
                 {!winnerName ? (
                   <Skeleton className="h-6 w-48 rounded-full" />
                 ) : (
-                  winnerName
+                  <span data-testid="e2e-winning-proposal-name">
+                    {winnerName}
+                  </span>
                 )}
               </dd>
             </div>

@@ -78,7 +78,7 @@ export function EventsTable({
 
   if (isEventsLoading) {
     return (
-      <Card>
+      <Card data-testid="e2e-events-table-loading">
         <CardHeader className="bg-muted/50">
           <CardTitle>{resolvedTitle}</CardTitle>
           <CardDescription>{resolvedDescription}</CardDescription>
@@ -96,7 +96,7 @@ export function EventsTable({
 
   if (lastEvents.length === 0) {
     return (
-      <Card>
+      <Card data-testid="e2e-events-table-empty">
         <CardHeader className="bg-muted/50">
           <CardTitle>{resolvedTitle}</CardTitle>
           <CardDescription>{resolvedDescription}</CardDescription>
@@ -111,7 +111,7 @@ export function EventsTable({
   }
 
   return (
-    <Card>
+    <Card data-testid="e2e-events-table">
       <CardHeader className="bg-muted/50">
         <CardTitle>{resolvedTitle}</CardTitle>
         <CardDescription>{resolvedDescription}</CardDescription>

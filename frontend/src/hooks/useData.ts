@@ -7,13 +7,27 @@ import { useBallotVoter } from '@/hooks/ballot/use-ballot-voter';
 import { useDataStore } from '@/stores/use-data-store';
 import type { DataType } from '@/types/ballot-data';
 import { bytesToString } from '@/utils/bytesToString';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAccount } from 'wagmi';
-import { useLayoutEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 
 /** Reads on-chain ballot state via Wagmi and mirrors it into `useDataStore`. */
 export function useData(): void {
+  const queryClient = useQueryClient();
   const { isConnected, address } = useAccount();
   const { eventLogs, isEventsLoading } = useBallotEvents();
+
+  useEffect(() => {
+    if (!address) return;
+    void queryClient.invalidateQueries({
+      predicate: (query) => {
+        const key = query.queryKey;
+        if (!Array.isArray(key) || key[0] !== 'readContract') return false;
+        const p = key[1] as { functionName?: string };
+        return p.functionName === 'voters';
+      },
+    });
+  }, [address, queryClient]);
 
   const {
     chairPerson,
@@ -31,7 +45,7 @@ export function useData(): void {
   const count =
     proposalsCount !== undefined ? Number(proposalsCount) : undefined;
   const { proposals, isProposalsLoading, refetchProposals } =
-    useBallotProposals(address, count);
+    useBallotProposals(count);
 
   const eventLogsCount = eventLogs?.length || 0;
   const votesCount = proposals?.reduce(

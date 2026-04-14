@@ -47,7 +47,7 @@ export function GiveRightToVoteCard() {
   }
 
   return (
-    <Card>
+    <Card data-testid="e2e-give-right-card">
       <CardHeader className="bg-muted/50">
         <CardTitle>{t('giveRight.title')}</CardTitle>
         <CardDescription>{t('giveRight.description')}</CardDescription>
@@ -58,6 +58,7 @@ export function GiveRightToVoteCard() {
             <Label htmlFor="give_right_address">{t('giveRight.address')}</Label>
             <div className="flex gap-2">
               <Input
+                data-testid="e2e-give-right-address"
                 className="w-full"
                 disabled={isPending || !isConnected}
                 id="give_right_address"
@@ -72,6 +73,7 @@ export function GiveRightToVoteCard() {
                 value={giveRightAddress}
               />
               <Button
+                data-testid="e2e-give-right-submit"
                 className="min-w-32"
                 disabled={isPending || !isConnected}
                 type="submit"

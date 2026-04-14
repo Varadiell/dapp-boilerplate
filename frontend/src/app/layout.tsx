@@ -35,12 +35,7 @@ export default async function RootLayout({
           fontSans.variable,
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider>
           <I18nProvider>
             <Web3Provider cookies={cookieHeader}>
               <MainNavigation>{children}</MainNavigation>
