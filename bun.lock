@@ -14,7 +14,7 @@
         "@nomicfoundation/hardhat-ethers-chai-matchers": "^3.0.0",
         "@nomicfoundation/hardhat-foundry": "^3.0.0",
         "@nomicfoundation/hardhat-ignition": "^3.1.0",
-        "@nomicfoundation/hardhat-ignition-ethers": "^3.1.0",
+        "@nomicfoundation/hardhat-ignition-ethers": "^3.1.1",
         "@nomicfoundation/hardhat-keystore": "^3.0.0",
         "@nomicfoundation/hardhat-mocha": "^3.0.0",
         "@nomicfoundation/hardhat-network-helpers": "^3.0.4",
@@ -619,7 +619,7 @@
 
     "@nomicfoundation/hardhat-ignition": ["@nomicfoundation/hardhat-ignition@3.1.0", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.9", "@nomicfoundation/hardhat-utils": "^4.0.0", "@nomicfoundation/ignition-core": "^3.1.0", "@nomicfoundation/ignition-ui": "^3.1.0", "chalk": "^5.3.0", "debug": "^4.3.2", "json5": "^2.2.3", "prompts": "^2.4.2" }, "peerDependencies": { "@nomicfoundation/hardhat-verify": "^3.0.0", "hardhat": "^3.1.5" } }, "sha512-ENZcVz/L5cpxhtJhglN3nY9gYeMex9aJddOsMpcD+6xQqSwFcEslgJjXXCVJsjhtzDJC2UGBJT2DbpYWV1jILA=="],
 
-    "@nomicfoundation/hardhat-ignition-ethers": ["@nomicfoundation/hardhat-ignition-ethers@3.1.0", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.9" }, "peerDependencies": { "@nomicfoundation/hardhat-ethers": "^4.0.0", "@nomicfoundation/hardhat-ignition": "^3.0.7", "@nomicfoundation/hardhat-verify": "^3.0.0", "@nomicfoundation/ignition-core": "^3.0.7", "ethers": "^6.14.0", "hardhat": "^3.1.5" } }, "sha512-Z/qVJVYObdJLpYZB2sSU6VdqQZRClefe5CQXyUGAGKALKSObcOU2d8V5Pe+d/uune50C47XkTmwAWRRf9gHx4A=="],
+    "@nomicfoundation/hardhat-ignition-ethers": ["@nomicfoundation/hardhat-ignition-ethers@3.1.1", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.10" }, "peerDependencies": { "@nomicfoundation/hardhat-ethers": "^4.0.0", "@nomicfoundation/hardhat-ignition": "^3.0.7", "@nomicfoundation/hardhat-verify": "^3.0.0", "@nomicfoundation/ignition-core": "^3.0.7", "ethers": "^6.14.0", "hardhat": "^3.1.5" } }, "sha512-iPAlMksEARIYF8RrEP5EEbB/4bxEgliduk6pbkeofqvIYWfXuBuJQZyOgqI0zN1DhSfr6SOfbUnSA2pKxBSxeg=="],
 
     "@nomicfoundation/hardhat-keystore": ["@nomicfoundation/hardhat-keystore@3.0.5", "", { "dependencies": { "@noble/ciphers": "1.2.1", "@noble/hashes": "1.7.1", "@nomicfoundation/hardhat-errors": "^3.0.7", "@nomicfoundation/hardhat-utils": "^4.0.0", "@nomicfoundation/hardhat-zod-utils": "^3.0.2", "chalk": "^5.3.0", "debug": "^4.3.2", "zod": "^3.23.8" }, "peerDependencies": { "hardhat": "^3.0.0" } }, "sha512-jxihFx7r9ekcGmxRVbeDxFJcE3P9cmOHObKxX4ORyBR4b/AKiaqKiktirvsF5MXKJSuQbbp/+wmaqfQDB3LyeA=="],
 
@@ -2491,6 +2491,8 @@
 
     "@noble/curves/@noble/hashes": ["@noble/hashes@1.3.2", "", {}, "sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ=="],
 
+    "@nomicfoundation/hardhat-ignition-ethers/@nomicfoundation/hardhat-errors": ["@nomicfoundation/hardhat-errors@3.0.10", "", { "dependencies": { "@nomicfoundation/hardhat-utils": "^4.0.2" } }, "sha512-jfQ75/t21674cIQPbQmzRSY8YdusvQhKMsT+IGEoXlJuAzw+ngWsD7y7nHT8UKQ+liHWgMA+Am2843KwP0KtiA=="],
+
     "@pnpm/network.ca-file/graceful-fs": ["graceful-fs@4.2.10", "", {}, "sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA=="],
 
     "@radix-ui/react-alert-dialog/@radix-ui/react-slot": ["@radix-ui/react-slot@1.2.3", "", { "dependencies": { "@radix-ui/react-compose-refs": "1.1.2" }, "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A=="],
@@ -2860,6 +2862,8 @@
     "@metamask/sdk/debug/ms": ["ms@2.1.2", "", {}, "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="],
 
     "@next/eslint-plugin-next/fast-glob/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, "sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow=="],
+
+    "@nomicfoundation/hardhat-ignition-ethers/@nomicfoundation/hardhat-errors/@nomicfoundation/hardhat-utils": ["@nomicfoundation/hardhat-utils@4.0.2", "", { "dependencies": { "@streamparser/json-node": "^0.0.22", "debug": "^4.3.2", "env-paths": "^2.2.0", "ethereum-cryptography": "^2.2.1", "fast-equals": "^5.4.0", "json-stream-stringify": "^3.1.6", "rfdc": "^1.3.1", "undici": "^6.16.1" } }, "sha512-6lK0+9ygB7wGDlu11DAmTuZxhnoGbyGZC2aRaKKehW0vDNTS9iT7GUimgVvlO3B23E/HwwRKOOLmSVPC4qmmQw=="],
 
     "@solana/web3.js/bs58/base-x": ["base-x@3.0.11", "", { "dependencies": { "safe-buffer": "^5.0.1" } }, "sha512-xz7wQ8xDhdyP7tQxwdteLYeFfS68tSMNCZ/Y37WJ4bhGfKPpqEIlmIyueQHqOyoPhE6xNUqjzRr8ra0eF9VRvA=="],
 
