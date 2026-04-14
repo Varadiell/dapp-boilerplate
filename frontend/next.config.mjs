@@ -10,7 +10,7 @@ const nextConfig = {
     WALLET_CONNECT_PROJECT_ID: process.env.WALLET_CONNECT_PROJECT_ID ?? '',
   },
   reactStrictMode: true,
-  serverExternalPackages: ['pino-pretty', 'encoding'],
+  serverExternalPackages: ['encoding'],
   turbopack: {
     resolveAlias: {
       fs: { browser: nodeStub },
