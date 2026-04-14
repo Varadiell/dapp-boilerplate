@@ -17,8 +17,10 @@ const AppKitWalletButton = dynamic(
 export function WalletHeaderSlot() {
   const [useE2eUi, setUseE2eUi] = useState(false);
 
+  // E2E: detect Hardhat wallet after mount (not available during SSR).
   useLayoutEffect(() => {
     if (process.env.NEXT_PUBLIC_E2E_AUTO_CONNECT !== '1') return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only E2E branch
     setUseE2eUi(isE2EHardhatInjected());
   }, []);
 

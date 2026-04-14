@@ -3,7 +3,7 @@
 import { ballotContract } from '@/contracts/ballot.contract';
 import { useReadContract } from 'wagmi';
 
-export function useBallotContractReads(address: `0x${string}` | undefined) {
+export function useBallotContractReads(_address: `0x${string}` | undefined) {
   const { data: chairPerson } = useReadContract({
     ...ballotContract,
     functionName: 'chairperson',

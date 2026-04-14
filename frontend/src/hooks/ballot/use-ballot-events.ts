@@ -44,6 +44,7 @@ export function useBallotEvents() {
     setIsEventsLoading(false);
   }, []);
 
+  // `address` / `fromBlock` are static (module); this effect only tracks `publicClient`.
   useEffect(() => {
     if (!publicClient) return;
 
@@ -69,7 +70,7 @@ export function useBallotEvents() {
     return () => {
       cancelled = true;
     };
-  }, [publicClient, address, fromBlock]);
+  }, [publicClient]);
 
   useWatchContractEvent({
     address,

@@ -101,6 +101,7 @@ export function useData(): void {
       refetchWinnerName,
       refetchWinningProposal,
       address,
+      votesCount,
       votersCount,
       winnerName,
       winningProposal,
