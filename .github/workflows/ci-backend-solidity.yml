@@ -18,7 +18,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: nightly
+          version: v1.5.1
 
       # Slither + ignore-compile: crytic-compile needs full build-info JSON (with "output"); add --build-info.
       # Build only src contracts (path `contracts`), not test/script — keeps Slither scope to production .sol.
