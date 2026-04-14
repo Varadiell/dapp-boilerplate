@@ -19,6 +19,7 @@ lcov.info
 ignition/deployments/chain-31337
 
 # Foundry files
+/lib
 /out
 /cache_forge
 /bytecode-coverage
