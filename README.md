@@ -89,6 +89,14 @@ bun run ci:full
 
 `ci:full` runs `ci:check`, then `forge build` / `forge coverage` (same flags as CI) and `bun run slither` in `backend/`. Slither requires Python dependencies (`poetry install` under `backend/`); see [backend/README.md](backend/README.md).
 
+### Supply chain and security
+
+CI runs **`bun audit --audit-level=high`** in each workspace (see workflow files). That is a fast baseline for known vulnerabilities in the lockfile. For a deeper review (for example before a mainnet release), consider also:
+
+- **`bun audit`** without `--audit-level` to see low and moderate advisories.
+- **Slither** (already in CI and `ci:full`) for Solidity; add manual review for business logic.
+- **OSV-Scanner** or **Snyk** (or your org’s standard tool) if you need cross-ecosystem or license policy checks.
+
 ## Git hooks
 
 Each workspace’s `prepare` script sets `core.hooksPath` to `.githooks` for consistent local checks. Confirm your clone points there:
