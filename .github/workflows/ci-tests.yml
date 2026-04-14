@@ -11,11 +11,74 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+      backend: ${{ steps.filter.outputs.backend }}
+      solidity: ${{ steps.filter.outputs.solidity }}
+      global: ${{ steps.filter.outputs.global }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            frontend:
+              - 'frontend/**'
+            backend:
+              - 'backend/**'
+            solidity:
+              - 'backend/contracts/**'
+              - 'backend/test/**'
+              - 'backend/script/**'
+              - 'backend/foundry.toml'
+              - 'backend/lib/**'
+              - 'backend/slither.config.json'
+              - 'backend/hardhat.config.ts'
+              - 'backend/ignition/**'
+            global:
+              - 'package.json'
+              - 'bun.lock'
+              - '.github/**'
+
   backend:
+    needs: changes
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      needs.changes.outputs.global == 'true' ||
+      needs.changes.outputs.backend == 'true' ||
+      (needs.changes.outputs.frontend != 'true' &&
+       needs.changes.outputs.backend != 'true' &&
+       needs.changes.outputs.solidity != 'true' &&
+       needs.changes.outputs.global != 'true')
     uses: ./.github/workflows/ci-backend.yml
 
   frontend:
+    needs: changes
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      needs.changes.outputs.global == 'true' ||
+      needs.changes.outputs.frontend == 'true' ||
+      (needs.changes.outputs.frontend != 'true' &&
+       needs.changes.outputs.backend != 'true' &&
+       needs.changes.outputs.solidity != 'true' &&
+       needs.changes.outputs.global != 'true')
     uses: ./.github/workflows/ci-frontend.yml
 
   backend-solidity:
+    needs: changes
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      needs.changes.outputs.global == 'true' ||
+      needs.changes.outputs.solidity == 'true' ||
+      (needs.changes.outputs.frontend != 'true' &&
+       needs.changes.outputs.backend != 'true' &&
+       needs.changes.outputs.solidity != 'true' &&
+       needs.changes.outputs.global != 'true')
     uses: ./.github/workflows/ci-backend-solidity.yml
