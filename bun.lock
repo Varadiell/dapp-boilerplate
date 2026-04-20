@@ -19,7 +19,7 @@
         "@nomicfoundation/hardhat-mocha": "^3.0.0",
         "@nomicfoundation/hardhat-network-helpers": "^3.0.4",
         "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.3",
-        "@nomicfoundation/hardhat-typechain": "^3.0.0",
+        "@nomicfoundation/hardhat-typechain": "^3.0.6",
         "@nomicfoundation/hardhat-verify": "^3.0.12",
         "@nomicfoundation/ignition-core": "^3.0.7",
         "@types/mocha": "^10.0.10",
@@ -630,7 +630,7 @@
 
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": ["@nomicfoundation/hardhat-toolbox-mocha-ethers@3.0.3", "", { "peerDependencies": { "@nomicfoundation/hardhat-ethers": "^4.0.0", "@nomicfoundation/hardhat-ethers-chai-matchers": "^3.0.0", "@nomicfoundation/hardhat-ignition": "^3.0.0", "@nomicfoundation/hardhat-ignition-ethers": "^3.0.0", "@nomicfoundation/hardhat-keystore": "^3.0.0", "@nomicfoundation/hardhat-mocha": "^3.0.0", "@nomicfoundation/hardhat-network-helpers": "^3.0.0", "@nomicfoundation/hardhat-typechain": "^3.0.0", "@nomicfoundation/hardhat-verify": "^3.0.0", "@nomicfoundation/ignition-core": "^3.0.0", "chai": ">=5.1.2 <7", "ethers": "^6.14.0", "hardhat": "^3.0.0", "mocha": "^11.0.0" } }, "sha512-74iTn+D5Mwm8czVbVLG/RB5Ec/hSoxsmt4Wvn4O6mtRIL5jRlLoeG8vc6TKDXEpk1MWL2r5TqCrh7F5N/fk01w=="],
 
-    "@nomicfoundation/hardhat-typechain": ["@nomicfoundation/hardhat-typechain@3.0.4", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.7", "@nomicfoundation/hardhat-utils": "^4.0.0", "@nomicfoundation/hardhat-zod-utils": "^3.0.3", "@typechain/ethers-v6": "^0.5.0", "debug": "^4.3.2", "typechain": "^8.3.1", "zod": "^3.23.8" }, "peerDependencies": { "@nomicfoundation/hardhat-ethers": "^4.0.0", "ethers": "^6.14.0", "hardhat": "^3.1.11" } }, "sha512-MDseC2dTlk8R3bwZyy0qPvNhmqthCrIUaK0SVyAmItj4XjuRametK6vwY9wWwT8UaB6TeIpnQ6S5eO6oTw87iA=="],
+    "@nomicfoundation/hardhat-typechain": ["@nomicfoundation/hardhat-typechain@3.0.6", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.11", "@nomicfoundation/hardhat-utils": "^4.0.3", "@nomicfoundation/hardhat-zod-utils": "^3.0.4", "@typechain/ethers-v6": "^0.5.0", "debug": "^4.3.2", "typechain": "^8.3.1", "zod": "^3.23.8" }, "peerDependencies": { "@nomicfoundation/hardhat-ethers": "^4.0.0", "ethers": "^6.14.0", "hardhat": "^3.4.0" } }, "sha512-rCmXYWB6CwEizmZBWCVP72qXUUuXddZxPW4pHc7s4t5DlbMOc4DvFEs2eWj7TLuSoYXzmSOFydtFLu2hKpGVRw=="],
 
     "@nomicfoundation/hardhat-utils": ["@nomicfoundation/hardhat-utils@4.0.1", "", { "dependencies": { "@streamparser/json-node": "^0.0.22", "debug": "^4.3.2", "env-paths": "^2.2.0", "ethereum-cryptography": "^2.2.1", "fast-equals": "^5.4.0", "json-stream-stringify": "^3.1.6", "rfdc": "^1.3.1", "undici": "^6.16.1" } }, "sha512-9xxD6WXLn+kopd+hmF+XYcJJ38Gm06QmZxKf/fIJzlzs9FuNI6C7Lvdd4qHv8/3ReegIbpBCrzozaL2GISmNrA=="],
 
@@ -2491,6 +2491,12 @@
     "@next/eslint-plugin-next/fast-glob": ["fast-glob@3.3.1", "", { "dependencies": { "@nodelib/fs.stat": "^2.0.2", "@nodelib/fs.walk": "^1.2.3", "glob-parent": "^5.1.2", "merge2": "^1.3.0", "micromatch": "^4.0.4" } }, "sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg=="],
 
     "@noble/curves/@noble/hashes": ["@noble/hashes@1.3.2", "", {}, "sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ=="],
+
+    "@nomicfoundation/hardhat-typechain/@nomicfoundation/hardhat-errors": ["@nomicfoundation/hardhat-errors@3.0.11", "", { "dependencies": { "@nomicfoundation/hardhat-utils": "^4.0.3" } }, "sha512-XEKplQ+FhZD1PgIGSj62scoqB/y+uG8x+V+U68m1a+4L1I46y4/gZQGIuMLkRZeqhPHsLle6ykDB+vn8qtwqzw=="],
+
+    "@nomicfoundation/hardhat-typechain/@nomicfoundation/hardhat-utils": ["@nomicfoundation/hardhat-utils@4.0.3", "", { "dependencies": { "@streamparser/json-node": "^0.0.22", "debug": "^4.3.2", "env-paths": "^2.2.0", "ethereum-cryptography": "^2.2.1", "fast-equals": "^5.4.0", "json-stream-stringify": "^3.1.6", "rfdc": "^1.3.1", "undici": "^6.16.1" } }, "sha512-JLEexWvugRK6kJioPTeisIcmmWm6yHv9n5GRLboXvhAndJNL1Z/FrQLZYZaDSmkHPE5aRK6t+zK7Rh92Yar6hQ=="],
+
+    "@nomicfoundation/hardhat-typechain/@nomicfoundation/hardhat-zod-utils": ["@nomicfoundation/hardhat-zod-utils@3.0.4", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.11", "@nomicfoundation/hardhat-utils": "^4.0.3" }, "peerDependencies": { "zod": "^3.23.8" } }, "sha512-yCiycXDEEjbNgNVQaUoGYOee6+ljYUnIOWMtYc/dYDuwlHutWr9xg/KgkgMkiZZ1R2WrZAEqsSaeZTnH7Oyz9Q=="],
 
     "@pnpm/network.ca-file/graceful-fs": ["graceful-fs@4.2.10", "", {}, "sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA=="],
 
