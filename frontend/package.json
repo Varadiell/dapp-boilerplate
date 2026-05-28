@@ -81,18 +81,18 @@
   "devDependencies": {
     "@cspell/dict-fr-fr": "^2.3.2",
     "@playwright/test": "^1.56.1",
-    "@types/node": "^22.19.15",
+    "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "cspell": "^9.7.0",
-    "eslint": "^9.39.4",
-    "eslint-config-next": "16.2.3",
+    "eslint": "^10.2.1",
+    "eslint-config-next": "16.2.4",
     "eslint-config-prettier": "^10.1.8",
     "postcss": "^8.5.10",
     "postcss-load-config": "^6.0.1",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.3",
     "tailwindcss": "^3.4.19",
-    "typescript": "^5.9.0"
+    "typescript": "^6.0.3"
   },
   "overrides": {
     "flatted": "^3.4.2",
