@@ -17,7 +17,7 @@
         "@nomicfoundation/hardhat-ignition-ethers": "^3.1.0",
         "@nomicfoundation/hardhat-keystore": "^3.0.0",
         "@nomicfoundation/hardhat-mocha": "^3.0.0",
-        "@nomicfoundation/hardhat-network-helpers": "^3.0.4",
+        "@nomicfoundation/hardhat-network-helpers": "^3.0.10",
         "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.3",
         "@nomicfoundation/hardhat-typechain": "^3.0.0",
         "@nomicfoundation/hardhat-verify": "^3.0.14",
@@ -626,7 +626,7 @@
 
     "@nomicfoundation/hardhat-mocha": ["@nomicfoundation/hardhat-mocha@3.0.14", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.9", "@nomicfoundation/hardhat-utils": "^4.0.1", "@nomicfoundation/hardhat-zod-utils": "^3.0.3", "chalk": "^5.3.0", "debug": "^4.3.2", "tsx": "^4.19.3", "zod": "^3.23.8" }, "peerDependencies": { "hardhat": "^3.2.0", "mocha": "^11.0.0" } }, "sha512-r/g8kNU/NQudwplTNcY71eJoEqroawMgLVwZDwWyhVbcGwvHtQxxEl3IA+PXLJDHrsZc4era6u3JlnvWfs66xw=="],
 
-    "@nomicfoundation/hardhat-network-helpers": ["@nomicfoundation/hardhat-network-helpers@3.0.4", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.7", "@nomicfoundation/hardhat-utils": "^4.0.0" }, "peerDependencies": { "hardhat": "^3.0.0" } }, "sha512-WTNISH3/ZkcSDNp//dML18zgV4z3ooeibNcxvv4soCh0AmI8I+2kKaTlKN/Ou1mhKOdiLUbCZCbKNz9LGK3uQw=="],
+    "@nomicfoundation/hardhat-network-helpers": ["@nomicfoundation/hardhat-network-helpers@3.0.10", "", { "dependencies": { "@nomicfoundation/hardhat-errors": "^3.0.15", "@nomicfoundation/hardhat-utils": "^4.1.2" }, "peerDependencies": { "hardhat": "^3.8.0" } }, "sha512-zSw6vHOQYP5FOgbM1pvOerO6/022HFQUfzGCAb+CFu5iDq2Skpc1BI0DASOKBTTklwuXMHzDmsCJFHF07c9nuA=="],
 
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": ["@nomicfoundation/hardhat-toolbox-mocha-ethers@3.0.3", "", { "peerDependencies": { "@nomicfoundation/hardhat-ethers": "^4.0.0", "@nomicfoundation/hardhat-ethers-chai-matchers": "^3.0.0", "@nomicfoundation/hardhat-ignition": "^3.0.0", "@nomicfoundation/hardhat-ignition-ethers": "^3.0.0", "@nomicfoundation/hardhat-keystore": "^3.0.0", "@nomicfoundation/hardhat-mocha": "^3.0.0", "@nomicfoundation/hardhat-network-helpers": "^3.0.0", "@nomicfoundation/hardhat-typechain": "^3.0.0", "@nomicfoundation/hardhat-verify": "^3.0.0", "@nomicfoundation/ignition-core": "^3.0.0", "chai": ">=5.1.2 <7", "ethers": "^6.14.0", "hardhat": "^3.0.0", "mocha": "^11.0.0" } }, "sha512-74iTn+D5Mwm8czVbVLG/RB5Ec/hSoxsmt4Wvn4O6mtRIL5jRlLoeG8vc6TKDXEpk1MWL2r5TqCrh7F5N/fk01w=="],
 
@@ -2491,6 +2491,10 @@
     "@next/eslint-plugin-next/fast-glob": ["fast-glob@3.3.1", "", { "dependencies": { "@nodelib/fs.stat": "^2.0.2", "@nodelib/fs.walk": "^1.2.3", "glob-parent": "^5.1.2", "merge2": "^1.3.0", "micromatch": "^4.0.4" } }, "sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg=="],
 
     "@noble/curves/@noble/hashes": ["@noble/hashes@1.3.2", "", {}, "sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ=="],
+
+    "@nomicfoundation/hardhat-network-helpers/@nomicfoundation/hardhat-errors": ["@nomicfoundation/hardhat-errors@3.0.15", "", { "dependencies": { "@nomicfoundation/hardhat-utils": "^4.1.3" } }, "sha512-h3r32RzpmWEcB2bz6aqZKlKOP8tzyvHLkPFleFFqwVvjO5AUfSoMUxm8OjaTuNgPF35mXPYRISh+kNCwmsKVOA=="],
+
+    "@nomicfoundation/hardhat-network-helpers/@nomicfoundation/hardhat-utils": ["@nomicfoundation/hardhat-utils@4.1.3", "", { "dependencies": { "@streamparser/json-node": "^0.0.22", "env-paths": "^2.2.0", "ethereum-cryptography": "^2.2.1", "fast-equals": "^5.4.0", "json-stream-stringify": "^3.1.6", "rfdc": "^1.3.1", "undici": "^6.16.1" } }, "sha512-SYDKX6SCdzs/5mC/S1D+AjNSQJrhxevHTI24TIouIjO0Xs0dB0+S4cYCqHWOgvnHLshrcrJ7XGUjS7+apWa1Tw=="],
 
     "@nomicfoundation/hardhat-verify/@nomicfoundation/hardhat-errors": ["@nomicfoundation/hardhat-errors@3.0.11", "", { "dependencies": { "@nomicfoundation/hardhat-utils": "^4.0.3" } }, "sha512-XEKplQ+FhZD1PgIGSj62scoqB/y+uG8x+V+U68m1a+4L1I46y4/gZQGIuMLkRZeqhPHsLle6ykDB+vn8qtwqzw=="],
 
