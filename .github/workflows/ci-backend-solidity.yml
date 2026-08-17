@@ -21,21 +21,34 @@ jobs:
         with:
           version: v1.5.1
 
-      # Slither + ignore-compile: crytic-compile needs full build-info JSON (with "output"); add --build-info.
-      # Build only src contracts (path `contracts`), not test/script — keeps Slither scope to production .sol.
+      # Build only src contracts (path `contracts`), not test/script; also reports contract sizes.
       - name: Forge build
         run: |
           cd backend
           forge --version
           forge build --build-info --sizes contracts
 
-      - name: Slither
-        uses: crytic/slither-action@v0.4.2
+      - name: Set up Python for Slither
+        uses: actions/setup-python@v6
         with:
-          target: "backend/contracts"
-          solc-version: "0.8.28"
-          slither-config: "./backend/slither.config.json"
-          ignore-compile: true
+          python-version: "3.11"
+
+      # Run Slither on the runner rather than via crytic/slither-action: the action executes in a
+      # container without Foundry, and crytic-compile shells out to `forge config --json` even with
+      # ignore-compile, so it dies on "No such file or directory: 'forge'". Installing from
+      # backend/poetry.lock also pins slither/crytic-compile instead of resolving latest each run.
+      - name: Install Slither (pinned by backend/poetry.lock)
+        run: |
+          pipx install poetry
+          cd backend
+          poetry install --no-root
+
+      # Reads backend/slither.config.json from the working directory.
+      # --fail-pedantic matches the previous slither-action `fail-on: all` default.
+      - name: Slither
+        run: |
+          cd backend
+          poetry run slither . --fail-pedantic
 
       - name: Forge coverage
         run: |
