@@ -2,6 +2,7 @@
   "name": "dapp-boilerplate",
   "private": true,
   "scripts": {
+    "prepare": "git config --local core.hooksPath .githooks",
     "lint": "bun run --filter backend lint && bun run --filter frontend lint",
     "test": "bun run --filter backend test && bun run --filter frontend test",
     "build": "NEXT_PUBLIC_REOWN_PROJECT_ID=ci-placeholder bun run --filter frontend build",
@@ -17,7 +18,17 @@
     "serialize-javascript": "7.0.3",
     "lodash": "4.18.1",
     "lodash-es": "4.18.1",
-    "axios": "1.15.0",
-    "defu": "6.1.7"
+    "axios": "1.19.0",
+    "defu": "6.1.7",
+    "fast-uri": "3.1.5",
+    "form-data": "4.0.6",
+    "hono": "4.12.25",
+    "js-yaml": "4.3.1",
+    "nanoid": "3.3.18",
+    "postcss": "8.5.26",
+    "socket.io-parser": "4.2.7",
+    "ws": "8.21.3",
+    "minimatch": "9.0.9",
+    "brace-expansion": "2.1.4"
   }
 }

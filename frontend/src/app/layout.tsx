@@ -10,9 +10,11 @@ import { I18nProvider } from '@/contexts/i18n-provider';
 import { MainNavigation } from '@/components/shared/main-navigation';
 import { Web3Provider } from '@/contexts/web3-provider';
 
+// Tailwind 4 owns `--font-sans` as a theme token; expose the loaded face separately
+// and compose the fallback chain in globals.css.
 const fontSans = FontSans({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
