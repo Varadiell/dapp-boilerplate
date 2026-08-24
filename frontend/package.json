@@ -60,7 +60,7 @@
     "i18next": "^26.3.6",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.31.0",
-    "next": "16.3.1",
+    "next": "16.3.2",
     "next-themes": "^0.4.6",
     "react": "^19.2.8",
     "react-day-picker": "^10.0.1",
