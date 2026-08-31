@@ -44,7 +44,7 @@
     "@cspell/dict-fr-fr": "^2.3.2",
     "cspell": "^10.0.1",
     "ethers": "^6.17.0",
-    "hardhat": "^3.13.0",
+    "hardhat": "^3.15.0",
     "mocha": "^11.8.0",
     "prettier": "^3.9.6",
     "prettier-plugin-solidity": "^2.4.1",
