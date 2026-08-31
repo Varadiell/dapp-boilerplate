@@ -42,7 +42,7 @@
     "@types/node": "^22.20.1",
     "chai": "^6.2.2",
     "@cspell/dict-fr-fr": "^2.3.2",
-    "cspell": "^10.0.1",
+    "cspell": "^10.1.1",
     "ethers": "^6.17.0",
     "hardhat": "^3.13.0",
     "mocha": "^11.8.0",
