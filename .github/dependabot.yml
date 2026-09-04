@@ -18,6 +18,10 @@ updates:
       # Keep @types/node on the Node 22 LTS line used by CI and by engines.
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
+      # mocha 12 violates @nomicfoundation/hardhat-mocha's peer range
+      # ("mocha": "^11.0.0"). Drop this once hardhat-mocha widens it.
+      - dependency-name: "mocha"
+        update-types: ["version-update:semver-major"]
       # wagmi 3 pulls @wagmi/core 3.x while @reown/appkit-adapter-wagmi still
       # depends on @wagmi/core 2.x, so both end up installed and the Config
       # types diverge. Drop this once AppKit supports wagmi 3.
