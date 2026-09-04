@@ -5,6 +5,24 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 15
+    ignore:
+      # ESLint 10 removes context.getFilename(), which eslint-plugin-react 7.x
+      # (pulled in by eslint-config-next) still calls. Drop this once Next ships
+      # an ESLint 10 compatible config.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      # TypeScript 7 breaks @typescript-eslint 8.x (typescript-estree reads
+      # ts.ModuleKind.Cjs). Drop this once @typescript-eslint supports TS 7.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # Keep @types/node on the Node 22 LTS line used by CI and by engines.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # wagmi 3 pulls @wagmi/core 3.x while @reown/appkit-adapter-wagmi still
+      # depends on @wagmi/core 2.x, so both end up installed and the Config
+      # types diverge. Drop this once AppKit supports wagmi 3.
+      - dependency-name: "wagmi"
+        update-types: ["version-update:semver-major"]
     groups:
       radix-ui:
         patterns:
